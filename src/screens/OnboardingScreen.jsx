@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
 
 const BANKS = [
+  { name: 'Genesee Co-op FCU', logo: `${import.meta.env.BASE_URL}genesee-logo.svg` },
   { name: 'Chase', emoji: '🏦' },
   { name: 'Bank of America', emoji: '🏛️' },
   { name: 'Wells Fargo', emoji: '🐎' },
   { name: 'Citi', emoji: '🌆' },
   { name: 'US Bank', emoji: '🇺🇸' },
   { name: 'Capital One', emoji: '💳' },
-  { name: 'My Credit Union', emoji: '🤝' },
   { name: 'Other', emoji: '🏧' },
 ]
 
@@ -102,7 +102,11 @@ export default function OnboardingScreen() {
                 bank === b.name ? 'border-green-500 bg-green-50' : 'border-slate-200 bg-white'
               }`}
             >
-              <span className="text-2xl">{b.emoji}</span>
+              {b.logo ? (
+                <img src={b.logo} alt="" className="w-8 h-8 rounded-lg" />
+              ) : (
+                <span className="text-2xl">{b.emoji}</span>
+              )}
               <span className={`text-xs font-bold ${bank === b.name ? 'text-green-700' : 'text-slate-600'}`}>
                 {b.name}
               </span>
