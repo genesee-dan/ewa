@@ -6,7 +6,7 @@ import sherpa from 'sherpa-onnx-node'
 
 const SEGMENTS = [
   "What if you needed fifty dollars before payday? Here's what a credit union line of credit actually costs.",
-  "Borrow fifty dollars at thirteen percent APR. That's the federal credit union cap — set by law, not a marketing claim.",
+  "Borrow fifty dollars at thirteen percent ay pee ar. That's the federal credit union cap — set by law, not a marketing claim.",
   "You use it Monday. You pay it back the following weekend — six days later. The interest? Eleven cents.",
   "Do that every other week for a year — twenty-six times. Fifty dollars each time. You pay it back every payday weekend.",
   "Total interest for the year: about two dollars and seventy-five cents. That's it. No fees. No tips. No membership.",
