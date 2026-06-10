@@ -20,7 +20,10 @@ export default function OnboardingScreen() {
 
   useEffect(() => {
     if (step === 'connecting') {
-      const t = setTimeout(() => setProfile({ name: name.trim(), bank }), 2200)
+      const t = setTimeout(() => {
+        window.location.hash = '#/' // clear any stale route from a previous run
+        setProfile({ name: name.trim(), bank })
+      }, 2200)
       return () => clearTimeout(t)
     }
   }, [step, name, bank, setProfile])

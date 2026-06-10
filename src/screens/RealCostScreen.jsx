@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const DARK_PATTERNS = [
@@ -32,8 +32,7 @@ export default function RealCostScreen() {
   const ADVANCES_PER_YEAR = scenario.advancesPerYear
 
   if (!lastTransfer) {
-    navigate('/')
-    return null
+    return <Navigate to="/" replace />
   }
 
   const { amount, fee, tip, dodgeTaps } = lastTransfer
