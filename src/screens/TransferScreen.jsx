@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChevronLeft, Zap, Clock } from 'lucide-react'
+import { ChevronLeft, Zap, Clock, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
+import TipArt from '../components/TipArt'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -15,14 +16,14 @@ const QUICK_AMOUNTS = [25, 50, 100, 200]
  */
 export default function TransferScreen() {
   const navigate = useNavigate()
-  const { earned, profile, requestTransfer, countDodgeTap, resetDodgeTaps } = useApp()
+  const { earned, profile, isPlus, setIsPlus, requestTransfer, countDodgeTap, resetDodgeTaps } = useApp()
   const bank = profile?.bank || 'Chase'
 
   const [amount, setAmount] = useState(0)
   const [isInstant, setIsInstant] = useState(true)
   const [tip, setTip] = useState(0)
 
-  // amount | tip | confirm | success
+  // amount | plus | tip | confirm | success
   const [step, setStep] = useState('amount')
   // gauntlet sub-stages within the tip step
   const [tipStage, setTipStage] = useState('ask')
@@ -37,7 +38,7 @@ export default function TransferScreen() {
   const [showFinalModal, setShowFinalModal] = useState(false)
   const [tippedAlready, setTippedAlready] = useState(false)
 
-  const fee = isInstant && amount > 0 ? 3.99 : 0
+  const fee = isInstant && amount > 0 ? (isPlus ? 0 : 3.99) : 0
   const maxAmount = earned.available
   const total = amount + fee + tip + suggestedTip + confirmSuggested
 
@@ -275,11 +276,51 @@ export default function TransferScreen() {
     )
   }
 
+  /* ---------------- EARNNOW+ UPSELL ---------------- */
+  if (step === 'plus') {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center bg-white px-7 text-center overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+        <TipArt main="🚀" minis={['⭐', '💎', '⚡', '💸']} from="#fef3c7" to="#fde68a" />
+        <h2 className="text-2xl font-extrabold text-slate-900 mb-1">
+          Wait — don't pay that {fmt(3.99)} fee!
+        </h2>
+        <p className="text-sm text-slate-500 mb-5">
+          EarnNow<span className="text-amber-500 font-bold">+</span> members get{' '}
+          <strong className="text-slate-700">$0 instant fees</strong>, higher limits, and priority transfers.
+        </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 w-full mb-5">
+          <p className="text-3xl font-extrabold text-amber-600 mb-1">FREE</p>
+          <p className="text-xs font-bold text-slate-700">for 7 days, then just $9.99/mo</p>
+          <p className="text-[10px] text-slate-400 mt-1.5">
+            That's less than one instant fee a week!
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            setIsPlus(true)
+            setStep('tip')
+          }}
+          className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-base shadow-lg shadow-amber-200 active:scale-95 transition-transform mb-4"
+        >
+          Start free trial — save {fmt(3.99)} now ⚡
+        </button>
+        <button onClick={() => setStep('tip')} className="text-[11px] text-slate-300 underline mb-4">
+          No thanks, I'll pay the $3.99 fee
+        </button>
+        <p className="text-[9px] text-slate-300 leading-relaxed">
+          Trial auto-renews at $9.99/mo unless cancelled at least 3 business days before renewal. Cancellation
+          available by contacting support during business hours.
+        </p>
+      </div>
+    )
+  }
+
   /* ---------------- TIP GAUNTLET ---------------- */
   if (step === 'tip') {
     if (tipStage === 'ask') {
       return (
         <TipShell title="Add a tip?">
+          <TipArt main="🐷" minis={['💚', '🪙', '✨', '😊']} from="#fce7f3" to="#dcfce7" />
           <p className="text-sm text-slate-500 text-center mb-6">
             EarnNow doesn't charge interest. Tips from members like you keep it that way. 💚
           </p>
@@ -325,7 +366,7 @@ export default function TransferScreen() {
     if (tipStage === 'guilt1') {
       return (
         <TipModalStage
-          emoji="💚"
+          art={ { main: "🥰", minis: ["💚", "🌱", "💚", "🫶"], from: "#dcfce7", to: "#bbf7d0" } }
           title="Tips keep EarnNow free for everyone"
           body="Without tips, we couldn't offer 0% interest advances. Even a small tip makes a big difference."
           acceptLabel="Add $4 tip"
@@ -342,7 +383,7 @@ export default function TransferScreen() {
     if (tipStage === 'guilt2') {
       return (
         <TipModalStage
-          emoji="🤝"
+          art={ { main: "🫂", minis: ["🎉", "🤝", "💚", "🙌"], from: "#dbeafe", to: "#bfdbfe" } }
           title="9 out of 10 members tip"
           body="Join millions of members who pay it forward so everyone can access their pay early."
           acceptLabel="Tip $3 — most popular"
@@ -359,7 +400,7 @@ export default function TransferScreen() {
     if (tipStage === 'guilt3') {
       return (
         <TipModalStage
-          emoji="✨"
+          art={ { main: "🍬", minis: ["✨", "🤏", "🪙", "😊"], from: "#fce7f3", to: "#fbcfe8" } }
           title="Even $1 makes a difference"
           body="That's less than a pack of gum. Your $1 helps another member get paid early today."
           acceptLabel="Tip $1"
@@ -376,7 +417,7 @@ export default function TransferScreen() {
     if (tipStage === 'tipstreak') {
       return (
         <TipModalStage
-          emoji="🔥"
+          art={ { main: "🔥", minis: ["🏅", "⚡", "🏆", "🎖️"], from: "#ffedd5", to: "#fed7aa" } }
           title="Start a TipStreak™"
           body="Automatically add a $2 tip to every transfer and earn exclusive badges. You can cancel anytime*."
           acceptLabel="Enable TipStreak™"
@@ -443,7 +484,7 @@ export default function TransferScreen() {
       const roundUpAmt = roundUp === 0 ? 1 : Math.round(roundUp * 100) / 100
       return (
         <TipModalStage
-          emoji="🪙"
+          art={ { main: "🪙", minis: ["➕", "😊", "✨", "💰"], from: "#fef9c3", to: "#fde68a" } }
           title="Thanks for the feedback!"
           body={`One last idea — round up your transfer as a micro-tip? It's only ${fmt(roundUpAmt)}. You won't even notice it.`}
           acceptLabel={`Round up (+${fmt(roundUpAmt)})`}
@@ -544,7 +585,7 @@ export default function TransferScreen() {
           className="flex-1 flex flex-col items-center justify-center px-6 text-center text-white"
           style={{ background: 'linear-gradient(160deg, #15803d 0%, #14532d 100%)' }}
         >
-          <span className="text-5xl mb-4">😢</span>
+          <TipArt main="🐶" minis={['💧', '😢', '🥺', '💔']} from="#475569" to="#1e293b" />
           <h2 className="text-2xl font-extrabold mb-2">Before you go…</h2>
           <p className="text-green-200 text-sm mb-8">
             EarnNow runs on tips. Without them, features like instant transfers may not stay available for everyone.
@@ -641,7 +682,13 @@ export default function TransferScreen() {
               <p className={`text-sm font-bold ${isInstant ? 'text-green-700' : 'text-slate-700'}`}>Instant Transfer</p>
               <p className="text-xs text-slate-400">Arrives in 1–5 minutes</p>
             </div>
-            <p className="text-sm font-bold text-green-600">$3.99</p>
+            {isPlus ? (
+              <p className="text-sm font-bold text-amber-500">
+                <span className="line-through text-slate-300 mr-1">$3.99</span>$0
+              </p>
+            ) : (
+              <p className="text-sm font-bold text-green-600">$3.99</p>
+            )}
           </button>
           <button
             onClick={() => setIsInstant(false)}
@@ -659,6 +706,24 @@ export default function TransferScreen() {
             <p className="text-sm font-bold text-slate-400">Free</p>
           </button>
         </div>
+
+        {isPlus ? (
+          <div className="flex items-center gap-2.5 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-6">
+            <Star size={18} className="text-amber-500 fill-amber-400" />
+            <p className="text-xs font-bold text-amber-700">
+              EarnNow+ member — instant fees waived 🎉
+              <span className="block font-normal text-amber-500">$9.99/mo after free trial</span>
+            </p>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2.5 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-6">
+            <Star size={18} className="text-amber-500" />
+            <p className="text-xs text-amber-700">
+              <strong>EarnNow+</strong> members pay <strong>$0 instant fees</strong> — free 7-day trial, then
+              $9.99/mo
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="px-5 pb-4 pt-2 border-t border-slate-100 bg-white">
@@ -673,7 +738,7 @@ export default function TransferScreen() {
             setTippedAlready(false)
             setSurveyChoice(null)
             setTipStage('ask')
-            setStep('tip')
+            setStep(isInstant && !isPlus ? 'plus' : 'tip')
           }}
           disabled={amount <= 0 || amount > maxAmount}
           className={`w-full font-bold py-4 rounded-2xl text-base transition-all ${
@@ -700,10 +765,10 @@ function TipShell({ title, children }) {
   )
 }
 
-function TipModalStage({ emoji, title, body, acceptLabel, onAccept, declineLabel, onDecline, footnote }) {
+function TipModalStage({ art, title, body, acceptLabel, onAccept, declineLabel, onDecline, footnote }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center bg-white px-7 text-center">
-      <span className="text-5xl mb-4">{emoji}</span>
+      <TipArt {...art} />
       <h2 className="text-xl font-extrabold text-slate-900 mb-2">{title}</h2>
       <p className="text-sm text-slate-500 mb-8">{body}</p>
       <button

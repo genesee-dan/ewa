@@ -5,6 +5,7 @@ const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null) // { name, bank }
+  const [isPlus, setIsPlus] = useState(false) // EarnNow+ subscription
   const [earned, setEarned] = useState(initialEarned)
   const [transactions, setTransactions] = useState(initialTransactions)
   const [lastTransfer, setLastTransfer] = useState(null)
@@ -43,6 +44,8 @@ export function AppProvider({ children }) {
       value={{
         profile,
         setProfile,
+        isPlus,
+        setIsPlus,
         earned,
         transactions,
         lastTransfer,

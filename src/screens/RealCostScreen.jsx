@@ -8,9 +8,11 @@ function fmt(n) {
 const DAYS_UNTIL_PAYDAY = 5
 const ADVANCES_PER_YEAR = 26 // research: frequent EWA users average 24–36 advances/yr
 
+const PLUS_MONTHLY = 9.99
+
 export default function RealCostScreen() {
   const navigate = useNavigate()
-  const { lastTransfer } = useApp()
+  const { lastTransfer, isPlus } = useApp()
 
   if (!lastTransfer) {
     navigate('/')
@@ -18,9 +20,11 @@ export default function RealCostScreen() {
   }
 
   const { amount, fee, tip, dodgeTaps } = lastTransfer
-  const costThis = fee + tip
+  const subThis = isPlus ? PLUS_MONTHLY / 2 : 0 // half a month's sub per bi-weekly advance
+  const costThis = fee + tip + subThis
   const apr = amount > 0 ? (costThis / amount) * (365 / DAYS_UNTIL_PAYDAY) * 100 : 0
-  const annualCost = costThis * ADVANCES_PER_YEAR
+  const annualSub = isPlus ? PLUS_MONTHLY * 12 : 0
+  const annualCost = (fee + tip) * ADVANCES_PER_YEAR + annualSub
   const annualBorrowed = amount * ADVANCES_PER_YEAR
 
   return (
@@ -38,8 +42,9 @@ export default function RealCostScreen() {
         <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">This advance</p>
         <div className="space-y-2 mb-4">
           <Row label="You borrowed" value={fmt(amount)} />
-          <Row label="Instant fee" value={fmt(fee)} />
+          <Row label="Instant fee" value={isPlus ? `${fmt(0)} ("waived")` : fmt(fee)} />
           <Row label="Tip (after the nudges)" value={fmt(tip)} />
+          {isPlus && <Row label="EarnNow+ share (½ month of $9.99)" value={fmt(subThis)} />}
           <Row label={`Cost to access your own pay ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
         </div>
         <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
@@ -61,8 +66,16 @@ export default function RealCostScreen() {
         </p>
         <div className="space-y-2">
           <Row label="Borrowed over the year" value={fmt(annualBorrowed)} />
-          <Row label="Fees + tips over the year" value={fmt(annualCost)} bold accent />
+          <Row label="Fees + tips over the year" value={fmt((fee + tip) * ADVANCES_PER_YEAR)} />
+          {isPlus && <Row label='EarnNow+ "savings" membership (12 × $9.99)' value={fmt(annualSub)} />}
+          <Row label="Total cost over the year" value={fmt(annualCost)} bold accent />
         </div>
+        {isPlus && (
+          <p className="text-[11px] text-amber-400/90 mt-3">
+            The membership "waives" a $3.99 fee 26 times a year ({fmt(3.99 * ADVANCES_PER_YEAR)}) — but costs{' '}
+            {fmt(annualSub)} whether you use it or not, auto-renews, and requires calling support to cancel.
+          </p>
+        )}
         <p className="text-[11px] text-slate-400 mt-3">
           That's {fmt(annualCost)} a year to receive {fmt(amount)} of <em>your own paycheck</em> a few days
           early, every payday — money that never builds savings, credit, or anything else.
