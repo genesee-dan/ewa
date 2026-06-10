@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Placeholder mark for Genesee Co-op FCU (brand greens/blues).
+       Replace this file with the real logo to update everywhere. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#166534"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#g)"/>
+  <path d="M32 46c0-10 4-16 12-19-1 9-5 15-12 19z" fill="#86efac"/>
+  <path d="M32 46c0-10-4-16-12-19 1 9 5 15 12 19z" fill="#bbf7d0"/>
+  <circle cx="32" cy="18" r="5" fill="#fff"/>
+</svg>
