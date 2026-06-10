@@ -85,7 +85,13 @@ export default function RealCostScreen() {
           <Row label="Borrowed over the year" value={fmt(annualBorrowed)} />
           <Row label="Fees + tips over the year" value={fmt((fee + tip) * ADVANCES_PER_YEAR)} />
           {isPlus && <Row label='EarnNow+ "savings" membership (12 × $9.99)' value={fmt(annualSub)} />}
-          <Row label="Total cost over the year" value={fmt(annualCost)} bold accent />
+        </div>
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center mt-4">
+          <p className="text-xs text-red-300 mb-1">Total cost over the year</p>
+          <p className="text-4xl font-extrabold text-red-400">{fmt(annualCost)}</p>
+          <p className="text-[11px] text-slate-400 mt-2">
+            paid just to receive your own paycheck a few days early
+          </p>
         </div>
         {isPlus && (
           <p className="text-[11px] text-amber-400/90 mt-3">
