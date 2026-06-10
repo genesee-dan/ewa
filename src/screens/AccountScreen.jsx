@@ -1,11 +1,12 @@
 import { ChevronRight, Bell, Shield, CreditCard, HelpCircle, LogOut, Star } from 'lucide-react'
 import { user } from '../data/mockData'
+import { useApp } from '../context/AppContext'
 
-const menuItems = [
+const menuItems = bank => [
   {
     group: 'Payment',
     items: [
-      { icon: CreditCard, label: 'Bank Account', sub: 'Chase ••4821', color: 'bg-blue-50 text-blue-500' },
+      { icon: CreditCard, label: 'Bank Account', sub: `${bank} ••4821`, color: 'bg-blue-50 text-blue-500' },
       { icon: Star, label: 'Tip Settings', sub: 'Currently $2 per transfer', color: 'bg-amber-50 text-amber-500' },
     ],
   },
@@ -25,6 +26,10 @@ const menuItems = [
 ]
 
 export default function AccountScreen() {
+  const { profile } = useApp()
+  const name = profile?.name || user.name
+  const bank = profile?.bank || 'Chase'
+  const groups = menuItems(bank)
   return (
     <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
@@ -34,10 +39,10 @@ export default function AccountScreen() {
         {/* Profile card */}
         <div className="flex items-center gap-4 bg-green-50 rounded-2xl p-4">
           <div className="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center text-white text-xl font-bold shadow-md shadow-green-200">
-            {user.name[0]}
+            {name[0]}
           </div>
           <div>
-            <p className="text-base font-bold text-slate-900">{user.name}</p>
+            <p className="text-base font-bold text-slate-900">{name}</p>
             <p className="text-sm text-slate-500">{user.employer}</p>
             <p className="text-xs text-green-600 font-medium mt-0.5">Active employee ✓</p>
           </div>
@@ -69,7 +74,7 @@ export default function AccountScreen() {
         </div>
 
         {/* Menu groups */}
-        {menuItems.map(group => (
+        {groups.map(group => (
           <div key={group.group} className="mb-4">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2 px-1">{group.group}</p>
             <div className="bg-white rounded-2xl divide-y divide-slate-50 overflow-hidden">

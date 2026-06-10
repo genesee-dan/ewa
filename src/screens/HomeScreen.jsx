@@ -11,7 +11,8 @@ const payPeriodProgress = 0.62 // 62% through pay period
 
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const { earned, transactions } = useApp()
+  const { earned, transactions, profile } = useApp()
+  const firstName = (profile?.name || user.name).split(' ')[0]
   const recent = transactions.slice(0, 2)
 
   return (
@@ -21,10 +22,10 @@ export default function HomeScreen() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-xs text-slate-400 font-medium">Good morning,</p>
-            <p className="text-lg font-bold text-slate-900">{user.name.split(' ')[0]} 👋</p>
+            <p className="text-lg font-bold text-slate-900">{firstName} 👋</p>
           </div>
           <button className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-green-200">
-            {user.name[0]}
+            {firstName[0]}
           </button>
         </div>
 

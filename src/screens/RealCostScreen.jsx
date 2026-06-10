@@ -1,0 +1,115 @@
+import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
+
+function fmt(n) {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
+
+const DAYS_UNTIL_PAYDAY = 5
+const ADVANCES_PER_YEAR = 26 // research: frequent EWA users average 24–36 advances/yr
+
+export default function RealCostScreen() {
+  const navigate = useNavigate()
+  const { lastTransfer } = useApp()
+
+  if (!lastTransfer) {
+    navigate('/')
+    return null
+  }
+
+  const { amount, fee, tip, dodgeTaps } = lastTransfer
+  const costThis = fee + tip
+  const apr = amount > 0 ? (costThis / amount) * (365 / DAYS_UNTIL_PAYDAY) * 100 : 0
+  const annualCost = costThis * ADVANCES_PER_YEAR
+  const annualBorrowed = amount * ADVANCES_PER_YEAR
+
+  return (
+    <div className="flex-1 overflow-y-auto bg-slate-900 text-white" style={{ scrollbarWidth: 'none' }}>
+      <div className="px-6 pt-8 pb-6">
+        <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">The Real Cost</p>
+        <h1 className="text-2xl font-extrabold mb-1">What just happened?</h1>
+        <p className="text-sm text-slate-400">
+          The app called it a "fee" and a "tip." A lender would have to call it something else.
+        </p>
+      </div>
+
+      {/* This advance */}
+      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">This advance</p>
+        <div className="space-y-2 mb-4">
+          <Row label="You borrowed" value={fmt(amount)} />
+          <Row label="Instant fee" value={fmt(fee)} />
+          <Row label="Tip (after the nudges)" value={fmt(tip)} />
+          <Row label={`Cost to access your own pay ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
+        </div>
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
+          <p className="text-xs text-red-300 mb-1">Expressed as an annual percentage rate</p>
+          <p className="text-4xl font-extrabold text-red-400">{apr.toFixed(0)}% APR</p>
+          <p className="text-[11px] text-slate-400 mt-2">
+            A typical credit card is ~24% APR. A payday loan is ~400%.
+          </p>
+        </div>
+      </div>
+
+      {/* Year projection */}
+      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Your projected year</p>
+        <p className="text-[11px] text-slate-400 mb-3">
+          Most regular users don't advance once — research finds frequent users take{' '}
+          <strong className="text-slate-200">24–36 advances a year</strong>, often every pay period. At{' '}
+          {ADVANCES_PER_YEAR} advances like this one:
+        </p>
+        <div className="space-y-2">
+          <Row label="Borrowed over the year" value={fmt(annualBorrowed)} />
+          <Row label="Fees + tips over the year" value={fmt(annualCost)} bold accent />
+        </div>
+        <p className="text-[11px] text-slate-400 mt-3">
+          That's {fmt(annualCost)} a year to receive {fmt(amount)} of <em>your own paycheck</em> a few days
+          early, every payday — money that never builds savings, credit, or anything else.
+        </p>
+      </div>
+
+      {/* Dark pattern receipt */}
+      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">The tip "choice"</p>
+        {tip > 0 ? (
+          <p className="text-sm text-slate-300">
+            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>. Accepting a tip took{' '}
+            <strong className="text-green-400">1 tap</strong>. The app is designed so that declining takes{' '}
+            <strong className="text-red-400">17</strong>.
+          </p>
+        ) : (
+          <p className="text-sm text-slate-300">
+            You avoided the tip — it took you <strong className="text-red-400">{dodgeTaps} taps</strong>{' '}
+            through guilt screens, surveys, re-added "suggestions," and countdown timers. Accepting would have
+            taken <strong className="text-green-400">1 tap</strong>. That asymmetry is the business model.
+          </p>
+        )}
+      </div>
+
+      <div className="px-5 pb-8">
+        <p className="text-[10px] text-slate-500 text-center mb-4">
+          This is an educational demo. No real money moves. Figures based on published research on earned wage
+          access usage patterns.
+        </p>
+        <button
+          onClick={() => navigate('/')}
+          className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+        >
+          Back to the app
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Row({ label, value, bold, accent }) {
+  return (
+    <div className="flex justify-between items-baseline gap-3 text-sm">
+      <span className={bold ? 'text-slate-200 font-medium' : 'text-slate-400'}>{label}</span>
+      <span className={`font-bold whitespace-nowrap ${accent ? 'text-red-400 text-lg' : bold ? 'text-white' : 'text-slate-200'}`}>
+        {value}
+      </span>
+    </div>
+  )
+}
