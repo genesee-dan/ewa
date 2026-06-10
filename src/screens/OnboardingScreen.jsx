@@ -32,13 +32,16 @@ export default function OnboardingScreen() {
         style={{ background: 'linear-gradient(160deg, #16a34a 0%, #14532d 100%)' }}
       >
         <div className="text-6xl mb-5">⚡</div>
-        <h1 className="text-3xl font-extrabold mb-3">EarnNow</h1>
-        <p className="text-green-100 text-lg font-semibold mb-2">
-          Get up to <span className="text-white font-extrabold">$750</span> of your pay — today.
+        <h1 className="text-3xl font-extrabold mb-2">EarnNow</h1>
+        <p className="text-2xl font-extrabold text-white leading-snug mb-3">
+          It's your pay.
+          <br />
+          Get it now.
         </p>
-        <p className="text-green-200 text-sm mb-10">
-          No credit check. No interest. It's your money — why wait for payday?
+        <p className="text-green-100 text-sm font-semibold mb-1">
+          Up to <span className="text-white font-extrabold">$750</span> of your paycheck — today.
         </p>
+        <p className="text-green-200 text-sm mb-10">No credit check. No interest. Why wait for payday?</p>
         <button
           onClick={() => setStep('name')}
           className="w-full bg-white text-green-700 font-bold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform"
