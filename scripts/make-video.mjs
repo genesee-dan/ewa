@@ -8,7 +8,7 @@
 import text2wav from 'text2wav'
 import ffmpegPath from 'ffmpeg-static'
 import { chromium } from 'playwright'
-import { writeFileSync, mkdirSync, readdirSync, copyFileSync } from 'fs'
+import { writeFileSync, mkdirSync, readdirSync, existsSync, readFileSync } from 'fs'
 import { execFileSync } from 'child_process'
 import { resolve } from 'path'
 
@@ -27,13 +27,19 @@ const SEGMENTS = [
 
 const GAP = 0.7 // seconds between segments
 
-// 1) synthesize narration segments and compute timings
+// 1) narration segments: use pre-generated wavs (scripts/tts-kokoro.mjs)
+//    if present, otherwise fall back to espeak via text2wav
 const timings = []
 let t = 0.8
 for (let i = 0; i < SEGMENTS.length; i++) {
-  const wav = await text2wav(SEGMENTS[i], { voice: 'en-US+f3', speed: 150, pitch: 55 })
-  writeFileSync(`${WORK}/seg${i}.wav`, Buffer.from(wav))
-  const dur = (wav.length - 44) / (22050 * 2) // 22.05kHz 16-bit mono
+  const path = `${WORK}/seg${i}.wav`
+  if (!existsSync(path)) {
+    const wav = await text2wav(SEGMENTS[i], { voice: 'en-US+f3', speed: 150, pitch: 55 })
+    writeFileSync(path, Buffer.from(wav))
+  }
+  const buf = readFileSync(path)
+  const rate = buf.readUInt32LE(24) // sample rate from WAV header
+  const dur = (buf.length - 44) / (rate * 2) // 16-bit mono
   timings.push({ start: t, dur })
   t += dur + GAP
 }
