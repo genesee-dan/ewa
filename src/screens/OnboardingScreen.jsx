@@ -36,7 +36,7 @@ export default function OnboardingScreen() {
         <p className="text-2xl font-extrabold text-white leading-snug mb-3">
           It's your pay.
           <br />
-          Get it now.
+          Get it now.<sup className="text-xs font-bold align-super">™</sup>
         </p>
         <p className="text-green-100 text-sm font-semibold mb-1">
           Up to <span className="text-white font-extrabold">$750</span> of your paycheck — today.

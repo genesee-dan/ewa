@@ -6,7 +6,7 @@ export default function PhoneShell({ children }) {
     >
       {/* Desktop hint */}
       <p className="hidden sm:block text-slate-400 text-xs tracking-wide mb-4">
-        EarnNow · It's your pay, get it now. · Demo
+        EarnNow · It's your pay, get it now.™ · Demo
       </p>
 
       {/* Phone frame: full-bleed on phones, framed device on larger screens */}

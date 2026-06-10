@@ -95,7 +95,7 @@ export default function HomeScreen() {
             Get Paid Now
           </button>
           <p className="text-center text-green-200 text-[11px] font-medium mt-2.5">
-            It's your pay. Get it now. ⚡
+            It's your pay. Get it now.™ ⚡
           </p>
         </div>
       </div>
