@@ -162,6 +162,12 @@ export default function RealCostScreen() {
           ▶ Watch: the better way (1 min)
         </button>
         <button
+          onClick={() => navigate('/watch-loc')}
+          className="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
+        >
+          ▶ Watch: credit union line of credit (1 min)
+        </button>
+        <button
           onClick={() => navigate('/')}
           className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
         >

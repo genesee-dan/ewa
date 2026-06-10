@@ -8,6 +8,7 @@ import AccountScreen from './screens/AccountScreen'
 import OnboardingScreen from './screens/OnboardingScreen'
 import RealCostScreen from './screens/RealCostScreen'
 import VideoScreen from './screens/VideoScreen'
+import VideoLocScreen from './screens/VideoLocScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
 function Shell() {
@@ -31,6 +32,7 @@ function Shell() {
           <Route path="/account" element={<AccountScreen />} />
           <Route path="/cost" element={<RealCostScreen />} />
           <Route path="/watch" element={<VideoScreen />} />
+          <Route path="/watch-loc" element={<VideoLocScreen />} />
         </Routes>
         <BottomNav />
       </PhoneShell>
