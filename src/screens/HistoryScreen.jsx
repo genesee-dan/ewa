@@ -15,7 +15,7 @@ function TxIcon({ type }) {
 }
 
 export default function HistoryScreen() {
-  const { transactions, earned } = useApp()
+  const { transactions, earned, scenario } = useApp()
 
   const lifetimeTransferred = transactions
     .filter(t => t.type === 'transfer')
@@ -45,7 +45,7 @@ export default function HistoryScreen() {
       {/* Current period banner */}
       <div className="mx-4 mt-4 bg-green-500 rounded-xl p-3.5 flex justify-between items-center">
         <div>
-          <p className="text-xs text-green-100 font-medium">Current period (Jun 1–15)</p>
+          <p className="text-xs text-green-100 font-medium">Current period (Jun 1–{scenario.payday.split(' ')[1]})</p>
           <p className="text-base font-bold text-white">Available: {fmt(earned.available)}</p>
         </div>
         <div className="text-right">

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, Zap, Shield, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { user } from '../data/mockData'
 import PushNudge from '../components/PushNudge'
 
 function useCountdown(deadlineRef) {
@@ -20,19 +19,18 @@ function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
-const payPeriodProgress = 0.62 // 62% through pay period
 
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const { earned, transactions, profile, lastTransfer, limitDeadline } = useApp()
-  const firstName = (profile?.name || user.name).split(' ')[0]
+  const { earned, transactions, profile, lastTransfer, limitDeadline, scenario } = useApp()
+  const firstName = (profile?.name || 'Friend').split(' ')[0]
   const recent = transactions.slice(0, 2)
   const todaysFees = transactions
     .filter(t => t.date === 'Today')
     .reduce((s, t) => s + (t.fee || 0), 0)
   const repayTotal = earned.transferred + todaysFees
   const countdown = useCountdown(limitDeadline)
-  const streak = lastTransfer ? 6 : 5
+  const streak = scenario.streak + (lastTransfer ? 1 : 0)
 
   return (
     <div className="flex-1 relative overflow-hidden flex flex-col">
@@ -77,13 +75,13 @@ export default function HomeScreen() {
           <div className="mb-3">
             <div className="flex justify-between text-xs text-green-200 mb-1">
               <span>Jun 1</span>
-              <span>Pay period {Math.round(payPeriodProgress * 100)}% complete</span>
-              <span>{user.nextPayday}</span>
+              <span>Pay period {Math.round(scenario.progress * 100)}% complete</span>
+              <span>{scenario.payday}</span>
             </div>
             <div className="h-1.5 bg-green-700 rounded-full overflow-hidden">
               <div
                 className="h-full bg-white rounded-full transition-all"
-                style={{ width: `${payPeriodProgress * 100}%` }}
+                style={{ width: `${scenario.progress * 100}%` }}
               />
             </div>
           </div>
@@ -107,7 +105,7 @@ export default function HomeScreen() {
             <div className="flex items-start gap-3">
               <span className="text-2xl">📉</span>
               <div className="flex-1">
-                <p className="text-sm font-bold text-amber-800 mb-0.5">Heads up — payday {user.nextPayday}</p>
+                <p className="text-sm font-bold text-amber-800 mb-0.5">Heads up — payday {scenario.payday}</p>
                 <p className="text-xs text-amber-700 mb-3">
                   Your paycheck will be <strong>{fmt(repayTotal)} smaller</strong> after we collect what you
                   advanced. Most members bridge the gap with another advance.
@@ -133,13 +131,13 @@ export default function HomeScreen() {
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
           <p className="text-xs text-slate-400 mb-0.5">Next payday</p>
-          <p className="text-base font-bold text-slate-800">{user.nextPayday}</p>
-          <p className="text-xs text-slate-400">5 days away</p>
+          <p className="text-base font-bold text-slate-800">{scenario.payday}</p>
+          <p className="text-xs text-slate-400">{scenario.daysToPayday} days away</p>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
           <p className="text-xs text-slate-400 mb-0.5">Employer</p>
-          <p className="text-base font-bold text-slate-800 truncate" style={{ fontSize: '11px', fontWeight: 700 }}>Riverside</p>
-          <p className="text-xs text-slate-400">Medical</p>
+          <p className="text-base font-bold text-slate-800 truncate" style={{ fontSize: '11px', fontWeight: 700 }}>{scenario.job.short}</p>
+          <p className="text-xs text-slate-400">{scenario.job.sub}</p>
         </div>
       </div>
 

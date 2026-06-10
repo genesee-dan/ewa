@@ -22,14 +22,14 @@ function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
-const DAYS_UNTIL_PAYDAY = 5
-const ADVANCES_PER_YEAR = 26 // research: frequent EWA users average 24–36 advances/yr
 
 const PLUS_MONTHLY = 9.99
 
 export default function RealCostScreen() {
   const navigate = useNavigate()
-  const { lastTransfer, isPlus } = useApp()
+  const { lastTransfer, isPlus, scenario } = useApp()
+  const DAYS_UNTIL_PAYDAY = scenario.daysToPayday
+  const ADVANCES_PER_YEAR = scenario.advancesPerYear
 
   if (!lastTransfer) {
     navigate('/')
@@ -89,7 +89,7 @@ export default function RealCostScreen() {
         </div>
         {isPlus && (
           <p className="text-[11px] text-amber-400/90 mt-3">
-            The membership "waives" a $3.99 fee 26 times a year ({fmt(3.99 * ADVANCES_PER_YEAR)}) — but costs{' '}
+            The membership "waives" a $3.99 fee {ADVANCES_PER_YEAR} times a year ({fmt(3.99 * ADVANCES_PER_YEAR)}) — but costs{' '}
             {fmt(annualSub)} whether you use it or not, auto-renews, and requires calling support to cancel.
           </p>
         )}
@@ -104,23 +104,34 @@ export default function RealCostScreen() {
         <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">The tip "choice"</p>
         {tip > 0 ? (
           <p className="text-sm text-slate-300">
-            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>. Accepting a tip took{' '}
-            <strong className="text-green-400">1 tap</strong>. The app is designed so that declining takes{' '}
-            <strong className="text-red-400">17</strong>.
+            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>
+            {dodgeTaps > 0 && (
+              <>
+                {' '}
+                — after holding out for <strong className="text-red-400">{dodgeTaps} taps</strong> of guilt
+                screens
+              </>
+            )}
+            . Accepting a tip always takes <strong className="text-green-400">1 tap</strong>. Declining is a
+            gauntlet that reshuffles every run — but it's never 1.
           </p>
         ) : (
           <p className="text-sm text-slate-300">
             You avoided the tip — it took you <strong className="text-red-400">{dodgeTaps} taps</strong>{' '}
             through guilt screens, surveys, re-added "suggestions," and countdown timers. Accepting would have
-            taken <strong className="text-green-400">1 tap</strong>. That asymmetry is the business model.
+            taken <strong className="text-green-400">1 tap</strong>. The gauntlet reshuffles every run, but
+            that asymmetry is constant — it's the business model.
           </p>
         )}
       </div>
 
       {/* Dark pattern recap */}
       <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">
           The tricks used on you
+        </p>
+        <p className="text-[10px] text-slate-500 mb-3">
+          The mix is shuffled every run — this is the full deck.
         </p>
         <div className="space-y-2.5">
           {DARK_PATTERNS.map(([name, desc]) => (

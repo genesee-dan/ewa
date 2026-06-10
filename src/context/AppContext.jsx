@@ -1,13 +1,14 @@
 import { createContext, useContext, useState, useRef } from 'react'
-import { earned as initialEarned, transactions as initialTransactions } from '../data/mockData'
+import { makeScenario } from '../data/scenario'
 
 const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null) // { name, bank }
+  const [scenario, setScenario] = useState(makeScenario)
   const [isPlus, setIsPlus] = useState(false) // EarnNow+ subscription
-  const [earned, setEarned] = useState(initialEarned)
-  const [transactions, setTransactions] = useState(initialTransactions)
+  const [earned, setEarned] = useState(() => scenario.earned)
+  const [transactions, setTransactions] = useState(() => scenario.transactions)
   const [lastTransfer, setLastTransfer] = useState(null)
   const tipDodgeTaps = useRef(0)
   // a completely artificial "boosted limit" deadline ~3h out
@@ -23,23 +24,24 @@ export function AppProvider({ children }) {
 
   function resetDemo() {
     window.location.hash = '#/'
+    const next = makeScenario()
+    setScenario(next)
     setProfile(null)
     setIsPlus(false)
-    setEarned(initialEarned)
-    setTransactions(initialTransactions)
+    setEarned(next.earned)
+    setTransactions(next.transactions)
     setLastTransfer(null)
     tipDodgeTaps.current = 0
     limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
   }
 
   function requestTransfer(amount, fee, tip, isInstant) {
-    const bank = profile?.bank || 'Chase'
     const tx = {
       id: Date.now(),
       type: 'transfer',
       amount: -amount,
       date: 'Today',
-      description: `${isInstant ? 'Instant' : 'Standard'} transfer to ${bank} ••4821`,
+      description: `${isInstant ? 'Instant' : 'Standard'} transfer to ••${scenario.last4}`,
       status: 'completed',
       fee: fee + tip,
     }
@@ -57,6 +59,7 @@ export function AppProvider({ children }) {
       value={{
         profile,
         setProfile,
+        scenario,
         isPlus,
         setIsPlus,
         earned,

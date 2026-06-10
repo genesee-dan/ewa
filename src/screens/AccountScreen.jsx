@@ -1,12 +1,11 @@
 import { ChevronRight, Bell, Shield, CreditCard, HelpCircle, LogOut, Star } from 'lucide-react'
-import { user } from '../data/mockData'
 import { useApp } from '../context/AppContext'
 
-const menuItems = bank => [
+const menuItems = bankLabel => [
   {
     group: 'Payment',
     items: [
-      { icon: CreditCard, label: 'Bank Account', sub: `${bank} ••4821`, color: 'bg-blue-50 text-blue-500' },
+      { icon: CreditCard, label: 'Bank Account', sub: bankLabel, color: 'bg-blue-50 text-blue-500' },
       { icon: Star, label: 'Tip Settings', sub: 'Currently $2 per transfer', color: 'bg-amber-50 text-amber-500' },
     ],
   },
@@ -26,10 +25,10 @@ const menuItems = bank => [
 ]
 
 export default function AccountScreen() {
-  const { profile, resetDemo } = useApp()
-  const name = profile?.name || user.name
-  const bank = profile?.bank || 'Chase'
-  const groups = menuItems(bank)
+  const { profile, resetDemo, scenario } = useApp()
+  const name = profile?.name || 'Demo User'
+  const bank = profile?.bank || 'Bank'
+  const groups = menuItems(`${bank} ••${scenario.last4}`)
   return (
     <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
@@ -43,7 +42,7 @@ export default function AccountScreen() {
           </div>
           <div>
             <p className="text-base font-bold text-slate-900">{name}</p>
-            <p className="text-sm text-slate-500">{user.employer}</p>
+            <p className="text-sm text-slate-500">{scenario.job.employer}</p>
             <p className="text-xs text-green-600 font-medium mt-0.5">Active employee ✓</p>
           </div>
         </div>
@@ -56,19 +55,19 @@ export default function AccountScreen() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-sm text-slate-500">Employer</span>
-              <span className="text-sm font-semibold text-slate-800">{user.employer}</span>
+              <span className="text-sm font-semibold text-slate-800">{scenario.job.employer}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-slate-500">Hourly rate</span>
-              <span className="text-sm font-semibold text-slate-800">${user.hourlyRate}/hr</span>
+              <span className="text-sm font-semibold text-slate-800">${scenario.rate}/hr</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-slate-500">Hours this period</span>
-              <span className="text-sm font-semibold text-slate-800">{user.hoursWorked} hrs</span>
+              <span className="text-sm font-semibold text-slate-800">{scenario.hours} hrs</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-slate-500">Pay schedule</span>
-              <span className="text-sm font-semibold text-slate-800">Bi-monthly</span>
+              <span className="text-sm font-semibold text-slate-800">Bi-weekly</span>
             </div>
           </div>
         </div>
