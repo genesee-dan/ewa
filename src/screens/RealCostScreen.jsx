@@ -156,6 +156,12 @@ export default function RealCostScreen() {
           access usage patterns.
         </p>
         <button
+          onClick={() => navigate('/watch')}
+          className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
+        >
+          ▶ Watch: the better way (1 min)
+        </button>
+        <button
           onClick={() => navigate('/')}
           className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
         >

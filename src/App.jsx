@@ -7,6 +7,7 @@ import HistoryScreen from './screens/HistoryScreen'
 import AccountScreen from './screens/AccountScreen'
 import OnboardingScreen from './screens/OnboardingScreen'
 import RealCostScreen from './screens/RealCostScreen'
+import VideoScreen from './screens/VideoScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
 function Shell() {
@@ -29,6 +30,7 @@ function Shell() {
           <Route path="/history" element={<HistoryScreen />} />
           <Route path="/account" element={<AccountScreen />} />
           <Route path="/cost" element={<RealCostScreen />} />
+          <Route path="/watch" element={<VideoScreen />} />
         </Routes>
         <BottomNav />
       </PhoneShell>
