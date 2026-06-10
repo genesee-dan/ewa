@@ -61,7 +61,9 @@ export default function HomeScreen() {
 
           <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">Available to transfer</p>
           <p className="text-4xl font-bold mb-1">{fmt(earned.available)}</p>
-          <p className="text-green-200 text-xs mb-3">of {fmt(earned.total)} earned this period</p>
+          <p className="text-green-200 text-xs mb-3">
+            of {fmt(earned.total)} earned this period · limit {scenario.accessPct}% of earnings
+          </p>
 
           {/* completely artificial deadline */}
           <div className="inline-flex items-center gap-1.5 bg-green-800/60 rounded-full px-3 py-1.5 mb-4">

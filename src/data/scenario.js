@@ -29,7 +29,10 @@ export function makeScenario() {
   const hours = randInt(28, 76) / 2 // 14–38 hrs
   const total = round2(rate * hours)
   const transferredPrior = chance(0.7) ? Math.round(total * rand(0.1, 0.3)) : 0
-  const available = Math.max(40, Math.round(total * rand(0.6, 0.85)) - transferredPrior)
+  // real EWA apps let you access a percentage of earned wages, capped
+  const accessPct = randInt(50, 75)
+  const limit = Math.min(Math.round((total * accessPct) / 100 / 5) * 5, 750)
+  const available = Math.max(20, limit - transferredPrior)
   const daysToPayday = randInt(3, 9)
   const payday = `Jun ${10 + daysToPayday}`
   const progress = Math.min(0.85, Math.max(0.3, 1 - daysToPayday / 14))
@@ -78,6 +81,8 @@ export function makeScenario() {
     job,
     rate,
     hours,
+    accessPct,
+    limit,
     earned: { total, available, transferred: transferredPrior },
     transactions,
     daysToPayday,
