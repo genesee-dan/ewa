@@ -1,6 +1,20 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
+const DARK_PATTERNS = [
+  ['Preselected "most popular" tip', 'The $4 option was already highlighted before you chose anything.'],
+  ['Buried opt-out', 'Declining lives in tiny gray text; accepting is a big green button.'],
+  ['Social pressure', '"9 out of 10 members tip" — unverifiable, designed to make you the odd one out.'],
+  ['Guilt framing', 'Refusing was worded as refusing to "help the community."'],
+  ['Forced friction', 'A required survey interrogated you about why you wouldn\'t pay extra.'],
+  ['Sneaked-in defaults', 'A "suggested" tip was silently re-added to your bill — twice.'],
+  ['Forced waiting', 'The skip link was disabled behind a countdown timer.'],
+  ['Confirmshaming', 'You had to check a box admitting you "choose not to contribute."'],
+  ['Last-chance interruption', 'A final modal blocked the send button one more time.'],
+  ['Subscription trap', 'A "money-saving" membership with auto-renewal and support-only cancellation.'],
+  ['The debt loop', 'Back home, a banner is already warning your next paycheck will be short — and offering the fix.'],
+]
+
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
@@ -100,6 +114,23 @@ export default function RealCostScreen() {
         )}
       </div>
 
+      {/* Dark pattern recap */}
+      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
+          The tricks used on you
+        </p>
+        <div className="space-y-2.5">
+          {DARK_PATTERNS.map(([name, desc]) => (
+            <div key={name} className="flex gap-2.5">
+              <span className="text-green-400 text-sm leading-5">✓</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <strong className="text-slate-200">{name}.</strong> {desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="px-5 pb-8">
         <p className="text-[10px] text-slate-500 text-center mb-4">
           This is an educational demo. No real money moves. Figures based on published research on earned wage
@@ -107,12 +138,22 @@ export default function RealCostScreen() {
         </p>
         <button
           onClick={() => navigate('/')}
-          className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+          className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
         >
           Back to the app
         </button>
+        <RestartButton />
       </div>
     </div>
+  )
+}
+
+function RestartButton() {
+  const { resetDemo } = useApp()
+  return (
+    <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline">
+      Restart the demo from the beginning
+    </button>
   )
 }
 

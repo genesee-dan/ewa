@@ -26,7 +26,7 @@ const menuItems = bank => [
 ]
 
 export default function AccountScreen() {
-  const { profile } = useApp()
+  const { profile, resetDemo } = useApp()
   const name = profile?.name || user.name
   const bank = profile?.bank || 'Chase'
   const groups = menuItems(bank)
@@ -94,10 +94,13 @@ export default function AccountScreen() {
           </div>
         ))}
 
-        {/* Sign out */}
-        <button className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 font-semibold py-3.5 rounded-2xl text-sm active:bg-red-100 mb-4">
+        {/* Sign out / demo reset */}
+        <button
+          onClick={resetDemo}
+          className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 font-semibold py-3.5 rounded-2xl text-sm active:bg-red-100 mb-4"
+        >
           <LogOut size={16} />
-          Sign Out
+          Sign Out & Restart Demo
         </button>
 
         <p className="text-xs text-slate-300 text-center pb-4">EarnNow v1.0.0 · Demo App</p>

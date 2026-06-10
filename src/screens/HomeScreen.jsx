@@ -11,9 +11,13 @@ const payPeriodProgress = 0.62 // 62% through pay period
 
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const { earned, transactions, profile } = useApp()
+  const { earned, transactions, profile, lastTransfer } = useApp()
   const firstName = (profile?.name || user.name).split(' ')[0]
   const recent = transactions.slice(0, 2)
+  const todaysFees = transactions
+    .filter(t => t.date === 'Today')
+    .reduce((s, t) => s + (t.fee || 0), 0)
+  const repayTotal = earned.transferred + todaysFees
 
   return (
     <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
@@ -67,6 +71,30 @@ export default function HomeScreen() {
           </p>
         </div>
       </div>
+
+      {/* The re-borrow loop: the engine of the whole business model */}
+      {lastTransfer && (
+        <div className="px-5 pt-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">📉</span>
+              <div className="flex-1">
+                <p className="text-sm font-bold text-amber-800 mb-0.5">Heads up — payday {user.nextPayday}</p>
+                <p className="text-xs text-amber-700 mb-3">
+                  Your paycheck will be <strong>{fmt(repayTotal)} smaller</strong> after we collect what you
+                  advanced. Most members bridge the gap with another advance.
+                </p>
+                <button
+                  onClick={() => navigate('/transfer')}
+                  className="bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-xl active:scale-95 transition-transform"
+                >
+                  Get another advance →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats row */}
       <div className="px-5 py-4 flex gap-3">

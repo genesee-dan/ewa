@@ -19,6 +19,16 @@ export function AppProvider({ children }) {
     tipDodgeTaps.current = 0
   }
 
+  function resetDemo() {
+    window.location.hash = '#/'
+    setProfile(null)
+    setIsPlus(false)
+    setEarned(initialEarned)
+    setTransactions(initialTransactions)
+    setLastTransfer(null)
+    tipDodgeTaps.current = 0
+  }
+
   function requestTransfer(amount, fee, tip, isInstant) {
     const bank = profile?.bank || 'Chase'
     const tx = {
@@ -52,6 +62,7 @@ export function AppProvider({ children }) {
         requestTransfer,
         countDodgeTap,
         resetDodgeTaps,
+        resetDemo,
       }}
     >
       {children}
