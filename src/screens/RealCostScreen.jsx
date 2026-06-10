@@ -12,6 +12,9 @@ const DARK_PATTERNS = [
   ['Confirmshaming', 'You had to check a box admitting you "choose not to contribute."'],
   ['Last-chance interruption', 'A final modal blocked the send button one more time.'],
   ['Subscription trap', 'A "money-saving" membership with auto-renewal and support-only cancellation.'],
+  ['Manufactured urgency', 'A ticking "boosted limit expires in 2:59:14" countdown — the deadline is invented.'],
+  ['Push-notification pressure', 'Alerts keep pinging that your money is "waiting to be claimed."'],
+  ['Gamified borrowing', 'A 🔥 streak badge reframes borrowing every paycheck as an achievement to maintain.'],
   ['The debt loop', 'Back home, a banner is already warning your next paycheck will be short — and offering the fix.'],
 ]
 

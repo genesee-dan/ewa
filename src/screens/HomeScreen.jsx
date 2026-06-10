@@ -1,7 +1,20 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, Zap, Shield, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { user } from '../data/mockData'
+import PushNudge from '../components/PushNudge'
+
+function useCountdown(deadlineRef) {
+  const [remaining, setRemaining] = useState(deadlineRef.current - Date.now())
+  useEffect(() => {
+    const t = setInterval(() => setRemaining(Math.max(0, deadlineRef.current - Date.now())), 1000)
+    return () => clearInterval(t)
+  }, [deadlineRef])
+  const s = Math.floor(remaining / 1000)
+  const pad = n => String(n).padStart(2, '0')
+  return `${Math.floor(s / 3600)}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`
+}
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -11,22 +24,29 @@ const payPeriodProgress = 0.62 // 62% through pay period
 
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const { earned, transactions, profile, lastTransfer } = useApp()
+  const { earned, transactions, profile, lastTransfer, limitDeadline } = useApp()
   const firstName = (profile?.name || user.name).split(' ')[0]
   const recent = transactions.slice(0, 2)
   const todaysFees = transactions
     .filter(t => t.date === 'Today')
     .reduce((s, t) => s + (t.fee || 0), 0)
   const repayTotal = earned.transferred + todaysFees
+  const countdown = useCountdown(limitDeadline)
+  const streak = lastTransfer ? 6 : 5
 
   return (
-    <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 relative overflow-hidden flex flex-col">
+      <PushNudge />
+      <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pb-5 pt-2">
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-xs text-slate-400 font-medium">Good morning,</p>
             <p className="text-lg font-bold text-slate-900">{firstName} 👋</p>
+            <span className="inline-flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1">
+              🔥 {streak}-week advance streak{lastTransfer ? ' — extended!' : ''}
+            </span>
           </div>
           <button className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-green-200">
             {firstName[0]}
@@ -43,7 +63,15 @@ export default function HomeScreen() {
 
           <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">Available to transfer</p>
           <p className="text-4xl font-bold mb-1">{fmt(earned.available)}</p>
-          <p className="text-green-200 text-xs mb-4">of {fmt(earned.total)} earned this period</p>
+          <p className="text-green-200 text-xs mb-3">of {fmt(earned.total)} earned this period</p>
+
+          {/* completely artificial deadline */}
+          <div className="inline-flex items-center gap-1.5 bg-green-800/60 rounded-full px-3 py-1.5 mb-4">
+            <span className="text-xs">⏰</span>
+            <p className="text-[11px] font-bold text-amber-300">
+              Boosted limit expires in <span className="tabular-nums">{countdown}</span>
+            </p>
+          </div>
 
           {/* Pay period progress */}
           <div className="mb-3">
@@ -181,6 +209,7 @@ export default function HomeScreen() {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

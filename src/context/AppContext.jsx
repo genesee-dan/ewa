@@ -10,6 +10,8 @@ export function AppProvider({ children }) {
   const [transactions, setTransactions] = useState(initialTransactions)
   const [lastTransfer, setLastTransfer] = useState(null)
   const tipDodgeTaps = useRef(0)
+  // a completely artificial "boosted limit" deadline ~3h out
+  const limitDeadline = useRef(Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000)
 
   function countDodgeTap() {
     tipDodgeTaps.current += 1
@@ -27,6 +29,7 @@ export function AppProvider({ children }) {
     setTransactions(initialTransactions)
     setLastTransfer(null)
     tipDodgeTaps.current = 0
+    limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
   }
 
   function requestTransfer(amount, fee, tip, isInstant) {
@@ -63,6 +66,7 @@ export function AppProvider({ children }) {
         countDodgeTap,
         resetDodgeTaps,
         resetDemo,
+        limitDeadline,
       }}
     >
       {children}

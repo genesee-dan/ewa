@@ -75,9 +75,13 @@ export default function TransferScreen() {
           <span className="text-4xl">✅</span>
         </div>
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Transfer Sent!</h2>
-        <p className="text-slate-500 text-sm text-center mb-6">
+        <p className="text-slate-500 text-sm text-center mb-3">
           {fmt(amount)} is on its way to your {bank} account
         </p>
+        <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3.5 py-1.5 mb-5">
+          <span className="text-sm">🔥</span>
+          <p className="text-xs font-bold text-orange-600">Streak extended — 6 weeks in a row!</p>
+        </div>
         <div className="bg-slate-50 rounded-2xl w-full p-4 mb-6 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-slate-500">Amount</span>
