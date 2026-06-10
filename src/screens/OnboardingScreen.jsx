@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
 
 const BANKS = [
-  { name: 'Genesee Co-op FCU', logo: `${import.meta.env.BASE_URL}genesee-logo.svg` },
+  { name: 'Genesee Co-op FCU', logo: `${import.meta.env.BASE_URL}genesee-icon.png` },
   { name: 'Chase', emoji: '🏦' },
   { name: 'Bank of America', emoji: '🏛️' },
   { name: 'Wells Fargo', emoji: '🐎' },
