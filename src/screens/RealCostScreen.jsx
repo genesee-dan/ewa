@@ -4,14 +4,11 @@ import { useApp } from '../context/AppContext'
 
 const DARK_PATTERNS = [
   ['Preselected tip', 'The $4 option was already highlighted before you chose anything.'],
-  ['Buried opt-out', 'Declining lives in tiny gray text; accepting is a big green button.'],
-  ['Social pressure', '"9 out of 10 members tip" — unverifiable, designed to make you the odd one out.'],
-  ['Guilt framing', 'Refusing was worded as refusing to "help the community."'],
-  ['Forced waiting', 'The skip link was disabled behind a countdown timer.'],
-  ['Subscription trap', 'A "money-saving" membership with auto-renewal and support-only cancellation.'],
-  ['Manufactured urgency', 'A "boosted limit expires in 2:59:14" countdown — the deadline is invented.'],
-  ['Gamified borrowing', 'A 🔥 streak badge reframes borrowing every paycheck as an achievement to maintain.'],
-  ['The debt loop', 'Back home, a banner warns your next paycheck will be short — and offers the fix.'],
+  ['Social pressure', '"9 out of 10 members tip" — unverifiable, designed to shame you.'],
+  ['Forced waiting', 'The skip button was hidden behind a countdown timer.'],
+  ['Subscription trap', 'A "money-saving" membership that auto-renews and requires calling to cancel.'],
+  ['Manufactured urgency', '"Boosted limit expires in 2:59:14" — the deadline is invented.'],
+  ['The debt loop', 'Repaying on payday leaves your check short — so the app offers to advance again immediately.'],
 ]
 
 function fmt(n) {
@@ -188,21 +185,19 @@ function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus
 
 function Page3() {
   return (
-    <div className="flex-1 px-5 pt-3 pb-2 flex flex-col">
+    <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 4 · The Tricks</p>
-      <h1 className="text-2xl font-extrabold mb-3">Dark patterns used on you</h1>
-      <div className="bg-slate-800 rounded-2xl p-4 flex-1">
-        <p className="text-[10px] text-slate-500 mb-3">The mix is shuffled every run — this is the full deck.</p>
-        <div className="space-y-2">
-          {DARK_PATTERNS.map(([name, desc]) => (
-            <div key={name} className="flex gap-2">
-              <span className="text-green-400 text-xs leading-5 mt-0.5">✓</span>
-              <p className="text-xs text-slate-400 leading-snug">
-                <strong className="text-slate-200">{name}.</strong> {desc}
-              </p>
-            </div>
-          ))}
-        </div>
+      <h1 className="text-2xl font-extrabold mb-1">Dark patterns used on you</h1>
+      <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
+      <div className="space-y-3">
+        {DARK_PATTERNS.map(([name, desc]) => (
+          <div key={name} className="flex gap-3 items-start">
+            <span className="text-green-400 text-sm mt-0.5 shrink-0">✓</span>
+            <p className="text-sm text-slate-400 leading-snug">
+              <strong className="text-slate-200">{name}.</strong> {desc}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   )
