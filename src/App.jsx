@@ -6,13 +6,22 @@ import TransferScreen from './screens/TransferScreen'
 import HistoryScreen from './screens/HistoryScreen'
 import AccountScreen from './screens/AccountScreen'
 import OnboardingScreen from './screens/OnboardingScreen'
+import LandingScreen from './screens/LandingScreen'
 import RealCostScreen from './screens/RealCostScreen'
 import VideoScreen from './screens/VideoScreen'
 import VideoLocScreen from './screens/VideoLocScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
 function Shell() {
-  const { profile } = useApp()
+  const { profile, landed } = useApp()
+
+  if (!landed) {
+    return (
+      <PhoneShell>
+        <LandingScreen />
+      </PhoneShell>
+    )
+  }
 
   if (!profile) {
     return (

@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
@@ -22,39 +23,93 @@ function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
-
 const PLUS_MONTHLY = 9.99
 
 export default function RealCostScreen() {
   const navigate = useNavigate()
-  const { lastTransfer, isPlus, scenario } = useApp()
+  const { lastTransfer, isPlus, scenario, resetDemo } = useApp()
+  const [page, setPage] = useState(0)
+  const touchStartX = useRef(null)
+
   const DAYS_UNTIL_PAYDAY = scenario.daysToPayday
   const ADVANCES_PER_YEAR = scenario.advancesPerYear
 
-  if (!lastTransfer) {
-    return <Navigate to="/" replace />
-  }
+  if (!lastTransfer) return <Navigate to="/" replace />
 
   const { amount, fee, tip, dodgeTaps } = lastTransfer
-  const subThis = isPlus ? PLUS_MONTHLY / 2 : 0 // half a month's sub per bi-weekly advance
+  const subThis = isPlus ? PLUS_MONTHLY / 2 : 0
   const costThis = fee + tip + subThis
   const apr = amount > 0 ? (costThis / amount) * (365 / DAYS_UNTIL_PAYDAY) * 100 : 0
   const annualSub = isPlus ? PLUS_MONTHLY * 12 : 0
   const annualCost = (fee + tip) * ADVANCES_PER_YEAR + annualSub
   const annualBorrowed = amount * ADVANCES_PER_YEAR
 
+  function handleTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX
+  }
+  function handleTouchEnd(e) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    if (dx < -40 && page < 2) setPage(p => p + 1)
+    if (dx > 40 && page > 0) setPage(p => p - 1)
+    touchStartX.current = null
+  }
+
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-900 text-white" style={{ scrollbarWidth: 'none' }}>
-      <div className="px-6 pt-8 pb-6">
-        <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">The Real Cost</p>
-        <h1 className="text-2xl font-extrabold mb-1">What just happened?</h1>
-        <p className="text-sm text-slate-400">
-          The app called it a "fee" and a "tip." A lender would have to call it something else.
-        </p>
+    <div
+      className="flex-1 flex flex-col bg-slate-900 text-white overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Progress dots */}
+      <div className="flex justify-center gap-2 pt-4 pb-1">
+        {[0, 1, 2].map(i => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            className={`rounded-full transition-all ${i === page ? 'w-6 h-2 bg-amber-400' : 'w-2 h-2 bg-slate-600'}`}
+          />
+        ))}
       </div>
 
-      {/* This advance */}
-      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
+      {/* Pages */}
+      {page === 0 && <Page1 amount={amount} fee={fee} tip={tip} subThis={subThis} costThis={costThis} apr={apr} isPlus={isPlus} DAYS_UNTIL_PAYDAY={DAYS_UNTIL_PAYDAY} dodgeTaps={dodgeTaps} />}
+      {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
+      {page === 2 && <Page3 tip={tip} dodgeTaps={dodgeTaps} navigate={navigate} resetDemo={resetDemo} />}
+
+      {/* Prev / Next */}
+      <div className="flex gap-3 px-5 pb-5 pt-2">
+        {page > 0 ? (
+          <button
+            onClick={() => setPage(p => p - 1)}
+            className="flex-1 bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          >
+            ← Back
+          </button>
+        ) : <div className="flex-1" />}
+        {page < 2 ? (
+          <button
+            onClick={() => setPage(p => p + 1)}
+            className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          >
+            Next →
+          </button>
+        ) : <div className="flex-1" />}
+      </div>
+    </div>
+  )
+}
+
+function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
+  return (
+    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 3 · This Advance</p>
+      <h1 className="text-2xl font-extrabold mb-1">What just happened?</h1>
+      <p className="text-sm text-slate-400 mb-4">
+        The app called it a "fee" and a "tip." A lender would have to call it something else.
+      </p>
+
+      <div className="bg-slate-800 rounded-2xl p-5 mb-4">
         <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">This advance</p>
         <div className="space-y-2 mb-4">
           <Row label="You borrowed" value={fmt(amount)} />
@@ -72,18 +127,42 @@ export default function RealCostScreen() {
         </div>
       </div>
 
-      {/* Year projection */}
-      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Your projected year</p>
-        <p className="text-[11px] text-slate-400 mb-3">
-          Most regular users don't advance once — research finds frequent users take{' '}
-          <strong className="text-slate-200">24–36 advances a year</strong>, often every pay period. At{' '}
-          {ADVANCES_PER_YEAR} advances like this one:
+      <div className="bg-slate-800 rounded-2xl p-5 mb-2">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">The tip "choice"</p>
+        {tip > 0 ? (
+          <p className="text-sm text-slate-300">
+            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>
+            {dodgeTaps > 0 && <> — after <strong className="text-red-400">{dodgeTaps} taps</strong> of guilt screens</>}.
+            Accepting always takes <strong className="text-green-400">1 tap</strong>.
+          </p>
+        ) : (
+          <p className="text-sm text-slate-300">
+            You avoided the tip — it took <strong className="text-red-400">{dodgeTaps} taps</strong> through
+            guilt screens, surveys, and timers. Accepting would have taken <strong className="text-green-400">1 tap</strong>.
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
+  return (
+    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 3 · Your Year</p>
+      <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
+      <p className="text-sm text-slate-400 mb-4">
+        Research finds frequent users take 24–36 advances a year — often every pay period.
+      </p>
+
+      <div className="bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
+          At {ADVANCES_PER_YEAR} advances like this one
         </p>
         <div className="space-y-2">
           <Row label="Borrowed over the year" value={fmt(annualBorrowed)} />
           <Row label="Fees + tips over the year" value={fmt((fee + tip) * ADVANCES_PER_YEAR)} />
-          {isPlus && <Row label='EarnNow+ "savings" membership (12 × $9.99)' value={fmt(annualSub)} />}
+          {isPlus && <Row label='EarnNow+ membership (12 × $9.99)' value={fmt(annualSub)} />}
         </div>
         <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center mt-4">
           <p className="text-xs text-red-300 mb-1">Total cost over the year</p>
@@ -94,50 +173,31 @@ export default function RealCostScreen() {
         </div>
         {isPlus && (
           <p className="text-[11px] text-amber-400/90 mt-3">
-            The membership "waives" a $3.99 fee {ADVANCES_PER_YEAR} times a year ({fmt(3.99 * ADVANCES_PER_YEAR)}) — but costs{' '}
-            {fmt(annualSub)} whether you use it or not, auto-renews, and requires calling support to cancel.
+            The membership "waives" a $3.99 fee {ADVANCES_PER_YEAR} times ({fmt(3.99 * ADVANCES_PER_YEAR)}) —
+            but costs {fmt(annualSub)} whether you use it or not, auto-renews, and requires calling support to cancel.
           </p>
         )}
         <p className="text-[11px] text-slate-400 mt-3">
           That's {fmt(annualCost)} a year to receive {fmt(amount)} of <em>your own paycheck</em> a few days
-          early, every payday — money that never builds savings, credit, or anything else.
+          early — money that never builds savings, credit, or anything else.
         </p>
       </div>
 
-      {/* Dark pattern receipt */}
-      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">The tip "choice"</p>
-        {tip > 0 ? (
-          <p className="text-sm text-slate-300">
-            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>
-            {dodgeTaps > 0 && (
-              <>
-                {' '}
-                — after holding out for <strong className="text-red-400">{dodgeTaps} taps</strong> of guilt
-                screens
-              </>
-            )}
-            . Accepting a tip always takes <strong className="text-green-400">1 tap</strong>. Declining is a
-            gauntlet that reshuffles every run — but it's never 1.
-          </p>
-        ) : (
-          <p className="text-sm text-slate-300">
-            You avoided the tip — it took you <strong className="text-red-400">{dodgeTaps} taps</strong>{' '}
-            through guilt screens, surveys, re-added "suggestions," and countdown timers. Accepting would have
-            taken <strong className="text-green-400">1 tap</strong>. The gauntlet reshuffles every run, but
-            that asymmetry is constant — it's the business model.
-          </p>
-        )}
-      </div>
+      <p className="text-[10px] text-slate-500 text-center mb-2">
+        This is an educational demo. No real money moves. Figures based on published research.
+      </p>
+    </div>
+  )
+}
 
-      {/* Dark pattern recap */}
-      <div className="mx-5 bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">
-          The tricks used on you
-        </p>
-        <p className="text-[10px] text-slate-500 mb-3">
-          The mix is shuffled every run — this is the full deck.
-        </p>
+function Page3({ tip, dodgeTaps, navigate, resetDemo }) {
+  return (
+    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 3 · The Tricks</p>
+      <h1 className="text-2xl font-extrabold mb-4">Dark patterns used on you</h1>
+
+      <div className="bg-slate-800 rounded-2xl p-5 mb-4">
+        <p className="text-[10px] text-slate-500 mb-3">The mix is shuffled every run — this is the full deck.</p>
         <div className="space-y-2.5">
           {DARK_PATTERNS.map(([name, desc]) => (
             <div key={name} className="flex gap-2.5">
@@ -150,51 +210,38 @@ export default function RealCostScreen() {
         </div>
       </div>
 
-      <div className="px-5 pb-8">
-        <p className="text-[10px] text-slate-500 text-center mb-4">
-          This is an educational demo. No real money moves. Figures based on published research on earned wage
-          access usage patterns.
-        </p>
+      <div className="space-y-3 mb-4">
         <button
           onClick={() => navigate('/watch')}
-          className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
+          className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         >
-          ▶ Watch: the better way (1 min)
+          ▶ Why these apps cost you money
         </button>
         <button
           onClick={() => navigate('/watch-loc')}
-          className="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
+          className="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         >
-          ▶ Watch: credit union line of credit (1 min)
+          ▶ How to save with a credit union line of credit
         </button>
         <button
           onClick={() => navigate('/')}
-          className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
+          className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         >
           Back to the app
         </button>
-        <RestartButton />
+        <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline py-1">
+          Restart the demo from the beginning
+        </button>
       </div>
     </div>
   )
 }
 
-function RestartButton() {
-  const { resetDemo } = useApp()
-  return (
-    <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline">
-      Restart the demo from the beginning
-    </button>
-  )
-}
-
-function Row({ label, value, bold, accent }) {
+function Row({ label, value, bold }) {
   return (
     <div className="flex justify-between items-baseline gap-3 text-sm">
       <span className={bold ? 'text-slate-200 font-medium' : 'text-slate-400'}>{label}</span>
-      <span className={`font-bold whitespace-nowrap ${accent ? 'text-red-400 text-lg' : bold ? 'text-white' : 'text-slate-200'}`}>
-        {value}
-      </span>
+      <span className={`font-bold whitespace-nowrap ${bold ? 'text-white' : 'text-slate-200'}`}>{value}</span>
     </div>
   )
 }

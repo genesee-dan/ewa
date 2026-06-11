@@ -5,6 +5,7 @@ const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null) // { name, bank }
+  const [landed, setLanded] = useState(false) // has seen the landing screen
   const [scenario, setScenario] = useState(makeScenario)
   const [isPlus, setIsPlus] = useState(false) // EarnNow+ subscription
   const [earned, setEarned] = useState(() => scenario.earned)
@@ -27,6 +28,7 @@ export function AppProvider({ children }) {
     const next = makeScenario()
     setScenario(next)
     setProfile(null)
+    setLanded(false)
     setIsPlus(false)
     setEarned(next.earned)
     setTransactions(next.transactions)
@@ -59,6 +61,8 @@ export function AppProvider({ children }) {
       value={{
         profile,
         setProfile,
+        landed,
+        setLanded,
         scenario,
         isPlus,
         setIsPlus,
