@@ -27,6 +27,10 @@ export default function LandingScreen() {
       <p className="text-slate-500 text-xs">
         No real money moves. Educational purposes only.
       </p>
+      <p className="text-slate-600 text-xs mt-3 leading-relaxed">
+        "EarnNow" is a fictional app created for educational purposes.
+        Company names mentioned are used for identification only.
+      </p>
     </div>
   )
 }
