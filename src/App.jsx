@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import PhoneShell from './components/PhoneShell'
 import BottomNav from './components/BottomNav'
 import HomeScreen from './screens/HomeScreen'
@@ -20,9 +20,13 @@ import VideoScreen from './screens/VideoScreen'
 import VideoLocScreen from './screens/VideoLocScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
+// Routes where the bottom nav should be hidden
+const NO_NAV_PATHS = ['/situation', '/choice', '/loc-path', '/family-path', '/cut-spending', '/wait-path', '/game-result', '/cost', '/watch', '/watch-loc']
+
 function Shell() {
   const { profile, landed, gameMode } = useApp()
 
+  // Landing screen — shown before anything else, outside the router
   if (!landed) {
     return (
       <PhoneShell>
@@ -31,13 +35,25 @@ function Shell() {
     )
   }
 
+  // Setup screens — shown before profile is set
+  if (!profile) {
+    return (
+      // Need HashRouter here so GameSetupScreen can useNavigate to /situation
+      <HashRouter>
+        <PhoneShell>
+          <Routes>
+            <Route path="*" element={gameMode ? <GameSetupScreen /> : <OnboardingScreen />} />
+          </Routes>
+        </PhoneShell>
+      </HashRouter>
+    )
+  }
+
+  // Main app
   return (
     <HashRouter>
       <PhoneShell>
         <Routes>
-          {!profile && (
-            <Route path="*" element={gameMode ? <GameSetupScreen /> : <OnboardingScreen />} />
-          )}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/transfer" element={<TransferScreen />} />
           <Route path="/history" element={<HistoryScreen />} />
@@ -53,10 +69,16 @@ function Shell() {
           <Route path="/wait-path" element={<WaitPathScreen />} />
           <Route path="/game-result" element={<GameResultScreen />} />
         </Routes>
-        <BottomNav />
+        <NavGate />
       </PhoneShell>
     </HashRouter>
   )
+}
+
+function NavGate() {
+  const { pathname } = useLocation()
+  if (NO_NAV_PATHS.some(p => pathname.startsWith(p))) return null
+  return <BottomNav />
 }
 
 export default function App() {
