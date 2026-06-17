@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { PROFESSIONS } from '../data/scenario'
 
@@ -11,6 +12,7 @@ const ALL_PROFS = [...PROFESSIONS, OTHER]
 
 export default function GameSetupScreen() {
   const { startGame, setGameMode } = useApp()
+  const navigate = useNavigate()
   const [step, setStep] = useState(0) // 0=name, 1=profession, 2=pay
   const [name, setName] = useState('')
   const [prof, setProf] = useState(null)
@@ -23,6 +25,7 @@ export default function GameSetupScreen() {
 
   function handleEnter() {
     startGame({ name, profession: selectedProf, weeklyPay })
+    navigate('/situation')
   }
 
   if (step === 0) return (

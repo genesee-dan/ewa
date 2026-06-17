@@ -33,6 +33,14 @@ export const PROFESSIONS = JOBS.map(j => ({
   job: j,
 }))
 
+const CRISES = [
+  { emoji: '🚗', what: 'Your car insurance auto-renewed last night.', amount: 187 },
+  { emoji: '🏠', what: 'Your landlord just texted — a check bounced. You owe a $150 fee.', amount: 150 },
+  { emoji: '💊', what: "Your kid needs a prescription refilled. Insurance won't cover it.", amount: 95 },
+  { emoji: '📱', what: "Your phone bill is past due. They'll cut service tomorrow.", amount: 78 },
+  { emoji: '🔧', what: 'Your car needs a new tire. You need it to get to work.', amount: 140 },
+]
+
 export function makeScenario(overrides = {}) {
   const job = overrides.job || pick(JOBS)
   const rate = overrides.rate != null ? round2(overrides.rate) : round2(randInt(job.rate[0] * 2, job.rate[1] * 2) / 2)
@@ -102,6 +110,7 @@ export function makeScenario(overrides = {}) {
     streak,
     last4,
     advancesPerYear,
+    crisis: pick(CRISES),
   }
 }
 

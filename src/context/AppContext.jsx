@@ -7,6 +7,7 @@ export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null) // { name, bank }
   const [landed, setLanded] = useState(false) // has seen the landing screen
   const [gameMode, setGameMode] = useState(false) // simulation game vs. plain demo
+  const [chosenPath, setChosenPath] = useState(null) // 'ewa'|'loc'|'family'|'cut'|'wait'
   const [scenario, setScenario] = useState(makeScenario)
   const [isPlus, setIsPlus] = useState(false) // EarnNow+ subscription
   const [earned, setEarned] = useState(() => scenario.earned)
@@ -31,6 +32,7 @@ export function AppProvider({ children }) {
     setProfile(null)
     setLanded(false)
     setGameMode(false)
+    setChosenPath(null)
     setIsPlus(false)
     setEarned(next.earned)
     setTransactions(next.transactions)
@@ -54,6 +56,7 @@ export function AppProvider({ children }) {
     setIsPlus(false)
     tipDodgeTaps.current = 0
     limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
+    setChosenPath(null)
     setGameMode(true)
     setProfile({ name: name?.trim() || 'Player', bank: 'Genesee Co-op FCU', profession: profession.role, weeklyPay })
   }
@@ -86,6 +89,8 @@ export function AppProvider({ children }) {
         setLanded,
         gameMode,
         setGameMode,
+        chosenPath,
+        setChosenPath,
         startGame,
         scenario,
         isPlus,

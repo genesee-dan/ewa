@@ -1,0 +1,82 @@
+import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
+
+const PATHS = [
+  {
+    id: 'ewa',
+    emoji: '🤳',
+    title: 'EarnNow app',
+    tagline: '"Your pay, early. What could go wrong?"',
+    bg: 'linear-gradient(135deg,#16a34a,#14532d)',
+    border: '#16a34a',
+  },
+  {
+    id: 'loc',
+    emoji: '🏦',
+    title: 'Credit union line of credit',
+    tagline: 'Boring. Effective. About eleven cents.',
+    bg: 'linear-gradient(135deg,#1e40af,#1e3a8a)',
+    border: '#3b82f6',
+  },
+  {
+    id: 'family',
+    emoji: '👨‍👩‍👧',
+    title: 'Ask family',
+    tagline: "Free. But you'll hear about it at Thanksgiving.",
+    bg: 'linear-gradient(135deg,#92400e,#78350f)',
+    border: '#f59e0b',
+  },
+  {
+    id: 'cut',
+    emoji: '✂️',
+    title: 'Cut spending this week',
+    tagline: 'Rice and beans. Very nutritious.',
+    bg: 'linear-gradient(135deg,#374151,#1f2937)',
+    border: '#6b7280',
+  },
+  {
+    id: 'wait',
+    emoji: '🤷',
+    title: 'Wait it out',
+    tagline: "Payday is in 2 days. How bad could it get?",
+    bg: 'linear-gradient(135deg,#4c1d95,#3b0764)',
+    border: '#8b5cf6',
+  },
+]
+
+export default function ChoiceScreen() {
+  const navigate = useNavigate()
+  const { setChosenPath } = useApp()
+
+  function choose(id) {
+    setChosenPath(id)
+    if (id === 'ewa') navigate('/transfer')
+    else if (id === 'loc') navigate('/loc-path')
+    else if (id === 'family') navigate('/family-path')
+    else if (id === 'cut') navigate('/cut-spending')
+    else navigate('/wait-path')
+  }
+
+  return (
+    <div className="flex-1 flex flex-col px-5 pt-6 pb-5 bg-slate-900 text-white">
+      <h1 className="text-xl font-extrabold mb-1">What do you do?</h1>
+      <p className="text-slate-400 text-xs mb-4">Tap one. No wrong answers — yet.</p>
+      <div className="flex flex-col gap-2.5 flex-1 justify-center">
+        {PATHS.map(p => (
+          <button
+            key={p.id}
+            onClick={() => choose(p.id)}
+            className="flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left active:scale-95 transition-transform border"
+            style={{ background: p.bg, borderColor: p.border + '66' }}
+          >
+            <span className="text-3xl shrink-0">{p.emoji}</span>
+            <div>
+              <p className="font-extrabold text-white text-sm leading-tight">{p.title}</p>
+              <p className="text-[11px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{p.tagline}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}

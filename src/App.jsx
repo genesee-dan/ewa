@@ -9,6 +9,12 @@ import OnboardingScreen from './screens/OnboardingScreen'
 import LandingScreen from './screens/LandingScreen'
 import GameSetupScreen from './screens/GameSetupScreen'
 import GameResultScreen from './screens/GameResultScreen'
+import SituationScreen from './screens/SituationScreen'
+import ChoiceScreen from './screens/ChoiceScreen'
+import LocPathScreen from './screens/LocPathScreen'
+import FamilyPathScreen from './screens/FamilyPathScreen'
+import CutSpendingScreen from './screens/CutSpendingScreen'
+import WaitPathScreen from './screens/WaitPathScreen'
 import RealCostScreen from './screens/RealCostScreen'
 import VideoScreen from './screens/VideoScreen'
 import VideoLocScreen from './screens/VideoLocScreen'
@@ -25,18 +31,13 @@ function Shell() {
     )
   }
 
-  if (!profile) {
-    return (
-      <PhoneShell>
-        {gameMode ? <GameSetupScreen /> : <OnboardingScreen />}
-      </PhoneShell>
-    )
-  }
-
   return (
     <HashRouter>
       <PhoneShell>
         <Routes>
+          {!profile && (
+            <Route path="*" element={gameMode ? <GameSetupScreen /> : <OnboardingScreen />} />
+          )}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/transfer" element={<TransferScreen />} />
           <Route path="/history" element={<HistoryScreen />} />
@@ -44,6 +45,12 @@ function Shell() {
           <Route path="/cost" element={<RealCostScreen />} />
           <Route path="/watch" element={<VideoScreen />} />
           <Route path="/watch-loc" element={<VideoLocScreen />} />
+          <Route path="/situation" element={<SituationScreen />} />
+          <Route path="/choice" element={<ChoiceScreen />} />
+          <Route path="/loc-path" element={<LocPathScreen />} />
+          <Route path="/family-path" element={<FamilyPathScreen />} />
+          <Route path="/cut-spending" element={<CutSpendingScreen />} />
+          <Route path="/wait-path" element={<WaitPathScreen />} />
           <Route path="/game-result" element={<GameResultScreen />} />
         </Routes>
         <BottomNav />
