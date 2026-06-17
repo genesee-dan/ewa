@@ -7,13 +7,15 @@ import HistoryScreen from './screens/HistoryScreen'
 import AccountScreen from './screens/AccountScreen'
 import OnboardingScreen from './screens/OnboardingScreen'
 import LandingScreen from './screens/LandingScreen'
+import GameSetupScreen from './screens/GameSetupScreen'
+import GameResultScreen from './screens/GameResultScreen'
 import RealCostScreen from './screens/RealCostScreen'
 import VideoScreen from './screens/VideoScreen'
 import VideoLocScreen from './screens/VideoLocScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
 function Shell() {
-  const { profile, landed } = useApp()
+  const { profile, landed, gameMode } = useApp()
 
   if (!landed) {
     return (
@@ -26,7 +28,7 @@ function Shell() {
   if (!profile) {
     return (
       <PhoneShell>
-        <OnboardingScreen />
+        {gameMode ? <GameSetupScreen /> : <OnboardingScreen />}
       </PhoneShell>
     )
   }
@@ -42,6 +44,7 @@ function Shell() {
           <Route path="/cost" element={<RealCostScreen />} />
           <Route path="/watch" element={<VideoScreen />} />
           <Route path="/watch-loc" element={<VideoLocScreen />} />
+          <Route path="/game-result" element={<GameResultScreen />} />
         </Routes>
         <BottomNav />
       </PhoneShell>

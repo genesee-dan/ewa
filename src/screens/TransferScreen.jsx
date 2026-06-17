@@ -16,7 +16,7 @@ function fmt(n) {
  */
 export default function TransferScreen() {
   const navigate = useNavigate()
-  const { earned, profile, scenario, isPlus, setIsPlus, requestTransfer, countDodgeTap, resetDodgeTaps } = useApp()
+  const { earned, profile, scenario, isPlus, setIsPlus, requestTransfer, countDodgeTap, resetDodgeTaps, gameMode } = useApp()
   const bank = profile?.bank || 'your bank'
   const bankLabel = `${profile?.bank || 'Bank'} ••${scenario.last4}`
 
@@ -135,10 +135,10 @@ export default function TransferScreen() {
           </div>
         </div>
         <button
-          onClick={() => navigate('/cost')}
+          onClick={() => navigate(gameMode ? '/game-result' : '/cost')}
           className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
         >
-          See what this really costs →
+          {gameMode ? 'See how you did →' : 'See what this really costs →'}
         </button>
         <button onClick={() => navigate('/')} className="text-sm text-slate-400 font-medium">
           Back to home

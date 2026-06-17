@@ -6,6 +6,7 @@ const AppContext = createContext(null)
 export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null) // { name, bank }
   const [landed, setLanded] = useState(false) // has seen the landing screen
+  const [gameMode, setGameMode] = useState(false) // simulation game vs. plain demo
   const [scenario, setScenario] = useState(makeScenario)
   const [isPlus, setIsPlus] = useState(false) // EarnNow+ subscription
   const [earned, setEarned] = useState(() => scenario.earned)
@@ -29,12 +30,32 @@ export function AppProvider({ children }) {
     setScenario(next)
     setProfile(null)
     setLanded(false)
+    setGameMode(false)
     setIsPlus(false)
     setEarned(next.earned)
     setTransactions(next.transactions)
     setLastTransfer(null)
     tipDodgeTaps.current = 0
     limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
+  }
+
+  // Start the simulation game with the player's chosen profession + weekly pay.
+  function startGame({ name, profession, weeklyPay }) {
+    const next = makeScenario({
+      job: profession.job,
+      rate: profession.defaultRate,
+      weeklyPay,
+    })
+    window.location.hash = '#/'
+    setScenario(next)
+    setEarned(next.earned)
+    setTransactions(next.transactions)
+    setLastTransfer(null)
+    setIsPlus(false)
+    tipDodgeTaps.current = 0
+    limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
+    setGameMode(true)
+    setProfile({ name: name?.trim() || 'Player', bank: 'Genesee Co-op FCU', profession: profession.role, weeklyPay })
   }
 
   function requestTransfer(amount, fee, tip, isInstant) {
@@ -63,6 +84,9 @@ export function AppProvider({ children }) {
         setProfile,
         landed,
         setLanded,
+        gameMode,
+        setGameMode,
+        startGame,
         scenario,
         isPlus,
         setIsPlus,

@@ -23,10 +23,21 @@ const JOBS = [
   { employer: 'SafeRide Logistics', short: 'SafeRide', sub: 'Logistics', role: 'Delivery Driver', rate: [15, 22] },
 ]
 
-export function makeScenario() {
-  const job = pick(JOBS)
-  const rate = round2(randInt(job.rate[0] * 2, job.rate[1] * 2) / 2)
-  const hours = randInt(28, 76) / 2 // 14–38 hrs
+// Player-selectable professions for the simulation setup. Each maps to a
+// JOBS entry so makeScenario can build a matching scenario.
+export const PROFESSIONS = JOBS.map(j => ({
+  role: j.role,
+  employer: j.employer,
+  rate: j.rate,
+  defaultRate: Math.round((j.rate[0] + j.rate[1]) / 2),
+  job: j,
+}))
+
+export function makeScenario(overrides = {}) {
+  const job = overrides.job || pick(JOBS)
+  const rate = overrides.rate != null ? round2(overrides.rate) : round2(randInt(job.rate[0] * 2, job.rate[1] * 2) / 2)
+  // weeklyPay override drives hours so the player's chosen take-home is honored
+  const hours = overrides.weeklyPay != null ? round2(overrides.weeklyPay / rate) : randInt(28, 76) / 2 // 14–38 hrs
   const total = round2(rate * hours)
   const transferredPrior = chance(0.7) ? Math.round(total * rand(0.1, 0.3)) : 0
   // real EWA apps let you access a percentage of earned wages, capped

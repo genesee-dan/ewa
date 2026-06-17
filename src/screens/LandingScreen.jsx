@@ -1,7 +1,7 @@
 import { useApp } from '../context/AppContext'
 
 export default function LandingScreen() {
-  const { setLanded } = useApp()
+  const { setLanded, setGameMode } = useApp()
 
   return (
     <div
@@ -19,10 +19,16 @@ export default function LandingScreen() {
         actually cost over a year.
       </p>
       <button
-        onClick={() => setLanded(true)}
-        className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-4"
+        onClick={() => { setGameMode(true); setLanded(true) }}
+        className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
       >
-        Start Demo
+        Play the simulation
+      </button>
+      <button
+        onClick={() => { setGameMode(false); setLanded(true) }}
+        className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform mb-4"
+      >
+        Just explore the demo
       </button>
       <p className="text-slate-500 text-xs">
         No real money moves. Educational purposes only.
