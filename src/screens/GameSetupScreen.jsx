@@ -53,39 +53,43 @@ export default function GameSetupScreen() {
   )
 
   if (step === 1) return (
-    <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white">
-      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-5">← Back</button>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 2 of 3</p>
-      <h1 className="text-2xl font-extrabold mb-5">What's your job?</h1>
-      <div className="grid grid-cols-2 gap-2 mb-3">
-        {ALL_PROFS.map(p => (
-          <button
-            key={p.role}
-            onClick={() => setProf(p)}
-            className={`text-left px-3 py-2.5 rounded-xl border-2 transition-colors ${
-              prof?.role === p.role ? 'border-amber-400 bg-amber-400/10' : 'border-slate-700 bg-slate-800'
-            }`}
-          >
-            <span className={`text-sm font-bold leading-tight block ${prof?.role === p.role ? 'text-amber-300' : 'text-slate-200'}`}>
-              {p.role}
-            </span>
-          </button>
-        ))}
+    <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white min-h-0">
+      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0">← Back</button>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1 shrink-0">Step 2 of 3</p>
+      <h1 className="text-2xl font-extrabold mb-3 shrink-0">What's your job?</h1>
+      <div className="flex-1 overflow-y-auto min-h-0 mb-3" style={{ scrollbarWidth: 'none' }}>
+        <div className="grid grid-cols-2 gap-2">
+          {ALL_PROFS.map(p => (
+            <button
+              key={p.role}
+              onClick={() => setProf(p)}
+              style={{ touchAction: 'manipulation' }}
+              className={`text-left px-3 py-2.5 rounded-xl border-2 transition-colors ${
+                prof?.role === p.role ? 'border-amber-400 bg-amber-400/10' : 'border-slate-700 bg-slate-800'
+              }`}
+            >
+              <span className={`text-sm font-bold leading-tight block ${prof?.role === p.role ? 'text-amber-300' : 'text-slate-200'}`}>
+                {p.role}
+              </span>
+            </button>
+          ))}
+        </div>
+        {prof?.role === 'Other' && (
+          <input
+            type="text"
+            value={customJob}
+            onChange={e => setCustomJob(e.target.value)}
+            placeholder="Enter your job title"
+            style={{ fontSize: '16px' }}
+            className="w-full bg-slate-800 border-2 border-amber-400 rounded-2xl px-4 py-3 font-semibold text-white outline-none mt-2"
+          />
+        )}
       </div>
-      {prof?.role === 'Other' && (
-        <input
-          autoFocus
-          type="text"
-          value={customJob}
-          onChange={e => setCustomJob(e.target.value)}
-          placeholder="Enter your job title"
-          className="w-full bg-slate-800 border-2 border-amber-400 rounded-2xl px-4 py-3 text-sm font-semibold text-white outline-none mb-1"
-        />
-      )}
       <button
         onClick={() => setStep(2)}
         disabled={!prof || (prof.role === 'Other' && !customJob.trim())}
-        className={`w-full font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform mt-auto ${
+        style={{ touchAction: 'manipulation' }}
+        className={`w-full font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform shrink-0 ${
           prof && !(prof.role === 'Other' && !customJob.trim())
             ? 'bg-amber-500 text-slate-900'
             : 'bg-slate-700 text-slate-500'

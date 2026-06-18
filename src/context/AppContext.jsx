@@ -48,7 +48,6 @@ export function AppProvider({ children }) {
       rate: profession.defaultRate,
       weeklyPay,
     })
-    window.location.hash = '#/'
     setScenario(next)
     setEarned(next.earned)
     setTransactions(next.transactions)
