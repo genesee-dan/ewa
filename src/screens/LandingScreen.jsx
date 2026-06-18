@@ -1,5 +1,7 @@
 import { useApp } from '../context/AppContext'
 
+const SHOW_GAME = import.meta.env.VITE_SHOW_GAME === 'true'
+
 export default function LandingScreen() {
   const { setLanded, setGameMode } = useApp()
 
@@ -18,17 +20,23 @@ export default function LandingScreen() {
         This demo shows you exactly how much those fees, tips, and memberships
         actually cost over a year.
       </p>
-      <button
-        onClick={() => { setGameMode(true); setLanded(true) }}
-        className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
-      >
-        Play the simulation
-      </button>
+      {SHOW_GAME && (
+        <button
+          onClick={() => { setGameMode(true); setLanded(true) }}
+          className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
+          style={{ touchAction: 'manipulation' }}
+        >
+          Play the simulation
+        </button>
+      )}
       <button
         onClick={() => { setGameMode(false); setLanded(true) }}
-        className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform mb-4"
+        className={`w-full font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-4 ${
+          SHOW_GAME ? 'bg-slate-700 text-white text-sm' : 'bg-amber-500 text-slate-900'
+        }`}
+        style={{ touchAction: 'manipulation' }}
       >
-        Just explore the demo
+        {SHOW_GAME ? 'Just explore the demo' : 'Start the demo →'}
       </button>
       <p className="text-slate-500 text-xs">
         No real money moves. Educational purposes only.

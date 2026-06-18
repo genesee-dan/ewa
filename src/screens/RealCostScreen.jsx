@@ -68,7 +68,7 @@ export default function RealCostScreen() {
       {page === 0 && <Page1 amount={amount} fee={fee} tip={tip} subThis={subThis} costThis={costThis} apr={apr} isPlus={isPlus} DAYS_UNTIL_PAYDAY={DAYS_UNTIL_PAYDAY} dodgeTaps={dodgeTaps} />}
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
-      {page === 3 && <Page4 setPage={setPage} amount={amount} annualCost={annualCost} />}
+      {page === 3 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
       {page === 4 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
@@ -204,7 +204,7 @@ function Page3() {
   )
 }
 
-function Page4({ setPage, amount, annualCost }) {
+function Page4({ setPage, navigate, amount, annualCost }) {
   const locRate = 0.18
   const locDays = 14
   const locInterest = +(amount * locRate / 365 * locDays).toFixed(2)
@@ -239,13 +239,22 @@ function Page4({ setPage, amount, annualCost }) {
         )}
       </div>
 
-      <button
-        onClick={() => setPage(4)}
-        className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
-        style={{ touchAction: 'manipulation' }}
-      >
-        Other ways people handle this →
-      </button>
+      <div className="flex flex-col gap-2.5">
+        <button
+          onClick={() => navigate('/watch-loc')}
+          className="w-full bg-blue-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          ▶ Watch: how a credit union LOC works
+        </button>
+        <button
+          onClick={() => setPage(4)}
+          className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          Other ways people handle this →
+        </button>
+      </div>
     </div>
   )
 }
