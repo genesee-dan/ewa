@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { PROFESSIONS } from '../data/scenario'
@@ -18,6 +18,29 @@ export default function GameSetupScreen() {
   const [prof, setProf] = useState(null)
   const [customJob, setCustomJob] = useState('')
   const [weeklyPay, setWeeklyPay] = useState(650)
+
+  // Push a history entry for each step so browser back walks through them
+  useEffect(() => {
+    const onPop = () => {
+      setStep(s => {
+        if (s > 0) {
+          // re-push so back can walk again from the previous step
+          window.history.pushState(null, '', window.location.href)
+          return s - 1
+        }
+        // step 0: let history go back naturally (returns to landing)
+        setGameMode(false)
+        return s
+      })
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [setGameMode])
+
+  function goStep(n) {
+    window.history.pushState(null, '', window.location.href)
+    setStep(n)
+  }
 
   const selectedProf = prof?.role === 'Other'
     ? { ...OTHER, role: customJob.trim() || 'Worker', job: PROFESSIONS[0].job }
@@ -39,12 +62,12 @@ export default function GameSetupScreen() {
         type="text"
         value={name}
         onChange={e => setName(e.target.value)}
-        onKeyDown={e => e.key === 'Enter' && setStep(1)}
+        onKeyDown={e => e.key === 'Enter' && goStep(1)}
         placeholder="First name (optional)"
         className="w-full bg-slate-800 border-2 border-slate-700 rounded-2xl px-4 py-4 text-base font-semibold text-white outline-none focus:border-amber-400 mb-auto"
       />
       <button
-        onClick={() => setStep(1)}
+        onClick={() => goStep(1)}
         className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform mt-8"
       >
         Next →
@@ -54,7 +77,7 @@ export default function GameSetupScreen() {
 
   if (step === 1) return (
     <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white min-h-0">
-      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0">← Back</button>
+      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0" style={{ touchAction: 'manipulation' }}>← Back</button>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1 shrink-0">Step 2 of 3</p>
       <h1 className="text-2xl font-extrabold mb-3 shrink-0">What's your job?</h1>
       <div className="flex-1 overflow-y-auto min-h-0 mb-3" style={{ scrollbarWidth: 'none' }}>
@@ -86,7 +109,7 @@ export default function GameSetupScreen() {
         )}
       </div>
       <button
-        onClick={() => setStep(2)}
+        onClick={() => goStep(2)}
         disabled={!prof || (prof.role === 'Other' && !customJob.trim())}
         style={{ touchAction: 'manipulation' }}
         className={`w-full font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform shrink-0 ${
@@ -102,7 +125,7 @@ export default function GameSetupScreen() {
 
   return (
     <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white">
-      <button onClick={() => setStep(1)} className="text-slate-400 text-sm mb-5">← Back</button>
+      <button onClick={() => setStep(1)} className="text-slate-400 text-sm mb-5" style={{ touchAction: 'manipulation' }}>← Back</button>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 3 of 3</p>
       <h1 className="text-2xl font-extrabold mb-1">Your weekly take-home pay</h1>
       <p className="text-sm text-slate-400 mb-8">After taxes, what lands in your account each week?</p>
