@@ -105,7 +105,7 @@ const CONVERSATIONS = [
 
 export default function FamilyPathScreen() {
   const navigate = useNavigate()
-  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const { scenario, gameCrises, currentRound, finishRound, gameMode } = useApp()
   const crisis = gameCrises[currentRound] ?? scenario.crisis
 
   // Pick a random conversation script once on mount
@@ -190,11 +190,11 @@ export default function FamilyPathScreen() {
         <p className="text-slate-400 text-xs mt-5 text-center leading-relaxed">{convo.closing}</p>
       </div>
       <button
-        onClick={() => { finishRound(0); navigate('/round-result') }}
+        onClick={() => gameMode ? (finishRound(0), navigate('/round-result')) : navigate('/cost')}
         className="w-full bg-amber-500 text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         style={{ touchAction: 'manipulation' }}
       >
-        See how that went →
+        {gameMode ? 'See how that went →' : '← Back'}
       </button>
     </div>
   )

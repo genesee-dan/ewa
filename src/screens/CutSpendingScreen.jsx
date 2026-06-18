@@ -19,7 +19,7 @@ const ITEMS_MAX = ITEMS.reduce((s, i) => s + i.amount, 0)
 
 export default function CutSpendingScreen() {
   const navigate = useNavigate()
-  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const { scenario, gameCrises, currentRound, finishRound, gameMode } = useApp()
   const crisis = gameCrises[currentRound] ?? scenario.crisis
   const [selected, setSelected] = useState(new Set())
   const [done, setDone] = useState(false)
@@ -93,10 +93,11 @@ export default function CutSpendingScreen() {
         </div>
       </div>
       <button
-        onClick={() => { finishRound(0); navigate('/round-result') }}
+        onClick={() => gameMode ? (finishRound(0), navigate('/round-result')) : navigate('/cost')}
         className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+        style={{ touchAction: 'manipulation' }}
       >
-        See how you did →
+        {gameMode ? 'See how you did →' : '← Back'}
       </button>
     </div>
   )

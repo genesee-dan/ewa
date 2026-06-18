@@ -266,27 +266,39 @@ function Page5({ navigate, resetDemo }) {
       <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
 
       <div className="space-y-2 mb-5">
-        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+        <button
+          onClick={() => navigate('/family-path')}
+          className="w-full flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3 text-left active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
           <span className="text-xl shrink-0">👨‍👩‍👧</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Ask family</p>
+            <p className="text-sm font-bold text-slate-200">Ask family →</p>
             <p className="text-xs text-slate-400">Financial cost: $0. Emotional cost: one awkward conversation.</p>
           </div>
-        </div>
-        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+        </button>
+        <button
+          onClick={() => navigate('/cut-spending')}
+          className="w-full flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3 text-left active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
           <span className="text-xl shrink-0">✂️</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Cut one week of spending</p>
+            <p className="text-sm font-bold text-slate-200">Cut one week of spending →</p>
             <p className="text-xs text-slate-400">Skip delivery, coffee runs, happy hour — often enough to cover a small shortfall.</p>
           </div>
-        </div>
-        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+        </button>
+        <button
+          onClick={() => navigate('/wait-path')}
+          className="w-full flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3 text-left active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
           <span className="text-xl shrink-0">🤷</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Wait it out</p>
+            <p className="text-sm font-bold text-slate-200">Wait it out →</p>
             <p className="text-xs text-slate-400">Most "urgent" expenses aren't. Payday is closer than it feels at 2am.</p>
           </div>
-        </div>
+        </button>
       </div>
 
       <div className="flex flex-col gap-2.5">
