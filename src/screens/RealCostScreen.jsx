@@ -68,7 +68,7 @@ export default function RealCostScreen() {
       {page === 0 && <Page1 amount={amount} fee={fee} tip={tip} subThis={subThis} costThis={costThis} apr={apr} isPlus={isPlus} DAYS_UNTIL_PAYDAY={DAYS_UNTIL_PAYDAY} dodgeTaps={dodgeTaps} />}
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
-      {page === 3 && <Page4 navigate={navigate} resetDemo={resetDemo} />}
+      {page === 3 && <Page4 navigate={navigate} resetDemo={resetDemo} amount={amount} annualCost={annualCost} />}
 
       {/* Prev / Next */}
       <div className="flex gap-3 px-5 pb-5 pt-2">
@@ -203,32 +203,91 @@ function Page3() {
   )
 }
 
-function Page4({ navigate, resetDemo }) {
+function Page4({ navigate, resetDemo, amount, annualCost }) {
+  const locRate = 0.18
+  const locDays = 14
+  const locInterest = +(amount * locRate / 365 * locDays).toFixed(2)
+  const locAnnual = +(locInterest * 26).toFixed(2)
+  const annualSavings = +(annualCost - locAnnual).toFixed(2)
+
   return (
-    <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center gap-4">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest text-center">Page 4 of 4 · Learn More</p>
-      <h1 className="text-2xl font-extrabold text-center mb-2">What can you do instead?</h1>
-      <button
-        onClick={() => navigate('/watch')}
-        className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
-      >
-        ▶ Why these apps cost you money
-      </button>
-      <button
-        onClick={() => navigate('/watch-loc')}
-        className="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform leading-tight px-4"
-      >
-        ▶ Learn how to save using a credit union line of credit instead
-      </button>
-      <button
-        onClick={() => navigate('/')}
-        className="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
-      >
-        Back to the app
-      </button>
-      <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline py-1">
-        Restart the demo from the beginning
-      </button>
+    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 4 · What Instead?</p>
+      <h1 className="text-2xl font-extrabold mb-3">There's a better way.</h1>
+
+      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-3">
+        <p className="text-xs font-bold text-blue-300 uppercase tracking-wide mb-2">🏦 Credit union line of credit</p>
+        <p className="text-sm text-slate-300 mb-3 leading-relaxed">
+          A personal LOC at 18% APR — the federal credit union cap — gives you the same {fmt(amount)} with no app, no tips, no guilt screens.
+        </p>
+        <div className="space-y-1.5 text-sm">
+          <div className="flex justify-between">
+            <span className="text-slate-400">Cost for this advance (14 days)</span>
+            <span className="font-bold text-blue-300">{fmt(locInterest)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-slate-400">vs. what you just paid</span>
+            <span className="font-bold text-red-400">{fmt(annualCost / 26)}</span>
+          </div>
+        </div>
+        {annualSavings > 0 && (
+          <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 mt-3 text-center">
+            <p className="text-xs text-green-400 mb-0.5">Annual savings switching to a LOC</p>
+            <p className="text-2xl font-extrabold text-green-400">{fmt(annualSavings)}</p>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-2 mb-4">
+        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+          <span className="text-xl shrink-0">👨‍👩‍👧</span>
+          <div>
+            <p className="text-sm font-bold text-slate-200">Ask family</p>
+            <p className="text-xs text-slate-400">Financial cost: $0. Emotional cost: one awkward conversation.</p>
+          </div>
+        </div>
+        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+          <span className="text-xl shrink-0">✂️</span>
+          <div>
+            <p className="text-sm font-bold text-slate-200">Cut one week of spending</p>
+            <p className="text-xs text-slate-400">Skip delivery, coffee runs, happy hour — often enough to cover a small shortfall.</p>
+          </div>
+        </div>
+        <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
+          <span className="text-xl shrink-0">🤷</span>
+          <div>
+            <p className="text-sm font-bold text-slate-200">Wait it out</p>
+            <p className="text-xs text-slate-400">Most "urgent" expenses aren't. Payday is closer than it feels at 2am.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5 mb-2">
+        <button
+          onClick={() => navigate('/watch-loc')}
+          className="w-full bg-blue-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          ▶ How a credit union LOC works
+        </button>
+        <button
+          onClick={() => navigate('/watch')}
+          className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          ▶ Why these apps cost you money
+        </button>
+        <button
+          onClick={() => navigate('/')}
+          className="w-full bg-white text-slate-900 font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          Back to the app
+        </button>
+        <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline py-1">
+          Restart the demo from the beginning
+        </button>
+      </div>
     </div>
   )
 }
