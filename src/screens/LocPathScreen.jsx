@@ -13,8 +13,9 @@ const STEPS = [
 
 export default function LocPathScreen() {
   const navigate = useNavigate()
-  const { scenario } = useApp()
-  const { crisis, daysToPayday, payday } = scenario
+  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const { daysToPayday, payday } = scenario
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
   const interest = crisis.amount * 0.13 * (daysToPayday / 365)
   const [step, setStep] = useState(0)
 
@@ -68,7 +69,7 @@ export default function LocPathScreen() {
         </div>
       </div>
       <button
-        onClick={() => navigate('/game-result')}
+        onClick={() => { finishRound(interest); navigate('/round-result') }}
         className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
       >
         See how you did →

@@ -38,7 +38,7 @@ const PATHS = [
     id: 'wait',
     emoji: '🤷',
     title: 'Wait it out',
-    tagline: "Payday is in 2 days. How bad could it get?",
+    tagline: null,
     bg: 'linear-gradient(135deg,#4c1d95,#3b0764)',
     border: '#8b5cf6',
   },
@@ -46,7 +46,9 @@ const PATHS = [
 
 export default function ChoiceScreen() {
   const navigate = useNavigate()
-  const { setChosenPath } = useApp()
+  const { setChosenPath, gameCrises, currentRound, scenario } = useApp()
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
+  const { daysToPayday } = scenario
 
   function choose(id) {
     setChosenPath(id)
@@ -58,24 +60,31 @@ export default function ChoiceScreen() {
   }
 
   return (
-    <div className="flex-1 flex flex-col px-5 pt-6 pb-5 bg-slate-900 text-white">
-      <h1 className="text-xl font-extrabold mb-1">What do you do?</h1>
-      <p className="text-slate-400 text-xs mb-4">Tap one. No wrong answers — yet.</p>
-      <div className="flex flex-col gap-2.5 flex-1 justify-center">
-        {PATHS.map(p => (
-          <button
-            key={p.id}
-            onClick={() => choose(p.id)}
-            className="flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left active:scale-95 transition-transform border"
-            style={{ background: p.bg, borderColor: p.border + '66' }}
-          >
-            <span className="text-3xl shrink-0">{p.emoji}</span>
-            <div>
-              <p className="font-extrabold text-white text-sm leading-tight">{p.title}</p>
-              <p className="text-[11px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{p.tagline}</p>
-            </div>
-          </button>
-        ))}
+    <div className="flex-1 flex flex-col px-5 pt-5 pb-5 bg-slate-900 text-white">
+      <h1 className="text-xl font-extrabold mb-0.5">What do you do?</h1>
+      <p className="text-slate-400 text-xs mb-3">
+        You need <span className="text-red-400 font-bold">${crisis.amount}</span>. Pick your move.
+      </p>
+      <div className="flex flex-col gap-2 flex-1 justify-center">
+        {PATHS.map(p => {
+          const tagline = p.id === 'wait'
+            ? `Payday is ${daysToPayday} day${daysToPayday !== 1 ? 's' : ''} away. How bad could it get?`
+            : p.tagline
+          return (
+            <button
+              key={p.id}
+              onClick={() => choose(p.id)}
+              className="flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left active:scale-95 transition-transform border"
+              style={{ background: p.bg, borderColor: p.border + '66', touchAction: 'manipulation' }}
+            >
+              <span className="text-3xl shrink-0">{p.emoji}</span>
+              <div>
+                <p className="font-extrabold text-white text-sm leading-tight">{p.title}</p>
+                <p className="text-[11px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{tagline}</p>
+              </div>
+            </button>
+          )
+        })}
       </div>
     </div>
   )

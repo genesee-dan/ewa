@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useRef } from 'react'
-import { makeScenario } from '../data/scenario'
+import { makeScenario, pickRoundCrises, randInt } from '../data/scenario'
 
 const AppContext = createContext(null)
 
@@ -13,6 +13,10 @@ export function AppProvider({ children }) {
   const [earned, setEarned] = useState(() => scenario.earned)
   const [transactions, setTransactions] = useState(() => scenario.transactions)
   const [lastTransfer, setLastTransfer] = useState(null)
+  const [gameCrises, setGameCrises] = useState([])
+  const [currentRound, setCurrentRound] = useState(0)
+  const [numRounds, setNumRounds] = useState(0)
+  const [roundResults, setRoundResults] = useState([])
   const tipDodgeTaps = useRef(0)
   // a completely artificial "boosted limit" deadline ~3h out
   const limitDeadline = useRef(Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000)
@@ -22,6 +26,15 @@ export function AppProvider({ children }) {
   }
 
   function resetDodgeTaps() {
+    tipDodgeTaps.current = 0
+  }
+
+  function finishRound(costOnce) {
+    const crisis = gameCrises[currentRound]
+    setRoundResults(prev => [...prev, { path: chosenPath, costOnce, crisis }])
+    setCurrentRound(prev => prev + 1)
+    setChosenPath(null)
+    setLastTransfer(null)
     tipDodgeTaps.current = 0
   }
 
@@ -37,6 +50,10 @@ export function AppProvider({ children }) {
     setEarned(next.earned)
     setTransactions(next.transactions)
     setLastTransfer(null)
+    setGameCrises([])
+    setCurrentRound(0)
+    setNumRounds(0)
+    setRoundResults([])
     tipDodgeTaps.current = 0
     limitDeadline.current = Date.now() + (2 * 3600 + 59 * 60 + 14) * 1000
   }
@@ -48,6 +65,12 @@ export function AppProvider({ children }) {
       rate: profession.defaultRate,
       weeklyPay,
     })
+    const nRounds = randInt(2, 3)
+    const crises = pickRoundCrises(nRounds)
+    setNumRounds(nRounds)
+    setGameCrises(crises)
+    setCurrentRound(0)
+    setRoundResults([])
     setScenario(next)
     setEarned(next.earned)
     setTransactions(next.transactions)
@@ -102,6 +125,11 @@ export function AppProvider({ children }) {
         resetDodgeTaps,
         resetDemo,
         limitDeadline,
+        gameCrises,
+        currentRound,
+        numRounds,
+        roundResults,
+        finishRound,
       }}
     >
       {children}

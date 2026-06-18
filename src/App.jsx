@@ -18,10 +18,11 @@ import WaitPathScreen from './screens/WaitPathScreen'
 import RealCostScreen from './screens/RealCostScreen'
 import VideoScreen from './screens/VideoScreen'
 import VideoLocScreen from './screens/VideoLocScreen'
+import RoundResultScreen from './screens/RoundResultScreen'
 import { AppProvider, useApp } from './context/AppContext'
 
 // Routes where the bottom nav should be hidden
-const NO_NAV_PATHS = ['/situation', '/choice', '/loc-path', '/family-path', '/cut-spending', '/wait-path', '/game-result', '/cost', '/watch', '/watch-loc']
+const NO_NAV_PATHS = ['/situation', '/choice', '/loc-path', '/family-path', '/cut-spending', '/wait-path', '/game-result', '/round-result', '/cost', '/watch', '/watch-loc']
 
 function Shell() {
   const { profile, landed, gameMode } = useApp()
@@ -68,6 +69,7 @@ function Shell() {
           <Route path="/cut-spending" element={<CutSpendingScreen />} />
           <Route path="/wait-path" element={<WaitPathScreen />} />
           <Route path="/game-result" element={<GameResultScreen />} />
+          <Route path="/round-result" element={<RoundResultScreen />} />
         </Routes>
         <NavGate />
       </PhoneShell>

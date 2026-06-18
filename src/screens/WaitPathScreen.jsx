@@ -8,8 +8,9 @@ function fmt(n) {
 
 export default function WaitPathScreen() {
   const navigate = useNavigate()
-  const { scenario } = useApp()
-  const { crisis, payday } = scenario
+  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const { payday } = scenario
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
   const [step, setStep] = useState(0)
 
   const STEPS = [
@@ -68,7 +69,7 @@ export default function WaitPathScreen() {
         </button>
       ) : (
         <button
-          onClick={() => navigate('/game-result')}
+          onClick={() => { finishRound(0); navigate('/round-result') }}
           className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         >
           See how you did →

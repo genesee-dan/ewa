@@ -33,13 +33,44 @@ export const PROFESSIONS = JOBS.map(j => ({
   job: j,
 }))
 
-const CRISES = [
-  { emoji: '🚗', what: 'Your car insurance auto-renewed last night.', amount: 187 },
-  { emoji: '🏠', what: 'Your landlord just texted — a check bounced. You owe a $150 fee.', amount: 150 },
-  { emoji: '💊', what: "Your kid needs a prescription refilled. Insurance won't cover it.", amount: 95 },
-  { emoji: '📱', what: "Your phone bill is past due. They'll cut service tomorrow.", amount: 78 },
-  { emoji: '🔧', what: 'Your car needs a new tire. You need it to get to work.', amount: 140 },
+const CRISES_SMALL = [
+  { emoji: '⚡', what: "Your electric bill is three weeks overdue. They'll shut it off tomorrow morning.", amount: 89 },
+  { emoji: '💊', what: "Your kid needs a prescription refilled. Insurance won't cover it this time.", amount: 65 },
+  { emoji: '🚌', what: "Your bus pass expired. You need it to get to work tomorrow — no other way there.", amount: 78 },
+  { emoji: '👟', what: "Your work shoes literally fell apart mid-shift. You can't show up like this tomorrow.", amount: 94 },
+  { emoji: '🐾', what: "Your dog needs heartworm meds. The vet won't refill prescriptions without them.", amount: 58 },
+  { emoji: '🅿️', what: "You got a parking ticket outside work. Pay by Friday or it doubles to $150.", amount: 75 },
+  { emoji: '📱', what: "Your phone bill is 10 days past due. They'll cut service at midnight.", amount: 82 },
+  { emoji: '🎒', what: "Your kid's field trip payment is due tomorrow. Non-payment means they sit it out alone.", amount: 45 },
 ]
+
+const CRISES_MEDIUM = [
+  { emoji: '🚗', what: 'Your car insurance auto-renewed last night. Your account just hit zero.', amount: 187 },
+  { emoji: '🏠', what: 'Your landlord just texted — a check bounced. You owe a $150 NSF fee by Friday.', amount: 150 },
+  { emoji: '🔧', what: 'Your car needs a new tire. The sidewall blew out. You need it to get to work.', amount: 140 },
+  { emoji: '🦷', what: "You cracked a molar. The dental clinic wants a copay before they'll see you.", amount: 175 },
+  { emoji: '🐕', what: "Your dog ate something. Emergency vet says it's $220 to be safe — or you wait and hope.", amount: 220 },
+  { emoji: '💡', what: "Utility company says you owe a reconnect deposit or service stays off.", amount: 180 },
+  { emoji: '📋', what: "Your registration expired. You just got a fix-it ticket. Pay or lose your plates.", amount: 145 },
+  { emoji: '🌡️', what: "Your kid has had an ear infection for three days. Urgent care wants payment at check-in.", amount: 160 },
+  { emoji: '🏥', what: "Urgent care bill from two months ago finally arrived. Collections in 10 days.", amount: 195 },
+]
+
+const CRISES_LARGE = [
+  { emoji: '🔩', what: "Check engine light came on. It's the alternator. You can't drive to work without it.", amount: 385 },
+  { emoji: '✈️', what: "Your mom had a fall. You need a last-minute flight home this weekend.", amount: 380 },
+  { emoji: '💻', what: "Your laptop died. You need it for work. The cheapest replacement is $449.", amount: 449 },
+  { emoji: '🛠️', what: "Your apartment's water heater failed. Landlord says it's a tenant repair.", amount: 320 },
+  { emoji: '🚑', what: "ER copay from last week. Hospital says pay in 10 days or it goes to collections.", amount: 420 },
+  { emoji: '🏚️', what: "New place needs first + last month deposit. Your lease is up next week.", amount: 550 },
+]
+
+const CRISES = [...CRISES_SMALL, ...CRISES_MEDIUM, ...CRISES_LARGE]
+
+export function pickRoundCrises(numRounds) {
+  if (numRounds === 2) return [pick(CRISES_MEDIUM), pick(CRISES_LARGE)]
+  return [pick(CRISES_SMALL), pick(CRISES_MEDIUM), pick(CRISES_LARGE)]
+}
 
 export function makeScenario(overrides = {}) {
   const job = overrides.job || pick(JOBS)

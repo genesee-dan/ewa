@@ -15,12 +15,41 @@ const ITEMS = [
   { id: 'parking', emoji: '🅿️', label: 'Paid parking this week', desc: 'You could take the bus twice', amount: 9.00 },
 ]
 
+const ITEMS_MAX = ITEMS.reduce((s, i) => s + i.amount, 0)
+
 export default function CutSpendingScreen() {
   const navigate = useNavigate()
-  const { scenario } = useApp()
-  const { crisis } = scenario
+  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
   const [selected, setSelected] = useState(new Set())
   const [done, setDone] = useState(false)
+
+  // If this crisis is too large to cut your way out of, show a dead end
+  if (ITEMS_MAX < crisis.amount) return (
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+      <div>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Cut spending</p>
+        <div className="text-5xl mb-5">😬</div>
+        <h1 className="text-2xl font-extrabold mb-3">There's not enough to cut.</h1>
+        <p className="text-slate-300 text-sm leading-relaxed mb-4">
+          Even if you skipped everything discretionary this week, you'd only find {fmt(ITEMS_MAX)}.
+          You need {fmt(crisis.amount)}. Sometimes cutting isn't the answer.
+        </p>
+        <div className="bg-slate-800 rounded-2xl px-5 py-4 text-center">
+          <p className="text-slate-400 text-sm">Max you could free up</p>
+          <p className="text-2xl font-extrabold text-red-400 mt-1">{fmt(ITEMS_MAX)}</p>
+          <p className="text-slate-500 text-xs mt-1">vs {fmt(crisis.amount)} needed</p>
+        </div>
+      </div>
+      <button
+        onClick={() => navigate(-1)}
+        className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+        style={{ touchAction: 'manipulation' }}
+      >
+        ← Go back and choose differently
+      </button>
+    </div>
+  )
 
   const total = [...selected].reduce((sum, id) => {
     const item = ITEMS.find(i => i.id === id)
@@ -64,7 +93,7 @@ export default function CutSpendingScreen() {
         </div>
       </div>
       <button
-        onClick={() => navigate('/game-result')}
+        onClick={() => { finishRound(0); navigate('/round-result') }}
         className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
       >
         See how you did →

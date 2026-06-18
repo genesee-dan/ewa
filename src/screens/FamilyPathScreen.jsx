@@ -17,8 +17,8 @@ const MOM_RESPONSES = [
 
 export default function FamilyPathScreen() {
   const navigate = useNavigate()
-  const { scenario } = useApp()
-  const { crisis } = scenario
+  const { scenario, gameCrises, currentRound, finishRound } = useApp()
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
   const [stage, setStage] = useState('open') // open | texting | done
   const [visible, setVisible] = useState(0)
   const [typing, setTyping] = useState(false)
@@ -88,10 +88,10 @@ export default function FamilyPathScreen() {
         </p>
       </div>
       <button
-        onClick={() => navigate('/game-result')}
+        onClick={() => { finishRound(0); navigate('/round-result') }}
         className="w-full bg-amber-500 text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
       >
-        See how you did →
+        See how that went →
       </button>
     </div>
   )
