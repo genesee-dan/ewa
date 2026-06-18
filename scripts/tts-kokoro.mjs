@@ -7,10 +7,10 @@ import sherpa from 'sherpa-onnx-node'
 const SEGMENTS = [
   "Meet the cash advance app. It says: it's your pay — get it now.",
   'No interest! Just a small fee. And a tip. And a monthly membership.',
-  'On a fifty dollar advance, those few dollars work out to triple-digit ay pee ar — often higher than a payday loan.',
+  'On a fifty dollar advance, those few dollars work out to triple-digit A. P. R. — often higher than a payday loan.',
   "And it's built to keep you coming back. Streaks. Countdowns. Alerts. Repaying on payday leaves your check short — so you borrow again. That's the loop.",
   'Over a year, frequent users pay hundreds of dollars — just to get their own paycheck a few days early.',
-  "There's a better way. A local credit union is owned by its members, not investors. Real people. Fair, regulated loans capped at twenty-eight percent. And savings that actually build.",
+  "There's a better way. A local credit union is owned by its members, not investors. Real people. Fair, regulated loans capped at eighteen percent. And savings that actually build.",
   'Skip the apps. Keep your pay. Join your local credit union.',
 ]
 
