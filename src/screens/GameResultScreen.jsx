@@ -85,14 +85,14 @@ export default function GameResultScreen() {
         <p className="text-sm text-slate-300 mt-2 leading-relaxed">{g.blurb}</p>
         {tookEWA && (
           <p className="text-xs text-slate-400 mt-3">
-            They took <strong className="text-red-300">{fmt(totalFees)}</strong> from you across {numRounds} situation{numRounds !== 1 ? 's' : ''}.
+            They took <strong className="text-red-300">{fmt(totalFees)}</strong> from you across {numRounds} week{numRounds !== 1 ? 's' : ''}.
           </p>
         )}
       </div>
 
       {/* Per-round breakdown */}
       <div className="bg-slate-800 rounded-2xl p-4 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How each situation went</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How each week went</p>
         <div className="space-y-2">
           {roundResults.map((r, i) => {
             const info = PATH_LABELS[r.path]

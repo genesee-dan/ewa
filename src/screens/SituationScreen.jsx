@@ -19,7 +19,7 @@ export default function SituationScreen() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-bold text-amber-400 uppercase tracking-widest">
-            {numRounds > 1 ? `Situation ${currentRound + 1} of ${numRounds}` : 'The situation'}
+            {numRounds > 1 ? `Week ${currentRound + 1} of ${numRounds}` : 'This week'}
           </p>
           <p className="text-xs text-slate-500">Payday {payday}</p>
         </div>

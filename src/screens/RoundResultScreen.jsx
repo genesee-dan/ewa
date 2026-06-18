@@ -60,7 +60,7 @@ export default function RoundResultScreen() {
       {/* Header with progress dots */}
       <div className="flex items-center justify-between mb-1">
         <p className="text-xs font-bold text-amber-400 uppercase tracking-widest">
-          Situation {roundsDone} of {numRounds}
+          Week {roundsDone} of {numRounds}
         </p>
         <div className="flex gap-1.5">
           {Array.from({ length: numRounds }).map((_, i) => (
@@ -83,7 +83,7 @@ export default function RoundResultScreen() {
           </div>
         </div>
         <div className="flex justify-between items-baseline pt-2 border-t border-white/10">
-          <span className="text-xs text-slate-400">Cost this situation</span>
+          <span className="text-xs text-slate-400">Cost this week</span>
           <span className={`font-extrabold text-xl ${costOnce === 0 ? 'text-green-400' : 'text-red-400'}`}>
             {fmtShort(costOnce)}
           </span>
@@ -113,7 +113,7 @@ export default function RoundResultScreen() {
       {/* Streak badge */}
       {showStreak && (
         <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl px-4 py-3 mb-3 text-center">
-          <p className="text-amber-400 font-extrabold text-sm">🔥 {roundsDone}-situation streak — haven't touched the app!</p>
+          <p className="text-amber-400 font-extrabold text-sm">🔥 {roundsDone} weeks and haven't touched the app!</p>
         </div>
       )}
 
@@ -125,7 +125,7 @@ export default function RoundResultScreen() {
             isLastRound ? 'bg-amber-500 text-slate-900' : 'bg-slate-700 text-white'
           }`}
         >
-          {isLastRound ? 'See your final score →' : 'Next situation →'}
+          {isLastRound ? 'See your final score →' : 'Next week →'}
         </button>
       </div>
     </div>
