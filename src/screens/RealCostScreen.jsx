@@ -55,7 +55,7 @@ export default function RealCostScreen() {
     >
       {/* Progress dots */}
       <div className="flex justify-center gap-2 pt-4 pb-1">
-        {[0, 1, 2, 3].map(i => (
+        {[0, 1, 2, 3, 4].map(i => (
           <button
             key={i}
             onClick={() => setPage(i)}
@@ -68,7 +68,8 @@ export default function RealCostScreen() {
       {page === 0 && <Page1 amount={amount} fee={fee} tip={tip} subThis={subThis} costThis={costThis} apr={apr} isPlus={isPlus} DAYS_UNTIL_PAYDAY={DAYS_UNTIL_PAYDAY} dodgeTaps={dodgeTaps} />}
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
-      {page === 3 && <Page4 navigate={navigate} resetDemo={resetDemo} amount={amount} annualCost={annualCost} />}
+      {page === 3 && <Page4 setPage={setPage} amount={amount} annualCost={annualCost} />}
+      {page === 4 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
       <div className="flex gap-3 px-5 pb-5 pt-2">
@@ -80,7 +81,7 @@ export default function RealCostScreen() {
             ← Back
           </button>
         ) : <div className="flex-1" />}
-        {page < 3 ? (
+        {page < 4 ? (
           <button
             onClick={() => setPage(p => p + 1)}
             className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
@@ -203,7 +204,7 @@ function Page3() {
   )
 }
 
-function Page4({ navigate, resetDemo, amount, annualCost }) {
+function Page4({ setPage, amount, annualCost }) {
   const locRate = 0.18
   const locDays = 14
   const locInterest = +(amount * locRate / 365 * locDays).toFixed(2)
@@ -211,11 +212,11 @@ function Page4({ navigate, resetDemo, amount, annualCost }) {
   const annualSavings = +(annualCost - locAnnual).toFixed(2)
 
   return (
-    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 4 · What Instead?</p>
-      <h1 className="text-2xl font-extrabold mb-3">There's a better way.</h1>
+    <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 5 · The Alternative</p>
+      <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
 
-      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-3">
+      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
         <p className="text-xs font-bold text-blue-300 uppercase tracking-wide mb-2">🏦 Credit union line of credit</p>
         <p className="text-sm text-slate-300 mb-3 leading-relaxed">
           A personal LOC at 18% APR — the federal credit union cap — gives you the same {fmt(amount)} with no app, no tips, no guilt screens.
@@ -238,7 +239,24 @@ function Page4({ navigate, resetDemo, amount, annualCost }) {
         )}
       </div>
 
-      <div className="space-y-2 mb-4">
+      <button
+        onClick={() => setPage(4)}
+        className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+        style={{ touchAction: 'manipulation' }}
+      >
+        Other ways people handle this →
+      </button>
+    </div>
+  )
+}
+
+function Page5({ navigate, resetDemo }) {
+  return (
+    <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 5 · Other Options</p>
+      <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
+
+      <div className="space-y-2 mb-5">
         <div className="flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3">
           <span className="text-xl shrink-0">👨‍👩‍👧</span>
           <div>
@@ -262,7 +280,7 @@ function Page4({ navigate, resetDemo, amount, annualCost }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2.5 mb-2">
+      <div className="flex flex-col gap-2.5">
         <button
           onClick={() => navigate('/watch-loc')}
           className="w-full bg-blue-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
