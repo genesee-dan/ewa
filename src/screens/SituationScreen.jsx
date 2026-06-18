@@ -7,10 +7,16 @@ function fmt(n) {
 
 export default function SituationScreen() {
   const navigate = useNavigate()
-  const { scenario, profile, gameCrises, currentRound, numRounds } = useApp()
+  const { scenario, profile, gameCrises, currentRound, numRounds, setChosenPath } = useApp()
   const { earned, payday, daysToPayday } = scenario
   const crisis = gameCrises[currentRound] ?? scenario.crisis
   const name = profile?.name && profile.name !== 'Player' ? `, ${profile.name}` : ''
+  const isFirstRound = currentRound === 0
+
+  function goToApp() {
+    setChosenPath('ewa')
+    navigate('/transfer')
+  }
 
   return (
     <div className="flex-1 flex flex-col justify-between px-6 pt-8 pb-8 text-white"
@@ -53,18 +59,36 @@ export default function SituationScreen() {
           </div>
         </div>
 
-        <p className="text-slate-300 text-base leading-relaxed">
-          You need <strong className="text-white">{fmt(crisis.amount)}</strong> and you need it now{name}. What do you do?
-        </p>
+        {isFirstRound ? (
+          <p className="text-slate-300 text-base leading-relaxed">
+            You need <strong className="text-white">{fmt(crisis.amount)}</strong> and you need it now{name}.
+            The EarnNow app is already on your phone. It's the obvious move.
+          </p>
+        ) : (
+          <p className="text-slate-300 text-base leading-relaxed">
+            You need <strong className="text-white">{fmt(crisis.amount)}</strong> and you need it now{name}.
+            You know how the app works. What do you do this time?
+          </p>
+        )}
       </div>
 
-      <button
-        onClick={() => navigate('/choice')}
-        className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
-        style={{ touchAction: 'manipulation' }}
-      >
-        Okay... →
-      </button>
+      {isFirstRound ? (
+        <button
+          onClick={goToApp}
+          className="w-full font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+          style={{ background: 'linear-gradient(135deg,#16a34a,#14532d)', touchAction: 'manipulation' }}
+        >
+          🤳 Open EarnNow →
+        </button>
+      ) : (
+        <button
+          onClick={() => navigate('/choice')}
+          className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          Okay... →
+        </button>
+      )}
     </div>
   )
 }
