@@ -58,7 +58,10 @@ export default function GameResultScreen() {
       {tookEWA && apr !== null && (
         <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 text-center mb-4">
           <p className="text-sm text-red-300 mb-1">You paid the equivalent of</p>
-          <p className="text-6xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}% APR</p>
+          <p className="text-red-400 leading-none">
+            <span className="text-6xl font-extrabold">{apr.toFixed(0)}%</span>
+            <span className="text-2xl font-bold ml-1">APR</span>
+          </p>
           <p className="text-[11px] text-slate-400 mt-3">
             A typical credit card is ~24% APR. A payday loan is ~400%.<br />
             The app called it a "fee" and a "tip."

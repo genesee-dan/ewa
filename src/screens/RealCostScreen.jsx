@@ -67,8 +67,8 @@ export default function RealCostScreen() {
       {page === 0 && <Page1 amount={amount} fee={fee} tip={tip} subThis={subThis} costThis={costThis} apr={apr} isPlus={isPlus} DAYS_UNTIL_PAYDAY={DAYS_UNTIL_PAYDAY} dodgeTaps={dodgeTaps} />}
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
-      {page === 3 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
-      {page === 4 && <PageStacking annualCost={annualCost} />}
+      {page === 3 && <PageStacking annualCost={annualCost} />}
+      {page === 4 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
       {page === 5 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
@@ -214,7 +214,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 6 · The Alternative</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 6 · The Alternative</p>
       <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
 
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
@@ -260,50 +260,42 @@ function Page4({ setPage, navigate, amount, annualCost }) {
   )
 }
 
-function PageStacking({ annualCost }) {
+function PageStacking() {
   return (
-    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 6 · Stacking</p>
+    <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 6 · Stacking</p>
       <h1 className="text-2xl font-extrabold mb-3">Most users have more than one app.</h1>
 
-      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-4 text-center">
-        <p className="text-sm text-red-300 mb-1">Share of EWA users who use</p>
-        <p className="text-5xl font-extrabold text-red-400 leading-none">2+</p>
-        <p className="text-sm font-bold text-red-300 mt-1">apps at the same time</p>
-        <p className="text-[11px] text-slate-400 mt-3">
-          A 2024 CFPB report found roughly one in three frequent EWA users simultaneously uses multiple apps — each charging its own fee or tip against the same upcoming paycheck.
+      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
+        <p className="text-sm text-red-300 mb-0.5">Frequent EWA users who use</p>
+        <p className="text-red-400 leading-none mb-0.5">
+          <span className="text-5xl font-extrabold">1 in 3</span>
+        </p>
+        <p className="text-sm font-bold text-red-300">apps at the same time</p>
+        <p className="text-[11px] text-slate-400 mt-2">
+          Each app charges its own fee or tip against the same upcoming paycheck. No app can see what the others have already advanced.
         </p>
       </div>
 
-      <div className="bg-slate-800 rounded-2xl p-4 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How stacking works</p>
-        <div className="space-y-3">
+      <div className="bg-slate-800 rounded-2xl p-4 mb-3">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">How it plays out</p>
+        <div className="space-y-2">
           {[
-            ['App A', 'Advances $100 from Friday\'s check.', 'bg-red-500/20'],
-            ['App B', 'Advances $75 from the same check.', 'bg-orange-500/20'],
-            ['App C', 'Advances $50. "Pre-approved for you!"', 'bg-yellow-500/20'],
-          ].map(([label, desc, bg]) => (
-            <div key={label} className={`rounded-xl px-3 py-2.5 ${bg}`}>
-              <p className="text-xs font-extrabold text-white">{label}</p>
-              <p className="text-[11px] text-slate-300 mt-0.5">{desc}</p>
+            ['App A advances $100', 'bg-red-500/20'],
+            ['App B advances $75 from the same check', 'bg-orange-500/20'],
+            ['App C: "Pre-approved! Take $50."', 'bg-yellow-500/20'],
+            ['Payday: all three pull repayment', 'bg-slate-700'],
+          ].map(([desc, bg]) => (
+            <div key={desc} className={`rounded-lg px-3 py-2 ${bg}`}>
+              <p className="text-[11px] text-slate-200">{desc}</p>
             </div>
           ))}
-          <div className="rounded-xl bg-slate-700 px-3 py-2.5 mt-1">
-            <p className="text-xs font-extrabold text-white">Friday: payday</p>
-            <p className="text-[11px] text-slate-300 mt-0.5">All three apps pull repayments automatically. Your check is already spent. Three sets of fees collected.</p>
-          </div>
         </div>
       </div>
 
-      <div className="bg-slate-800 rounded-2xl p-4 mb-2">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Why apps don't stop this</p>
-        <p className="text-sm text-slate-300 leading-relaxed">
-          EWA apps do <strong className="text-white">no credit check</strong> and share no data with each other. Each app sees only its own advance. There's no system — like the credit bureau network — to flag that three apps have already advanced against the same paycheck.
-        </p>
-        <p className="text-sm text-slate-400 leading-relaxed mt-2">
-          For the apps, stacking users are <em>their best customers</em>: more advances, more fees.
-        </p>
-      </div>
+      <p className="text-xs text-slate-400 leading-relaxed">
+        EWA apps do <strong className="text-slate-200">no credit check</strong> and share no data with each other. For the apps, stacking users are their best customers.
+      </p>
     </div>
   )
 }
