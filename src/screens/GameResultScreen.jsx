@@ -20,14 +20,13 @@ const PATH_LABELS = {
 
 export default function GameResultScreen() {
   const navigate = useNavigate()
-  const { roundResults, scenario, profile, isPlus, setProfile, numRounds, setCostPage } = useApp()
+  const { roundResults, scenario, profile, isPlus, setProfile, numRounds, setCostPage, lastTransfer } = useApp()
 
   if (!roundResults.length) return <Navigate to="/situation" replace />
 
-  const { advancesPerYear } = scenario
+  const { advancesPerYear, daysToPayday } = scenario
 
   const totalFees = roundResults.reduce((s, r) => s + r.costOnce, 0)
-  const totalCrisisAmt = roundResults.reduce((s, r) => s + r.crisis.amount, 0)
   const ewaRounds = roundResults.filter(r => r.path === 'ewa')
   const tookEWA = ewaRounds.length > 0
 
@@ -36,10 +35,10 @@ export default function GameResultScreen() {
     ? avgEwaFee * advancesPerYear + (isPlus ? PLUS_MONTHLY * 12 : 0)
     : 0
 
-  const avgCrisisAmt = totalCrisisAmt / roundResults.length
-  const locOnce = avgCrisisAmt * 0.18 * (scenario.daysToPayday / 365)
-  const locAnnual = locOnce * advancesPerYear
-  const saved = ewaAnnual - locAnnual
+  // APR from the actual EWA transfer (round 1)
+  const apr = lastTransfer && lastTransfer.amount > 0
+    ? ((lastTransfer.fee + lastTransfer.tip) / lastTransfer.amount) * (365 / daysToPayday) * 100
+    : null
 
   const name = profile?.name && profile.name !== 'Player' ? `, ${profile.name}` : ''
 
@@ -55,13 +54,26 @@ export default function GameResultScreen() {
         {tookEWA ? `Here's what it cost you${name}.` : `You found another way${name}.`}
       </h1>
 
+      {/* APR — lead with the gut-punch */}
+      {tookEWA && apr !== null && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 text-center mb-4">
+          <p className="text-sm text-red-300 mb-1">You paid the equivalent of</p>
+          <p className="text-6xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}%</p>
+          <p className="text-sm font-bold text-red-300 mt-1">APR</p>
+          <p className="text-[11px] text-slate-400 mt-3">
+            A typical credit card is ~24% APR. A payday loan is ~400%.<br />
+            The app called it a "fee" and a "tip."
+          </p>
+        </div>
+      )}
+
       {/* What EWA collected */}
       {tookEWA ? (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 text-center mb-4">
-          <p className="text-sm text-red-300 mb-1">EarnNow collected</p>
-          <p className="text-5xl font-extrabold text-red-400">{fmtShort(totalFees)}</p>
-          <p className="text-xs text-slate-400 mt-2">
-            from you across {numRounds} week{numRounds !== 1 ? 's' : ''} — to give you access to your own pay early
+        <div className="bg-slate-800 rounded-2xl p-4 text-center mb-4">
+          <p className="text-sm text-slate-400 mb-1">EarnNow collected</p>
+          <p className="text-4xl font-extrabold text-red-400">{fmtShort(totalFees)}</p>
+          <p className="text-xs text-slate-500 mt-1">
+            across {numRounds} week{numRounds !== 1 ? 's' : ''} — to give you access to your own pay early
           </p>
         </div>
       ) : (
@@ -104,20 +116,11 @@ export default function GameResultScreen() {
 
       {/* Annual projection */}
       {tookEWA && (
-        <>
-          <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center mb-3">
-            <p className="text-xs text-red-300 mb-1">If you used the app every payday ({advancesPerYear}× / year)</p>
-            <p className="text-3xl font-extrabold text-red-400">{fmt(ewaAnnual)}</p>
-            <p className="text-[11px] text-slate-400 mt-1">to receive your own paycheck a few days early</p>
-          </div>
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 text-center mb-4">
-            <p className="text-xs text-blue-300 mb-1">Same thing with a credit union line of credit (18% APR)</p>
-            <p className="text-3xl font-extrabold text-blue-400">{fmt(locAnnual)}/yr</p>
-            <p className="text-white text-sm font-bold mt-2">
-              You'd keep <span className="text-green-400">{fmt(saved)}</span> a year.
-            </p>
-          </div>
-        </>
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center mb-4">
+          <p className="text-xs text-red-300 mb-1">If you used the app every payday ({advancesPerYear}× / year)</p>
+          <p className="text-3xl font-extrabold text-red-400">{fmt(ewaAnnual)}</p>
+          <p className="text-[11px] text-slate-400 mt-1">to receive your own paycheck a few days early</p>
+        </div>
       )}
 
       <div className="space-y-3">
