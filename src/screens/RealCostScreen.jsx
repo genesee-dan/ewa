@@ -271,26 +271,30 @@ function PageStacking() {
         <p className="text-red-400 leading-none mb-0.5">
           <span className="text-5xl font-extrabold">1 in 3</span>
         </p>
-        <p className="text-sm font-bold text-red-300">apps at the same time</p>
+        <p className="text-sm font-bold text-red-300">2+ apps simultaneously</p>
         <p className="text-[11px] text-slate-400 mt-2">
-          Each app charges its own fee or tip against the same upcoming paycheck. No app can see what the others have already advanced.
+          Each app charges its own fee or tip against the same upcoming paycheck.
+          No app can see what the others have already advanced.
         </p>
       </div>
 
       <div className="bg-slate-800 rounded-2xl p-4 mb-3">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">How it plays out</p>
-        <div className="space-y-2">
-          {[
-            ['App A advances $100', 'bg-red-500/20'],
-            ['App B advances $75 from the same check', 'bg-orange-500/20'],
-            ['App C: "Pre-approved! Take $50."', 'bg-yellow-500/20'],
-            ['Payday: all three pull repayment', 'bg-slate-700'],
-          ].map(([desc, bg]) => (
-            <div key={desc} className={`rounded-lg px-3 py-2 ${bg}`}>
-              <p className="text-[11px] text-slate-200">{desc}</p>
-            </div>
-          ))}
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">What it adds up to</p>
+        <div className="space-y-1.5 text-sm">
+          <div className="flex justify-between">
+            <span className="text-slate-400">CFPB avg: 27 advances/year</span>
+            <span className="text-slate-200 font-bold">~$70/yr</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-slate-400">Frequent user: 36 advances/year</span>
+            <span className="text-amber-400 font-bold">~$140/yr</span>
+          </div>
+          <div className="flex justify-between border-t border-slate-600 pt-1.5 mt-1">
+            <span className="text-slate-300">Stacker (3 apps, 36×/yr each)</span>
+            <span className="text-red-400 font-extrabold">~$420/yr</span>
+          </div>
         </div>
+        <p className="text-[10px] text-slate-500 mt-2">Source: CFPB Data Spotlight, July 2024. Assumes ~$3.90 avg fee+tip per advance.</p>
       </div>
 
       <p className="text-xs text-slate-400 leading-relaxed">
