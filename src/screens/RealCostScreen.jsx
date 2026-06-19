@@ -96,44 +96,44 @@ export default function RealCostScreen() {
 
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2" style={{ scrollbarWidth: 'none' }}>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 6 · This Advance</p>
-      <h1 className="text-2xl font-extrabold mb-3">What just happened?</h1>
+      <h1 className="text-xl font-extrabold mb-2">What just happened?</h1>
 
       {/* APR — lead with the gut-punch */}
-      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 mb-4 text-center">
-        <p className="text-sm text-red-300 mb-1">You just paid the equivalent of</p>
-        <p className="text-6xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}%</p>
-        <p className="text-sm font-bold text-red-300 mt-1">APR</p>
-        <p className="text-[11px] text-slate-400 mt-3">
-          A typical credit card is ~24% APR. A payday loan is ~400%.{'\n'}The app called it a "fee" and a "tip." A lender would have to call it something else.
+      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
+        <p className="text-xs text-red-300 mb-0.5">You just paid the equivalent of</p>
+        <p className="text-5xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}%</p>
+        <p className="text-sm font-bold text-red-300 mt-0.5">APR</p>
+        <p className="text-[11px] text-slate-400 mt-2">
+          Credit card ~24% · Payday loan ~400% · The app called it a "fee" and a "tip."
         </p>
       </div>
 
       {/* Fee breakdown */}
-      <div className="bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How we got there</p>
-        <div className="space-y-2">
+      <div className="bg-slate-800 rounded-2xl p-4 mb-3">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">How we got there</p>
+        <div className="space-y-1.5">
           <Row label="You borrowed" value={fmt(amount)} />
           <Row label="Instant fee" value={isPlus ? `${fmt(0)} ("waived")` : fmt(fee)} />
           <Row label="Tip (after the nudges)" value={fmt(tip)} />
           {isPlus && <Row label="EarnNow+ share (½ month of $9.99)" value={fmt(subThis)} />}
-          <Row label={`Total to access your pay ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
+          <Row label={`Total · ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
         </div>
       </div>
 
-      <div className="bg-slate-800 rounded-2xl p-5 mb-2">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">The tip "choice"</p>
+      <div className="bg-slate-800 rounded-2xl p-4 mb-2">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">The tip "choice"</p>
         {tip > 0 ? (
           <p className="text-sm text-slate-300">
-            You ended up tipping <strong className="text-white">{fmt(tip)}</strong>
-            {dodgeTaps > 0 && <> — after <strong className="text-red-400">{dodgeTaps} taps</strong> of guilt screens</>}.
+            You tipped <strong className="text-white">{fmt(tip)}</strong>
+            {dodgeTaps > 0 && <> after <strong className="text-red-400">{dodgeTaps} guilt screens</strong></>}.
             Accepting always takes <strong className="text-green-400">1 tap</strong>.
           </p>
         ) : (
           <p className="text-sm text-slate-300">
-            You avoided the tip — it took <strong className="text-red-400">{dodgeTaps} taps</strong> through
-            guilt screens, surveys, and timers. Accepting would have taken <strong className="text-green-400">1 tap</strong>.
+            You avoided the tip — <strong className="text-red-400">{dodgeTaps} taps</strong> through
+            guilt screens and timers. Accepting takes <strong className="text-green-400">1 tap</strong>.
           </p>
         )}
       </div>
