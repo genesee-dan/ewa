@@ -85,6 +85,7 @@ export function AppProvider({ children }) {
   }
 
   function requestTransfer(amount, fee, tip, isInstant) {
+    const subCost = isPlus ? 9.99 / 2 : 0  // half a month's subscription per biweekly advance
     const tx = {
       id: Date.now(),
       type: 'transfer',
@@ -100,7 +101,7 @@ export function AppProvider({ children }) {
       available: prev.available - amount,
       transferred: prev.transferred + amount,
     }))
-    setLastTransfer({ amount, fee, tip, isInstant, dodgeTaps: tipDodgeTaps.current })
+    setLastTransfer({ amount, fee, tip, subCost, isInstant, dodgeTaps: tipDodgeTaps.current })
   }
 
   return (

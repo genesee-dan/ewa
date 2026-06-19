@@ -27,8 +27,8 @@ export default function RealCostScreen() {
 
   if (!lastTransfer) return <Navigate to="/" replace />
 
-  const { amount, fee, tip, dodgeTaps } = lastTransfer
-  const subThis = isPlus ? PLUS_MONTHLY / 2 : 0
+  const { amount, fee, tip, subCost = 0, dodgeTaps } = lastTransfer
+  const subThis = subCost  // stored at transfer time, includes subscription if isPlus
   const costThis = fee + tip + subThis
   const apr = amount > 0 ? (costThis / amount) * (365 / DAYS_UNTIL_PAYDAY) * 100 : 0
   const annualSub = isPlus ? PLUS_MONTHLY * 12 : 0

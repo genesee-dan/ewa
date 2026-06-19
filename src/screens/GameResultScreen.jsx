@@ -35,9 +35,9 @@ export default function GameResultScreen() {
     ? avgEwaFee * advancesPerYear + (isPlus ? PLUS_MONTHLY * 12 : 0)
     : 0
 
-  // APR from the actual EWA transfer (round 1)
+  // APR from the actual EWA transfer — includes subscription cost if isPlus
   const apr = lastTransfer && lastTransfer.amount > 0
-    ? ((lastTransfer.fee + lastTransfer.tip) / lastTransfer.amount) * (365 / daysToPayday) * 100
+    ? ((lastTransfer.fee + lastTransfer.tip + (lastTransfer.subCost || 0)) / lastTransfer.amount) * (365 / daysToPayday) * 100
     : null
 
   const name = profile?.name && profile.name !== 'Player' ? `, ${profile.name}` : ''
