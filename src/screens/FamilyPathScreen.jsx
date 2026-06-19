@@ -190,7 +190,10 @@ export default function FamilyPathScreen() {
         <p className="text-slate-400 text-xs mt-5 text-center leading-relaxed">{convo.closing}</p>
       </div>
       <button
-        onClick={() => gameMode ? (finishRound(0), navigate('/round-result')) : navigate('/cost')}
+        onClick={() => {
+          if (gameMode) { finishRound(0); navigate('/round-result') }
+          else navigate('/cost')
+        }}
         className="w-full bg-amber-500 text-slate-900 font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         style={{ touchAction: 'manipulation' }}
       >

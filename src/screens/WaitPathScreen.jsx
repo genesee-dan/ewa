@@ -69,7 +69,10 @@ export default function WaitPathScreen() {
         </button>
       ) : (
         <button
-          onClick={() => gameMode ? (finishRound(0), navigate('/round-result')) : navigate('/cost')}
+          onClick={() => {
+            if (gameMode) { finishRound(0); navigate('/round-result') }
+            else navigate('/cost')
+          }}
           className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
