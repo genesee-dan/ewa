@@ -67,16 +67,8 @@ export default function GameResultScreen() {
         </div>
       )}
 
-      {/* What EWA collected */}
-      {tookEWA ? (
-        <div className="bg-slate-800 rounded-2xl p-4 text-center mb-4">
-          <p className="text-sm text-slate-400 mb-1">EarnNow collected</p>
-          <p className="text-4xl font-extrabold text-red-400">{fmtShort(totalFees)}</p>
-          <p className="text-xs text-slate-500 mt-1">
-            across {numRounds} week{numRounds !== 1 ? 's' : ''} — to give you access to your own pay early
-          </p>
-        </div>
-      ) : (
+      {/* $0 callout for non-EWA runs */}
+      {!tookEWA && (
         <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-5 text-center mb-4">
           <p className="text-sm text-green-300 mb-1">EarnNow collected</p>
           <p className="text-5xl font-extrabold text-green-400">$0.00</p>
