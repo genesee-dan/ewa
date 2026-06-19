@@ -35,7 +35,6 @@ export function AppProvider({ children }) {
     setRoundResults(prev => [...prev, { path: chosenPath, costOnce, crisis }])
     setCurrentRound(prev => prev + 1)
     setChosenPath(null)
-    setLastTransfer(null)
     tipDodgeTaps.current = 0
   }
 
