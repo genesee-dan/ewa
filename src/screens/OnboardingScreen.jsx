@@ -61,7 +61,12 @@ export default function OnboardingScreen() {
       <div className="flex-1 flex flex-col px-6 pt-10 bg-white">
         <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 1 of 2</p>
         <h1 className="text-2xl font-extrabold text-slate-900 mb-2">What's your name?</h1>
-        <p className="text-sm text-slate-400 mb-8">So we can say hi properly 👋</p>
+        <p className="text-sm text-slate-400 mb-4">So we can say hi properly 👋</p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-6">
+          <p className="text-xs text-amber-700 leading-relaxed">
+            <strong>Real apps also ask for</strong> your employer, work schedule, and may request your Social Security number to verify your identity.
+          </p>
+        </div>
         <input
           autoFocus
           type="text"
@@ -90,9 +95,14 @@ export default function OnboardingScreen() {
       <div className="flex-1 flex flex-col px-6 pt-10 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
         <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 2 of 2</p>
         <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Link your bank</h1>
-        <p className="text-sm text-slate-400 mb-6">
+        <p className="text-sm text-slate-400 mb-3">
           So we know where to send your money. <span className="text-slate-300">(Demo — nothing is really linked.)</span>
         </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-5">
+          <p className="text-xs text-amber-700 leading-relaxed">
+            <strong>Real apps connect through services like Plaid,</strong> giving them read access to your full transaction history, balance, and direct deposit records.
+          </p>
+        </div>
         <div className="grid grid-cols-2 gap-3 mb-6">
           {BANKS.map(b => (
             <button

@@ -42,6 +42,9 @@ const CRISES_SMALL = [
   { emoji: '🅿️', what: "You got a parking ticket outside work. Pay by Friday or it doubles to $150.", amount: 75 },
   { emoji: '📱', what: "Your phone bill is 10 days past due. They'll cut service at midnight.", amount: 82 },
   { emoji: '🎒', what: "Your kid's field trip payment is due tomorrow. Non-payment means they sit it out alone.", amount: 45 },
+  { emoji: '🛒', what: "It's Tuesday. You get paid Friday. The fridge is empty and you've got two kids at home.", amount: 65 },
+  { emoji: '⛽', what: "Your tank is on E. Three days until payday and you need to get to work.", amount: 52 },
+  { emoji: '📱', what: "Your phone bill is due today. They'll suspend your service at midnight if you don't pay.", amount: 78 },
 ]
 
 const CRISES_MEDIUM = [
@@ -54,6 +57,8 @@ const CRISES_MEDIUM = [
   { emoji: '📋', what: "Your registration expired. You just got a fix-it ticket. Pay or lose your plates.", amount: 145 },
   { emoji: '🌡️', what: "Your kid has had an ear infection for three days. Urgent care wants payment at check-in.", amount: 160 },
   { emoji: '🏥', what: "Urgent care bill from two months ago finally arrived. Collections in 10 days.", amount: 195 },
+  { emoji: '🏠', what: "Rent comes out Friday. Payday is Monday. Your landlord doesn't do extensions.", amount: 180 },
+  { emoji: '🛒', what: "It's the end of the month. Rent cleared and wiped you out. You still need groceries for the week.", amount: 140 },
 ]
 
 const CRISES_LARGE = [
