@@ -66,7 +66,7 @@ export function AppProvider({ children }) {
       rate: profession.defaultRate,
       weeklyPay,
     })
-    const nRounds = randInt(2, 3)
+    const nRounds = 2
     const crises = pickRoundCrises(nRounds)
     setNumRounds(nRounds)
     setGameCrises(crises)
