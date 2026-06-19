@@ -30,7 +30,7 @@ export default function AccountScreen() {
   const bank = profile?.bank || 'Bank'
   const groups = menuItems(`${bank} ••${scenario.last4}`)
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pt-3 pb-5">
         <h1 className="text-xl font-bold text-slate-900 mb-4">Account</h1>

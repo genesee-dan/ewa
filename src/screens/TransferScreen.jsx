@@ -165,7 +165,7 @@ export default function TransferScreen() {
           <h1 className="text-lg font-bold text-slate-900">Confirm Transfer</h1>
         </div>
 
-        <div className="flex-1 px-5 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+        <div className="flex-1 min-h-0 px-5 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           <div className="bg-green-50 rounded-2xl p-5 mb-5 text-center">
             <p className="text-sm text-green-700 font-medium mb-1">You'll receive</p>
             <p className="text-4xl font-bold text-green-700">{fmt(amount)}</p>
@@ -322,7 +322,7 @@ export default function TransferScreen() {
   if (step === 'plus') {
     return (
       <div
-        className="flex-1 flex flex-col items-center justify-center bg-white px-7 text-center overflow-y-auto"
+        className="flex-1 min-h-0 flex flex-col items-center justify-center bg-white px-7 text-center overflow-y-auto"
         style={{ scrollbarWidth: 'none' }}
       >
         <TipArt main="🚀" minis={['⭐', '💎', '⚡', '💸']} from="#fef3c7" to="#fde68a" />
@@ -642,7 +642,7 @@ export default function TransferScreen() {
         <h1 className="text-lg font-bold text-slate-900">Get Paid Now</h1>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-5" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 min-h-0 overflow-y-auto px-5" style={{ scrollbarWidth: 'none' }}>
         <div className="text-center mb-5 py-3">
           <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Available to transfer</p>
           <p className="text-3xl font-bold text-slate-900">{fmt(maxAmount)}</p>
@@ -769,7 +769,7 @@ export default function TransferScreen() {
 
 function TipShell({ title, children }) {
   return (
-    <div className="flex-1 flex flex-col bg-white px-6 pt-10 relative overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 flex flex-col bg-white px-6 pt-10 relative overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       <h1 className="text-2xl font-extrabold text-slate-900 text-center mb-3">{title}</h1>
       {children}
     </div>
