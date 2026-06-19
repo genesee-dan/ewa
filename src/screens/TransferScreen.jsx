@@ -37,6 +37,7 @@ export default function TransferScreen() {
   const [ackChecked, setAckChecked] = useState(false)
   const [showFinalModal, setShowFinalModal] = useState(false)
   const [tippedAlready, setTippedAlready] = useState(false)
+  const [appliedExtraTip, setAppliedExtraTip] = useState(0)
 
   const fee = isInstant && amount > 0 ? (isPlus ? 0 : 3.99) : 0
   const maxAmount = earned.available
@@ -90,13 +91,14 @@ export default function TransferScreen() {
   }
 
   function sendTransfer(extraTip = 0) {
+    setAppliedExtraTip(extraTip)
     requestTransfer(amount, fee, tip + suggestedTip + confirmSuggested + extraTip, isInstant)
     setStep('success')
   }
 
   /* ---------------- SUCCESS ---------------- */
   if (step === 'success') {
-    const finalTip = tip + suggestedTip + confirmSuggested
+    const finalTip = tip + suggestedTip + confirmSuggested + appliedExtraTip
     return (
       <div className="flex-1 flex flex-col items-center justify-center px-6 bg-white">
         <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-5">

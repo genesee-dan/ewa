@@ -20,7 +20,7 @@ const PATH_LABELS = {
 
 export default function GameResultScreen() {
   const navigate = useNavigate()
-  const { roundResults, scenario, profile, isPlus, setProfile, numRounds, setCostPage, lastTransfer } = useApp()
+  const { roundResults, scenario, profile, isPlus, restartGame, numRounds, setCostPage, lastTransfer } = useApp()
 
   if (!roundResults.length) return <Navigate to="/situation" replace />
 
@@ -126,7 +126,7 @@ export default function GameResultScreen() {
           See how EWA really works →
         </button>
         <button
-          onClick={() => setProfile(null)}
+          onClick={restartGame}
           className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >

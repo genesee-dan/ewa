@@ -38,6 +38,21 @@ export function AppProvider({ children }) {
     tipDodgeTaps.current = 0
   }
 
+  function restartGame() {
+    window.location.hash = '#/'
+    setProfile(null)
+    setChosenPath(null)
+    setIsPlus(false)
+    setLastTransfer(null)
+    setCostPage(0)
+    setGameCrises([])
+    setCurrentRound(0)
+    setNumRounds(0)
+    setRoundResults([])
+    tipDodgeTaps.current = 0
+    // keep landed=true, gameMode=true so it goes straight to GameSetupScreen
+  }
+
   function resetDemo() {
     window.location.hash = '#/'
     const next = makeScenario()
@@ -128,6 +143,7 @@ export function AppProvider({ children }) {
         countDodgeTap,
         resetDodgeTaps,
         resetDemo,
+        restartGame,
         limitDeadline,
         gameCrises,
         currentRound,

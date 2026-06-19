@@ -93,7 +93,7 @@ export default function RoundResultScreen() {
       {/* Running total */}
       <div className="bg-slate-800 rounded-2xl px-5 py-4 mb-3 flex justify-between items-center">
         <div>
-          <p className="text-xs text-slate-400">Total paid to EWA so far</p>
+          <p className="text-xs text-slate-400">Total cost so far</p>
           <p className={`text-2xl font-extrabold mt-0.5 ${runningTotal === 0 ? 'text-green-400' : 'text-red-400'}`}>
             {fmtShort(runningTotal)}
           </p>
