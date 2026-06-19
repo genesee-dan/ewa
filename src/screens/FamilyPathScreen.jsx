@@ -133,6 +133,7 @@ export default function FamilyPathScreen() {
     setTimeout(() => {
       setTyping(false)
       setVisible(idx + 1)
+      if (idx + 1 >= messages.length) setStage('done')
     }, messages[idx].from === 'them' ? 1200 : 500)
   }
 
