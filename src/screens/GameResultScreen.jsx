@@ -67,6 +67,15 @@ export default function GameResultScreen() {
         </div>
       )}
 
+      {/* Annual projection — right below APR */}
+      {tookEWA && (
+        <div className="bg-slate-800 rounded-2xl p-4 text-center mb-4">
+          <p className="text-xs text-slate-400 mb-1">If you used the app every payday ({advancesPerYear}× / year)</p>
+          <p className="text-3xl font-extrabold text-red-400">{fmt(ewaAnnual)}</p>
+          <p className="text-[11px] text-slate-500 mt-1">to receive your own paycheck a few days early</p>
+        </div>
+      )}
+
       {/* $0 callout for non-EWA runs */}
       {!tookEWA && (
         <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-5 text-center mb-4">
@@ -105,15 +114,6 @@ export default function GameResultScreen() {
           </div>
         </div>
       </div>
-
-      {/* Annual projection */}
-      {tookEWA && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center mb-4">
-          <p className="text-xs text-red-300 mb-1">If you used the app every payday ({advancesPerYear}× / year)</p>
-          <p className="text-3xl font-extrabold text-red-400">{fmt(ewaAnnual)}</p>
-          <p className="text-[11px] text-slate-400 mt-1">to receive your own paycheck a few days early</p>
-        </div>
-      )}
 
       <div className="space-y-3">
         <button

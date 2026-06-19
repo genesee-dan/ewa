@@ -93,7 +93,7 @@ export function makeScenario(overrides = {}) {
   const progress = Math.min(0.85, Math.max(0.3, 1 - daysToPayday / 14))
   const streak = randInt(3, 9)
   const last4 = String(randInt(1000, 9999))
-  const advancesPerYear = randInt(22, 34)
+  const advancesPerYear = 26 // biweekly pay cycle; heavy users advance nearly every payday
 
   const dates = ['Jun 9', 'Jun 6', 'Jun 3', 'Jun 1', 'May 28', 'May 22', 'May 15']
   const transactions = []
