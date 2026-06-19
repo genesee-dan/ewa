@@ -48,12 +48,12 @@ export default function RealCostScreen() {
 
   return (
     <div
-      className="flex-1 flex flex-col bg-slate-900 text-white"
+      className="flex-1 flex flex-col bg-slate-900 text-white overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       {/* Progress dots */}
-      <div className="flex justify-center gap-2 pt-4 pb-1">
+      <div className="shrink-0 flex justify-center gap-2 pt-4 pb-1">
         {[0, 1, 2, 3, 4, 5].map(i => (
           <button
             key={i}
@@ -72,7 +72,7 @@ export default function RealCostScreen() {
       {page === 5 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
-      <div className="flex gap-3 px-5 pb-5 pt-2">
+      <div className="shrink-0 flex gap-3 px-5 pb-5 pt-2">
         {page > 0 ? (
           <button
             onClick={() => setPage(p => p - 1)}

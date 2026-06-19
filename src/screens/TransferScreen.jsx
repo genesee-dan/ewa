@@ -157,8 +157,8 @@ export default function TransferScreen() {
     const needsCheckbox = !tippedAlready && gauntlet?.checkbox && confirmSuggested === 0
     const canConfirm = tippedAlready || confirmSuggested > 0 || !needsCheckbox || ackChecked
     return (
-      <div className="flex-1 flex flex-col bg-white relative">
-        <div className="flex items-center px-5 py-4">
+      <div className="flex-1 flex flex-col bg-white relative overflow-hidden">
+        <div className="shrink-0 flex items-center px-5 py-4">
           <button onClick={() => setStep('amount')} className="mr-3">
             <ChevronLeft size={24} className="text-slate-700" />
           </button>
@@ -634,8 +634,8 @@ export default function TransferScreen() {
 
   /* ---------------- AMOUNT ---------------- */
   return (
-    <div className="flex-1 flex flex-col bg-white">
-      <div className="flex items-center px-5 py-4">
+    <div className="flex-1 flex flex-col bg-white overflow-hidden">
+      <div className="shrink-0 flex items-center px-5 py-4">
         <button onClick={() => navigate(-1)} className="mr-3">
           <ChevronLeft size={24} className="text-slate-700" />
         </button>
