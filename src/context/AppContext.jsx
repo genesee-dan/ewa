@@ -13,6 +13,7 @@ export function AppProvider({ children }) {
   const [earned, setEarned] = useState(() => scenario.earned)
   const [transactions, setTransactions] = useState(() => scenario.transactions)
   const [lastTransfer, setLastTransfer] = useState(null)
+  const [costPage, setCostPage] = useState(0)
   const [gameCrises, setGameCrises] = useState([])
   const [currentRound, setCurrentRound] = useState(0)
   const [numRounds, setNumRounds] = useState(0)
@@ -50,6 +51,7 @@ export function AppProvider({ children }) {
     setEarned(next.earned)
     setTransactions(next.transactions)
     setLastTransfer(null)
+    setCostPage(0)
     setGameCrises([])
     setCurrentRound(0)
     setNumRounds(0)
@@ -121,6 +123,8 @@ export function AppProvider({ children }) {
         transactions,
         lastTransfer,
         requestTransfer,
+        costPage,
+        setCostPage,
         countDodgeTap,
         resetDodgeTaps,
         resetDemo,

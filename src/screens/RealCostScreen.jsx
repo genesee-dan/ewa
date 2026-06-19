@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
@@ -19,8 +19,7 @@ const PLUS_MONTHLY = 9.99
 
 export default function RealCostScreen() {
   const navigate = useNavigate()
-  const { lastTransfer, isPlus, scenario, resetDemo } = useApp()
-  const [page, setPage] = useState(0)
+  const { lastTransfer, isPlus, scenario, resetDemo, costPage: page, setCostPage: setPage } = useApp()
   const touchStartX = useRef(null)
 
   const DAYS_UNTIL_PAYDAY = scenario.daysToPayday
@@ -42,14 +41,14 @@ export default function RealCostScreen() {
   function handleTouchEnd(e) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (dx < -40 && page < 3) setPage(p => p + 1)
+    if (dx < -40 && page < 4) setPage(p => p + 1)
     if (dx > 40 && page > 0) setPage(p => p - 1)
     touchStartX.current = null
   }
 
   return (
     <div
-      className="flex-1 flex flex-col bg-slate-900 text-white overflow-hidden"
+      className="flex-1 flex flex-col bg-slate-900 text-white"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -97,27 +96,28 @@ export default function RealCostScreen() {
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
   return (
     <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 4 · This Advance</p>
-      <h1 className="text-2xl font-extrabold mb-1">What just happened?</h1>
-      <p className="text-sm text-slate-400 mb-4">
-        The app called it a "fee" and a "tip." A lender would have to call it something else.
-      </p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 5 · This Advance</p>
+      <h1 className="text-2xl font-extrabold mb-3">What just happened?</h1>
 
+      {/* APR — lead with the gut-punch */}
+      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 mb-4 text-center">
+        <p className="text-sm text-red-300 mb-1">You just paid the equivalent of</p>
+        <p className="text-6xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}%</p>
+        <p className="text-sm font-bold text-red-300 mt-1">APR</p>
+        <p className="text-[11px] text-slate-400 mt-3">
+          A typical credit card is ~24% APR. A payday loan is ~400%.{'\n'}The app called it a "fee" and a "tip." A lender would have to call it something else.
+        </p>
+      </div>
+
+      {/* Fee breakdown */}
       <div className="bg-slate-800 rounded-2xl p-5 mb-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">This advance</p>
-        <div className="space-y-2 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How we got there</p>
+        <div className="space-y-2">
           <Row label="You borrowed" value={fmt(amount)} />
           <Row label="Instant fee" value={isPlus ? `${fmt(0)} ("waived")` : fmt(fee)} />
           <Row label="Tip (after the nudges)" value={fmt(tip)} />
           {isPlus && <Row label="EarnNow+ share (½ month of $9.99)" value={fmt(subThis)} />}
-          <Row label={`Cost to access your own pay ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
-        </div>
-        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
-          <p className="text-xs text-red-300 mb-1">Expressed as an annual percentage rate</p>
-          <p className="text-4xl font-extrabold text-red-400">{apr.toFixed(0)}% APR</p>
-          <p className="text-[11px] text-slate-400 mt-2">
-            A typical credit card is ~24% APR. A payday loan is ~400%.
-          </p>
+          <Row label={`Total to access your pay ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
         </div>
       </div>
 
@@ -143,7 +143,7 @@ function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PA
 function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
   return (
     <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 4 · Your Year</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 5 · Your Year</p>
       <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
       <p className="text-sm text-slate-400 mb-4">
         Research finds frequent users take 24–36 advances a year — often every pay period.
@@ -187,7 +187,7 @@ function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus
 function Page3() {
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 4 · The Tricks</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 5 · The Tricks</p>
       <h1 className="text-2xl font-extrabold mb-1">Dark patterns used on you</h1>
       <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
       <div className="space-y-3">
