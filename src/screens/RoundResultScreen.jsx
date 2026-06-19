@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { pick } from '../data/scenario'
 
@@ -41,7 +41,7 @@ export default function RoundResultScreen() {
   // currentRound has been incremented — the round we just finished is at index currentRound - 1
   const lastResult = roundResults[currentRound - 1]
 
-  if (!lastResult) return null // guard against direct navigation
+  if (!lastResult) return <Navigate to="/situation" replace />
 
   const { path, costOnce, crisis } = lastResult
   const meta = PATH_META[path] ?? PATH_META.ewa

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, Zap, Clock, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
@@ -138,7 +139,7 @@ export default function TransferScreen() {
         </div>
         <button
           onClick={() => {
-            if (gameMode) { finishRound(fee + finalTip); navigate('/round-result') }
+            if (gameMode) { flushSync(() => { finishRound(fee + finalTip) }); navigate('/round-result') }
             else navigate('/cost')
           }}
           className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"

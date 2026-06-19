@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
@@ -69,7 +70,7 @@ export default function LocPathScreen() {
         </div>
       </div>
       <button
-        onClick={() => { finishRound(interest); navigate('/round-result') }}
+        onClick={() => { flushSync(() => { finishRound(interest) }); navigate('/round-result') }}
         className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
       >
         See how you did →

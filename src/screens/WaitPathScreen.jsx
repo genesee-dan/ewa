@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
@@ -70,7 +71,7 @@ export default function WaitPathScreen() {
       ) : (
         <button
           onClick={() => {
-            if (gameMode) { finishRound(0); navigate('/round-result') }
+            if (gameMode) { flushSync(() => { finishRound(0) }); navigate('/round-result') }
             else navigate('/cost')
           }}
           className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
