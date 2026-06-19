@@ -15,7 +15,7 @@ const ITEMS = [
   { id: 'parking', emoji: '🅿️', label: 'Paid parking this week', desc: 'You could take the bus twice', amount: 9.00 },
 ]
 
-const ITEMS_MAX = ITEMS.reduce((s, i) => s + i.amount, 0)
+export const ITEMS_MAX = ITEMS.reduce((s, i) => s + i.amount, 0)
 
 export default function CutSpendingScreen() {
   const navigate = useNavigate()

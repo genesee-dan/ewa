@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { ITEMS_MAX } from './CutSpendingScreen'
 
 const PATHS = [
   {
@@ -70,17 +71,21 @@ export default function ChoiceScreen() {
           const tagline = p.id === 'wait'
             ? `Payday is ${daysToPayday} day${daysToPayday !== 1 ? 's' : ''} away. How bad could it get?`
             : p.tagline
+          const disabled = p.id === 'cut' && crisis.amount > ITEMS_MAX
           return (
             <button
               key={p.id}
-              onClick={() => choose(p.id)}
-              className="flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left active:scale-95 transition-transform border"
+              onClick={() => !disabled && choose(p.id)}
+              disabled={disabled}
+              className={`flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left transition-transform border ${disabled ? 'opacity-40 cursor-not-allowed' : 'active:scale-95'}`}
               style={{ background: p.bg, borderColor: p.border + '66', touchAction: 'manipulation' }}
             >
               <span className="text-3xl shrink-0">{p.emoji}</span>
               <div>
                 <p className="font-extrabold text-white text-sm leading-tight">{p.title}</p>
-                <p className="text-[11px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{tagline}</p>
+                <p className="text-[11px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  {disabled ? "Not enough to cut this week." : tagline}
+                </p>
               </div>
             </button>
           )

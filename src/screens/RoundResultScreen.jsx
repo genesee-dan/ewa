@@ -125,7 +125,7 @@ export default function RoundResultScreen() {
             isLastRound ? 'bg-amber-500 text-slate-900' : 'bg-slate-700 text-white'
           }`}
         >
-          {isLastRound ? 'See your final score →' : 'Next week →'}
+          {isLastRound ? 'See what that cost you →' : 'Next week →'}
         </button>
       </div>
     </div>

@@ -41,7 +41,7 @@ export default function RealCostScreen() {
   function handleTouchEnd(e) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (dx < -40 && page < 4) setPage(p => p + 1)
+    if (dx < -40 && page < 5) setPage(p => p + 1)
     if (dx > 40 && page > 0) setPage(p => p - 1)
     touchStartX.current = null
   }
@@ -54,7 +54,7 @@ export default function RealCostScreen() {
     >
       {/* Progress dots */}
       <div className="flex justify-center gap-2 pt-4 pb-1">
-        {[0, 1, 2, 3, 4].map(i => (
+        {[0, 1, 2, 3, 4, 5].map(i => (
           <button
             key={i}
             onClick={() => setPage(i)}
@@ -68,7 +68,8 @@ export default function RealCostScreen() {
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
       {page === 3 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
-      {page === 4 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
+      {page === 4 && <PageStacking annualCost={annualCost} />}
+      {page === 5 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
       <div className="flex gap-3 px-5 pb-5 pt-2">
@@ -80,7 +81,7 @@ export default function RealCostScreen() {
             ← Back
           </button>
         ) : <div className="flex-1" />}
-        {page < 4 ? (
+        {page < 5 ? (
           <button
             onClick={() => setPage(p => p + 1)}
             className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
@@ -96,7 +97,7 @@ export default function RealCostScreen() {
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
   return (
     <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 5 · This Advance</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 6 · This Advance</p>
       <h1 className="text-2xl font-extrabold mb-3">What just happened?</h1>
 
       {/* APR — lead with the gut-punch */}
@@ -143,7 +144,7 @@ function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PA
 function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
   return (
     <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 5 · Your Year</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 6 · Your Year</p>
       <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
       <p className="text-sm text-slate-400 mb-4">
         Research finds frequent users take 24–36 advances a year — often every pay period.
@@ -187,7 +188,7 @@ function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus
 function Page3() {
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 5 · The Tricks</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 6 · The Tricks</p>
       <h1 className="text-2xl font-extrabold mb-1">Dark patterns used on you</h1>
       <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
       <div className="space-y-3">
@@ -213,7 +214,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 5 · The Alternative</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 6 · The Alternative</p>
       <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
 
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
@@ -259,10 +260,58 @@ function Page4({ setPage, navigate, amount, annualCost }) {
   )
 }
 
+function PageStacking({ annualCost }) {
+  return (
+    <div className="flex-1 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 6 · Stacking</p>
+      <h1 className="text-2xl font-extrabold mb-3">Most users have more than one app.</h1>
+
+      <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-4 text-center">
+        <p className="text-sm text-red-300 mb-1">Share of EWA users who use</p>
+        <p className="text-5xl font-extrabold text-red-400 leading-none">2+</p>
+        <p className="text-sm font-bold text-red-300 mt-1">apps at the same time</p>
+        <p className="text-[11px] text-slate-400 mt-3">
+          A 2024 CFPB report found roughly one in three frequent EWA users simultaneously uses multiple apps — each charging its own fee or tip against the same upcoming paycheck.
+        </p>
+      </div>
+
+      <div className="bg-slate-800 rounded-2xl p-4 mb-4">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">How stacking works</p>
+        <div className="space-y-3">
+          {[
+            ['App A', 'Advances $100 from Friday\'s check.', 'bg-red-500/20'],
+            ['App B', 'Advances $75 from the same check.', 'bg-orange-500/20'],
+            ['App C', 'Advances $50. "Pre-approved for you!"', 'bg-yellow-500/20'],
+          ].map(([label, desc, bg]) => (
+            <div key={label} className={`rounded-xl px-3 py-2.5 ${bg}`}>
+              <p className="text-xs font-extrabold text-white">{label}</p>
+              <p className="text-[11px] text-slate-300 mt-0.5">{desc}</p>
+            </div>
+          ))}
+          <div className="rounded-xl bg-slate-700 px-3 py-2.5 mt-1">
+            <p className="text-xs font-extrabold text-white">Friday: payday</p>
+            <p className="text-[11px] text-slate-300 mt-0.5">All three apps pull repayments automatically. Your check is already spent. Three sets of fees collected.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-slate-800 rounded-2xl p-4 mb-2">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Why apps don't stop this</p>
+        <p className="text-sm text-slate-300 leading-relaxed">
+          EWA apps do <strong className="text-white">no credit check</strong> and share no data with each other. Each app sees only its own advance. There's no system — like the credit bureau network — to flag that three apps have already advanced against the same paycheck.
+        </p>
+        <p className="text-sm text-slate-400 leading-relaxed mt-2">
+          For the apps, stacking users are <em>their best customers</em>: more advances, more fees.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function Page5({ navigate, resetDemo }) {
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 5 · Other Options</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 6 · Other Options</p>
       <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
 
       <div className="space-y-2 mb-5">

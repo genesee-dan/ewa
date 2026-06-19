@@ -36,7 +36,7 @@ export default function LandingScreen() {
         }`}
         style={{ touchAction: 'manipulation' }}
       >
-        {SHOW_GAME ? 'Just explore the demo' : 'Start the demo →'}
+        {SHOW_GAME ? 'Explore the demo' : 'Start the demo →'}
       </button>
       <p className="text-slate-500 text-xs">
         No real money moves. Educational purposes only.
