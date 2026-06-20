@@ -372,6 +372,14 @@ function Page5({ navigate, resetDemo }) {
           Restart the demo from the beginning
         </button>
       </div>
+
+      <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-slate-700">
+        <img src={`${import.meta.env.BASE_URL}genesee-icon.png`} alt="" className="w-8 h-8 rounded-lg" />
+        <p className="text-xs text-slate-400 leading-snug">
+          Brought to you by<br />
+          <span className="text-slate-200 font-semibold">Genesee Co-op Federal Credit Union</span>
+        </p>
+      </div>
     </div>
   )
 }
