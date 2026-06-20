@@ -4,7 +4,7 @@ import VideoPlayer from '../components/VideoPlayer'
 
 export default function VideoScreen() {
   const navigate = useNavigate()
-  const { resetDemo } = useApp()
+  const { setCostPage } = useApp()
 
   return (
     <VideoPlayer
@@ -14,13 +14,22 @@ export default function VideoScreen() {
       ]}
       onClose={() => navigate('/cost')}
       bottomAction={
-        <button
-          onClick={resetDemo}
-          className="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-xl active:scale-95 transition-transform"
-          style={{ touchAction: 'manipulation' }}
-        >
-          Restart demo
-        </button>
+        <div className="flex gap-3 w-full">
+          <button
+            onClick={() => navigate('/cost')}
+            className="flex-1 bg-slate-700 text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform"
+            style={{ touchAction: 'manipulation' }}
+          >
+            ← Back
+          </button>
+          <button
+            onClick={() => { setCostPage(5); navigate('/cost') }}
+            className="flex-1 bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform"
+            style={{ touchAction: 'manipulation' }}
+          >
+            Next →
+          </button>
+        </div>
       }
     />
   )

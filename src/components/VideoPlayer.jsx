@@ -7,33 +7,34 @@ function fmt(s) {
   return `${m}:${sec.toString().padStart(2, '0')}`
 }
 
-export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
+export default function VideoPlayer({ src, sources, onClose, onEnded, bottomAction }) {
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [ended, setEnded] = useState(false)
 
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
     const onTime = () => setCurrentTime(v.currentTime)
     const onMeta = () => setDuration(v.duration)
-    const onEnded = () => setPlaying(false)
+    const handleEnded = () => { setPlaying(false); setEnded(true); onEnded?.() }
     const onPlay = () => setPlaying(true)
     const onPause = () => setPlaying(false)
     v.addEventListener('timeupdate', onTime)
     v.addEventListener('loadedmetadata', onMeta)
-    v.addEventListener('ended', onEnded)
+    v.addEventListener('ended', handleEnded)
     v.addEventListener('play', onPlay)
     v.addEventListener('pause', onPause)
     return () => {
       v.removeEventListener('timeupdate', onTime)
       v.removeEventListener('loadedmetadata', onMeta)
-      v.removeEventListener('ended', onEnded)
+      v.removeEventListener('ended', handleEnded)
       v.removeEventListener('play', onPlay)
       v.removeEventListener('pause', onPause)
     }
-  }, [])
+  }, [onEnded])
 
   function togglePlay() {
     const v = videoRef.current
@@ -78,43 +79,50 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
         <X size={18} />
       </button>
 
-      {/* Controls bar — always visible, overlaid on video */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent pt-10 pb-4 px-4 z-10">
-        {/* Progress bar */}
-        <div
-          className="w-full h-8 flex items-center cursor-pointer mb-1"
-          onMouseDown={handleSeek}
-          onTouchStart={handleSeek}
-          onMouseMove={e => { if (e.buttons === 1) handleSeek(e) }}
-          onTouchMove={handleSeek}
-          style={{ touchAction: 'none' }}
-        >
-          <div className="w-full h-1.5 bg-white/30 rounded-full relative">
-            <div
-              className="h-full bg-amber-400 rounded-full relative"
-              style={{ width: `${progress}%` }}
-            >
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow" />
-            </div>
-          </div>
-        </div>
-
-        {/* Play/pause + time */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={togglePlay}
-            className="w-8 h-8 flex items-center justify-center text-white"
-            style={{ touchAction: 'manipulation' }}
-          >
-            {playing ? <Pause size={20} /> : <Play size={20} />}
-          </button>
-          <span className="text-white text-xs font-mono">
-            {fmt(currentTime)} / {fmt(duration)}
-          </span>
-          <div className="flex-1" />
+      {/* End-of-video nav buttons */}
+      {ended && bottomAction && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 to-transparent pt-12 pb-5 px-5 z-10">
           {bottomAction}
         </div>
-      </div>
+      )}
+
+      {/* Controls bar — hidden when ended and bottomAction is shown */}
+      {!ended && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent pt-10 pb-4 px-4 z-10">
+          {/* Progress bar */}
+          <div
+            className="w-full h-8 flex items-center cursor-pointer mb-1"
+            onMouseDown={handleSeek}
+            onTouchStart={handleSeek}
+            onMouseMove={e => { if (e.buttons === 1) handleSeek(e) }}
+            onTouchMove={handleSeek}
+            style={{ touchAction: 'none' }}
+          >
+            <div className="w-full h-1.5 bg-white/30 rounded-full relative">
+              <div
+                className="h-full bg-amber-400 rounded-full relative"
+                style={{ width: `${progress}%` }}
+              >
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow" />
+              </div>
+            </div>
+          </div>
+
+          {/* Play/pause + time */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={togglePlay}
+              className="w-8 h-8 flex items-center justify-center text-white"
+              style={{ touchAction: 'manipulation' }}
+            >
+              {playing ? <Pause size={20} /> : <Play size={20} />}
+            </button>
+            <span className="text-white text-xs font-mono">
+              {fmt(currentTime)} / {fmt(duration)}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
