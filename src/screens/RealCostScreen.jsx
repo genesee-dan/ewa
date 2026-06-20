@@ -363,7 +363,7 @@ function Page5({ navigate, resetDemo }) {
           <span className="text-xl shrink-0">🤷</span>
           <div>
             <p className="text-sm font-bold text-slate-200">Wait it out →</p>
-            <p className="text-xs text-slate-400">Most "urgent" expenses aren't. Payday is closer than it feels at 2am.</p>
+            <p className="text-xs text-slate-400">Many "urgent" expenses aren't. Payday is closer than it feels at 2am.</p>
           </div>
         </button>
       </div>
