@@ -19,9 +19,10 @@ const SEGMENTS = [
   "Meet the cash advance app. It says: it's your pay — get it now.",
   'No interest! Just a small fee. And a tip. And a monthly membership.',
   "The app says it's not a loan. But you borrow money, pay a cost to get it, and repay it on a fixed date. That's a loan.",
-  'On a fifty dollar advance, those few dollars work out to triple-digit ay pee ar — often higher than a payday loan.',
+  'On a fifty dollar advance, those few dollars work out to a triple-digit annual percentage rate — often higher than a payday loan.',
   "And it's built to keep you coming back. Streaks. Countdowns. Alerts. Repaying on payday leaves your check short — so you borrow again. That's the loop.",
   'Over a year, frequent users pay hundreds of dollars — just to get their own paycheck a few days early.',
+  'Can you afford to give a tech company that money?',
 ]
 
 const GAP = 0.7 // seconds between segments
@@ -118,6 +119,10 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   <div class="redbox"><div class="red">$200–$400</div>
   <div style="color:#fca5a5;font-size:20px;font-weight:700">in fees, tips & memberships</div></div>
   <div class="sub">…to receive their own paycheck<br>a few days early.</div>
+</div>
+
+<div class="scene" id="s6" style="background:#1e293b;color:#fff">
+  <div class="big" style="font-size:34px;line-height:1.3">Can you afford to give a tech company<br>that money?</div>
 </div>
 
 <script>
