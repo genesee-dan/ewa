@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { X, Play, Pause } from 'lucide-react'
 
 function fmt(s) {
@@ -13,14 +12,13 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
-  const [seeking, setSeeking] = useState(false)
 
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
     const onTime = () => setCurrentTime(v.currentTime)
     const onMeta = () => setDuration(v.duration)
-    const onEnded = () => { setPlaying(false) }
+    const onEnded = () => setPlaying(false)
     const onPlay = () => setPlaying(true)
     const onPause = () => setPlaying(false)
     v.addEventListener('timeupdate', onTime)
@@ -61,9 +59,9 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
         ref={videoRef}
         autoPlay
         playsInline
-        className="flex-1 w-full object-contain"
+        className="w-full object-contain"
+        style={{ flex: 1, minHeight: 0 }}
         onClick={togglePlay}
-        style={{ cursor: 'pointer' }}
       >
         {sources
           ? sources.map(s => <source key={s.src} src={s.src} type={s.type} />)
@@ -74,18 +72,18 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white z-10"
+        className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 flex items-center justify-center text-white z-20"
         aria-label="Close"
         style={{ touchAction: 'manipulation' }}
       >
         <X size={18} />
       </button>
 
-      {/* Controls bar */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-8 pb-4 px-4 z-10">
+      {/* Controls bar — always visible */}
+      <div className="shrink-0 bg-black px-4 pt-3 pb-4">
         {/* Progress bar */}
         <div
-          className="w-full h-8 flex items-center cursor-pointer mb-2"
+          className="w-full h-8 flex items-center cursor-pointer mb-1"
           onMouseDown={handleSeek}
           onTouchStart={handleSeek}
           onMouseMove={e => { if (e.buttons === 1) handleSeek(e) }}
