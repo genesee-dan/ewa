@@ -41,7 +41,7 @@ export default function RealCostScreen() {
   function handleTouchEnd(e) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (dx < -40 && page < 5) setPage(p => p + 1)
+    if (dx < -40 && page < 6) setPage(p => p + 1)
     if (dx > 40 && page > 0) setPage(p => p - 1)
     touchStartX.current = null
   }
@@ -54,7 +54,7 @@ export default function RealCostScreen() {
     >
       {/* Progress dots */}
       <div className="shrink-0 flex justify-center gap-2 pt-4 pb-1">
-        {[0, 1, 2, 3, 4, 5].map(i => (
+        {[0, 1, 2, 3, 4, 5, 6].map(i => (
           <button
             key={i}
             onClick={() => setPage(i)}
@@ -68,8 +68,9 @@ export default function RealCostScreen() {
       {page === 1 && <Page2 amount={amount} fee={fee} tip={tip} annualBorrowed={annualBorrowed} annualCost={annualCost} annualSub={annualSub} isPlus={isPlus} ADVANCES_PER_YEAR={ADVANCES_PER_YEAR} />}
       {page === 2 && <Page3 />}
       {page === 3 && <PageStacking annualCost={annualCost} />}
-      {page === 4 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
-      {page === 5 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
+      {page === 4 && <PageVideo navigate={navigate} />}
+      {page === 5 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
+      {page === 6 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
       <div className="shrink-0 flex gap-3 px-5 pb-5 pt-2">
@@ -81,7 +82,7 @@ export default function RealCostScreen() {
             ← Back
           </button>
         ) : <div className="flex-1" />}
-        {page < 5 ? (
+        {page < 6 ? (
           <button
             onClick={() => setPage(p => p + 1)}
             className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
@@ -97,7 +98,7 @@ export default function RealCostScreen() {
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 6 · This Advance</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 7 · This Advance</p>
       <h1 className="text-xl font-extrabold mb-2">What just happened?</h1>
 
       {/* APR — lead with the gut-punch */}
@@ -144,7 +145,7 @@ function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PA
 function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 6 · Your Year</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 7 · Your Year</p>
       <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
       <p className="text-sm text-slate-400 mb-4">
         Research finds frequent users take 24–36 advances a year — often every pay period.
@@ -188,7 +189,7 @@ function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus
 function Page3() {
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 6 · The Tricks</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 7 · The Tricks</p>
       <h1 className="text-2xl font-extrabold mb-1">Tricks the companies use to get your money</h1>
       <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
       <div className="space-y-3">
@@ -205,6 +206,27 @@ function Page3() {
   )
 }
 
+function PageVideo({ navigate }) {
+  return (
+    <div className="flex-1 flex flex-col justify-center items-center px-5 pt-3 pb-2">
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">Page 5 of 7 · The Video</p>
+      <h1 className="text-2xl font-extrabold mb-2 text-center">See how it works</h1>
+      <p className="text-sm text-slate-400 text-center mb-8 leading-relaxed">
+        A 47-second explainer showing exactly how cash advance apps make their money.
+      </p>
+      <button
+        onClick={() => navigate('/watch')}
+        className="w-40 h-40 rounded-full bg-amber-500 flex flex-col items-center justify-center active:scale-95 transition-transform shadow-2xl shadow-amber-900/50 mb-8"
+        style={{ touchAction: 'manipulation' }}
+      >
+        <span className="text-5xl mb-1">▶</span>
+        <span className="text-white text-xs font-bold">Watch now</span>
+      </button>
+      <p className="text-xs text-slate-500 text-center">Tap back when done to continue</p>
+    </div>
+  )
+}
+
 function Page4({ setPage, navigate, amount, annualCost }) {
   const locRate = 0.18
   const locDays = 14
@@ -214,7 +236,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 5 of 6 · The Alternative</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 7 · The Alternative</p>
       <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
 
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
@@ -249,7 +271,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
           ▶ Watch: how a credit union LOC works
         </button>
         <button
-          onClick={() => setPage(4)}
+          onClick={() => setPage(6)}
           className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
@@ -263,7 +285,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 function PageStacking() {
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 6 · Stacking</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 7 · Stacking</p>
       <h1 className="text-2xl font-extrabold mb-3">Most users have more than one app.</h1>
 
       <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
@@ -307,7 +329,7 @@ function PageStacking() {
 function Page5({ navigate, resetDemo }) {
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 6 · Other Options</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 7 of 7 · Other Options</p>
       <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
 
       <div className="space-y-2 mb-5">
@@ -347,20 +369,6 @@ function Page5({ navigate, resetDemo }) {
       </div>
 
       <div className="flex flex-col gap-2.5">
-        <button
-          onClick={() => navigate('/watch-loc')}
-          className="w-full bg-blue-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
-          style={{ touchAction: 'manipulation' }}
-        >
-          ▶ How a credit union LOC works
-        </button>
-        <button
-          onClick={() => navigate('/watch')}
-          className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
-          style={{ touchAction: 'manipulation' }}
-        >
-          ▶ Why these apps cost you money
-        </button>
         <button
           onClick={() => navigate('/')}
           className="w-full bg-white text-slate-900 font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
