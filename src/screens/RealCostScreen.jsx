@@ -189,7 +189,7 @@ function Page3() {
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 6 · The Tricks</p>
-      <h1 className="text-2xl font-extrabold mb-1">Dark patterns used on you</h1>
+      <h1 className="text-2xl font-extrabold mb-1">Tricks the companies use to get your money</h1>
       <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
       <div className="space-y-3">
         {DARK_PATTERNS.map(([name, desc]) => (
