@@ -10,7 +10,7 @@ function fmt(s) {
 
 export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
   const videoRef = useRef(null)
-  const [playing, setPlaying] = useState(true)
+  const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [seeking, setSeeking] = useState(false)
