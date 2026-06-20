@@ -59,8 +59,7 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
         ref={videoRef}
         autoPlay
         playsInline
-        className="w-full object-contain"
-        style={{ flex: 1, minHeight: 0 }}
+        className="absolute inset-0 w-full h-full object-contain"
         onClick={togglePlay}
       >
         {sources
@@ -79,8 +78,8 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
         <X size={18} />
       </button>
 
-      {/* Controls bar — always visible */}
-      <div className="shrink-0 bg-black px-4 pt-3 pb-4">
+      {/* Controls bar — always visible, overlaid on video */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent pt-10 pb-4 px-4 z-10">
         {/* Progress bar */}
         <div
           className="w-full h-8 flex items-center cursor-pointer mb-1"
