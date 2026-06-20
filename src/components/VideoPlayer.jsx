@@ -54,7 +54,7 @@ export default function VideoPlayer({ src, sources, onClose, bottomAction }) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="flex-1 relative bg-black flex flex-col">
+    <div className="flex-1 min-h-0 relative bg-black flex flex-col">
       <video
         ref={videoRef}
         autoPlay
