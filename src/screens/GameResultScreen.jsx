@@ -124,6 +124,15 @@ export default function GameResultScreen() {
         >
           See how EWA really works →
         </button>
+        <a
+          href="https://bit.ly/STOPAct2026"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full bg-green-600 text-white font-bold py-3.5 rounded-2xl text-sm text-center active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          Take action: support the STOP Act →
+        </a>
         <button
           onClick={restartGame}
           className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"

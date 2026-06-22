@@ -41,7 +41,7 @@ export default function RealCostScreen() {
   function handleTouchEnd(e) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (dx < -40 && page < 6) setPage(p => p + 1)
+    if (dx < -40 && page < 7) setPage(p => p + 1)
     if (dx > 40 && page > 0) setPage(p => p - 1)
     touchStartX.current = null
   }
@@ -54,7 +54,7 @@ export default function RealCostScreen() {
     >
       {/* Progress dots */}
       <div className="shrink-0 flex justify-center gap-2 pt-4 pb-1">
-        {[0, 1, 2, 3, 4, 5, 6].map(i => (
+        {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
           <button
             key={i}
             onClick={() => setPage(i)}
@@ -70,7 +70,8 @@ export default function RealCostScreen() {
       {page === 3 && <PageStacking annualCost={annualCost} />}
       {page === 4 && <PageVideo navigate={navigate} />}
       {page === 5 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
-      {page === 6 && <Page5 navigate={navigate} resetDemo={resetDemo} />}
+      {page === 6 && <Page5 navigate={navigate} setPage={setPage} />}
+      {page === 7 && <PageTakeAction resetDemo={resetDemo} navigate={navigate} />}
 
       {/* Prev / Next */}
       <div className="shrink-0 flex gap-3 px-5 pb-5 pt-2">
@@ -82,7 +83,7 @@ export default function RealCostScreen() {
             ← Back
           </button>
         ) : <div className="flex-1" />}
-        {page < 6 ? (
+        {page < 7 ? (
           <button
             onClick={() => setPage(p => p + 1)}
             className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
@@ -98,7 +99,7 @@ export default function RealCostScreen() {
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 7 · This Advance</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 8 · This Advance</p>
       <h1 className="text-xl font-extrabold mb-2">What just happened?</h1>
 
       {/* APR — lead with the gut-punch */}
@@ -145,7 +146,7 @@ function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PA
 function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 7 · Your Year</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 8 · Your Year</p>
       <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
       <p className="text-sm text-slate-400 mb-4">
         Research finds frequent users take 24–36 advances a year — often every pay period.
@@ -189,7 +190,7 @@ function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus
 function Page3() {
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 7 · The Tricks</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 8 · The Tricks</p>
       <h1 className="text-2xl font-extrabold mb-1">Tricks the companies use to get your money</h1>
       <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
       <div className="space-y-3">
@@ -209,7 +210,7 @@ function Page3() {
 function PageVideo({ navigate }) {
   return (
     <div className="flex-1 flex flex-col justify-center items-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">Page 5 of 7 · The Video</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">Page 5 of 8 · The Video</p>
       <h1 className="text-2xl font-extrabold mb-2 text-center">See how it works</h1>
       <p className="text-sm text-slate-400 text-center mb-8 leading-relaxed">
         A 47-second explainer showing exactly how cash advance apps make their money.
@@ -236,7 +237,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 7 · The Alternative</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 8 · The Alternative</p>
       <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
 
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
@@ -285,7 +286,7 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 function PageStacking() {
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 7 · Stacking</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 8 · Stacking</p>
       <h1 className="text-2xl font-extrabold mb-3">Most users have more than one app.</h1>
 
       <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
@@ -326,13 +327,13 @@ function PageStacking() {
   )
 }
 
-function Page5({ navigate, resetDemo }) {
+function Page5({ navigate }) {
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 7 of 7 · Other Options</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 7 of 8 · Other Options</p>
       <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
 
-      <div className="space-y-2 mb-5">
+      <div className="space-y-2">
         <button
           onClick={() => navigate('/family-path')}
           className="w-full flex gap-3 items-start bg-slate-800 rounded-xl px-4 py-3 text-left active:scale-95 transition-transform"
@@ -367,11 +368,41 @@ function Page5({ navigate, resetDemo }) {
           </div>
         </button>
       </div>
+    </div>
+  )
+}
 
-      <div className="flex flex-col gap-2.5">
+function PageTakeAction({ resetDemo, navigate }) {
+  return (
+    <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2 flex flex-col" style={{ scrollbarWidth: 'none' }}>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 8 of 8 · Take Action</p>
+      <h1 className="text-2xl font-extrabold mb-2">Now do something about it.</h1>
+      <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+        Cash advance apps are barely regulated — they dodge the rules that cover real loans.
+        The <strong className="text-slate-200">STOP Act</strong> (Stop Taking Our Pay Act) would change that.
+        Tell your elected officials you support it.
+      </p>
+
+      <a
+        href="https://bit.ly/STOPAct2026"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm text-center active:scale-95 transition-transform mb-4"
+        style={{ touchAction: 'manipulation' }}
+      >
+        Email your elected officials →
+      </a>
+
+      <div className="bg-white rounded-2xl p-4 flex flex-col items-center mb-4">
+        <img src={`${import.meta.env.BASE_URL}stopact-qr.png`} alt="QR code linking to the STOP Act action page" className="w-40 h-40" />
+        <p className="text-xs text-slate-500 mt-2 text-center">Not on your phone? Scan to take action.</p>
+        <p className="text-[11px] text-slate-400 mt-1 text-center font-mono">bit.ly/STOPAct2026</p>
+      </div>
+
+      <div className="flex flex-col gap-2.5 mt-auto">
         <button
           onClick={() => navigate('/')}
-          className="w-full bg-white text-slate-900 font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
+          className="w-full bg-slate-700 text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
           Back to the app
@@ -381,7 +412,7 @@ function Page5({ navigate, resetDemo }) {
         </button>
       </div>
 
-      <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-slate-700">
+      <div className="flex items-center justify-center gap-3 mt-4 pt-4 border-t border-slate-700">
         <img src={`${import.meta.env.BASE_URL}genesee-icon.png`} alt="" className="w-8 h-8 rounded-lg" />
         <p className="text-xs text-slate-400 leading-snug">
           Brought to you by<br />
