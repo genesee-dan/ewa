@@ -380,7 +380,7 @@ function PageTakeAction({ resetDemo, navigate }) {
       <p className="text-sm text-slate-400 mb-4 leading-relaxed">
         Cash advance apps are barely regulated — they dodge the rules that cover real loans.
         The <strong className="text-slate-200">STOP Act</strong> (Stop Taking Our Pay Act) would change that.
-        Tell your elected officials you support it.
+        If you're in New York, email your elected officials to support it.
       </p>
 
       <a
@@ -390,7 +390,7 @@ function PageTakeAction({ resetDemo, navigate }) {
         className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm text-center active:scale-95 transition-transform mb-4"
         style={{ touchAction: 'manipulation' }}
       >
-        Email your elected officials →
+        New Yorkers: Email your elected officials →
       </a>
 
       <div className="bg-white rounded-2xl p-4 flex flex-col items-center mb-4">

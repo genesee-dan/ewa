@@ -131,7 +131,7 @@ export default function GameResultScreen() {
           className="block w-full bg-green-600 text-white font-bold py-3.5 rounded-2xl text-sm text-center active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Take action: support the STOP Act →
+          New Yorkers: support the STOP Act →
         </a>
         <button
           onClick={restartGame}
