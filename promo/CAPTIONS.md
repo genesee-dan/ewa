@@ -9,14 +9,15 @@ the member's behalf, never preachy. No real money moves — it's an educational 
 
 **Caption:**
 
-"It's your pay — get it now, for free!" 🤔 Except it's not free.
+"It's your pay — get it now, for free!" 🤔 Except it's usually not free.
 
-Earned-wage-access apps — DailyPay, Dave, EarnIn, MoneyLion — promise instant
-access to money you've already earned. Then they nickel-and-dime you with
-"instant" fees, monthly memberships, and "tips" that aren't really optional.
+Earned-wage-access apps promise instant access to money you've already earned.
+Then, depending on the app, they get you with some mix of "instant" transfer
+fees, monthly memberships, and suggested "tips" that don't feel very optional.
 
-Add it up and a $4 "tip" on a $100 advance works out to a 400%+ APR. That's
-payday-loan territory — to get your OWN paycheck a few days early.
+Add it up and a small "tip" or fee on a short advance can pencil out to a
+triple-digit APR — often 200%+, and into payday-loan territory on the shortest
+advances. All to get your OWN paycheck a few days early.
 
 We rebuilt the actual screens so you can see the tricks for yourself. Swipe
 through, then play the 2-minute simulation 👉 link in bio.
@@ -52,9 +53,9 @@ Play it yourself (no real money, promise): ewademo.genesee.coop 🔗
 ## Facebook — Single image (use feed-square.png)
 
 "It's your pay. Get it now — for free." That's the pitch from earned-wage-access
-apps like DailyPay, Dave, and EarnIn. The reality? Instant-transfer fees, monthly
-memberships, and "tips" that quietly add up to a 400%+ APR — just to get the money
-you already earned a few days early.
+apps. The reality? Depending on the app, some combination of instant-transfer
+fees, monthly memberships, and suggested "tips" that can quietly add up to a
+triple-digit APR — just to get the money you already earned a few days early.
 
 We built a free, 2-minute simulation that walks you through the exact screens —
 the fake countdowns, the upsells, the guilt-trip tip prompts — so you can see how
@@ -73,10 +74,10 @@ union line of credit can cost a fraction of what these apps extract over a year.
 
 Short week? Before you tap "get paid early," know what it costs.
 
-Earned-wage-access apps market themselves as free. They're not — between
-"instant" fees, $9.99/mo memberships, and suggested "tips," frequent users pay
-hundreds of dollars a year. On a single advance, the math often pencils out to a
-400%+ APR.
+Earned-wage-access apps market themselves as free. They're usually not — between
+"instant" fees, monthly memberships, and suggested "tips," frequent users can pay
+hundreds of dollars a year. On a single short advance, the math often pencils out
+to a triple-digit APR — payday-loan territory.
 
 Our new educational simulator lets you click through the whole experience in
 about two minutes. See the dark patterns up close, then see what a credit union
@@ -89,7 +90,7 @@ alternative would have saved you.
 ## Short-form hooks (for Reels/TikTok text-on-screen or A/B testing captions)
 
 - "This app says your paycheck advance is free. Here's the receipt."
-- "400% APR — and they call it a tip."
+- "Triple-digit APR — and they call it a tip."
 - "I played the 'free' money app so you don't have to."
 - "The countdown timer is fake. The fee is not."
 - "Your pay, a few days early. Cost: a payday-loan interest rate."
