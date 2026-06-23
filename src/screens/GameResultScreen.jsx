@@ -125,7 +125,7 @@ export default function GameResultScreen() {
           See how EWA really works →
         </button>
         <a
-          href="https://bit.ly/STOPAct2026"
+          href="https://neweconomynyc.ourpowerbase.net/civicrm/petition/sign?reset=1&sid=50"
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full bg-green-600 text-white font-bold py-3.5 rounded-2xl text-sm text-center active:scale-95 transition-transform"

@@ -384,7 +384,7 @@ function PageTakeAction({ resetDemo, navigate }) {
       </p>
 
       <a
-        href="https://bit.ly/STOPAct2026"
+        href="https://neweconomynyc.ourpowerbase.net/civicrm/petition/sign?reset=1&sid=50"
         target="_blank"
         rel="noopener noreferrer"
         className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm text-center active:scale-95 transition-transform mb-4"
@@ -396,7 +396,7 @@ function PageTakeAction({ resetDemo, navigate }) {
       <div className="bg-white rounded-2xl p-4 flex flex-col items-center mb-4">
         <img src={`${import.meta.env.BASE_URL}stopact-qr.png`} alt="QR code linking to the STOP Act action page" className="w-40 h-40" />
         <p className="text-xs text-slate-500 mt-2 text-center">Not on your phone? Scan to take action.</p>
-        <p className="text-[11px] text-slate-400 mt-1 text-center font-mono">bit.ly/STOPAct2026</p>
+        <p className="text-[11px] text-slate-400 mt-1 text-center font-mono">neweconomynyc.ourpowerbase.net</p>
       </div>
 
       <div className="flex flex-col gap-2.5 mt-auto">
