@@ -101,7 +101,7 @@ alternative would have saved you.
 
 | File | Size | Use |
 |------|------|-----|
-| `ig-story.mp4` | 1080×1920, ~50s | IG/FB Story & Reel, the clickthrough |
+| `ig-story.mp4` | 1080×1920, ~28s | IG/FB Story & Reel — week-1 app demo ending on the itemized cost |
 | `carousel-1.png` | 1080×1350 | Carousel slide 1 — hook |
 | `carousel-2.png` | 1080×1350 | Carousel slide 2 — the math |
 | `carousel-3.png` | 1080×1350 | Carousel slide 3 — CTA |
