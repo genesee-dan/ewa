@@ -13,7 +13,7 @@ const PLUS_MONTHLY = 9.99
 const PATH_LABELS = {
   ewa:    { emoji: '🤳', label: 'EarnNow app' },
   loc:    { emoji: '🏦', label: 'Credit union LOC' },
-  family: { emoji: '👨‍👩‍👧', label: 'Ask family' },
+  family: { emoji: '👨‍👩‍👧', label: 'Friends & Family' },
   cut:    { emoji: '✂️', label: 'Cut spending' },
   wait:   { emoji: '🤷', label: 'Wait it out' },
 }
@@ -62,9 +62,11 @@ export default function GameResultScreen() {
             <span className="text-5xl font-extrabold">{apr.toFixed(0)}%</span>
             <span className="text-xl font-bold ml-1">APR</span>
           </p>
-          <p className="text-[10px] text-slate-400 mt-2">
-            Credit card ~24% APR · Payday loan ~400% · The app called it a "fee" and a "tip."
+          <p className="text-[11px] text-slate-300 mt-2 leading-relaxed">
+            APR = Annual Percentage Rate. It's the standard way to compare borrowing costs.
+            A credit card charges ~24% APR. A payday loan ~400%. You just paid {apr.toFixed(0)}%.
           </p>
+          <p className="text-[10px] text-slate-500 mt-1">The app called it a "fee" and a "tip."</p>
         </div>
       )}
 

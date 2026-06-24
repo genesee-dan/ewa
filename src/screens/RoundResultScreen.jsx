@@ -2,6 +2,11 @@ import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { pick } from '../data/scenario'
 
+function fmtSigned(n) {
+  const abs = Math.abs(n).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+  return n >= 0 ? `+${abs}` : `-${Math.abs(n).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`
+}
+
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
@@ -12,7 +17,7 @@ function fmtShort(n) {
 const PATH_META = {
   ewa:    { emoji: '🤳', label: 'Used the EarnNow app',  color: 'text-red-400',    bg: 'bg-red-500/10 border-red-500/30' },
   loc:    { emoji: '🏦', label: 'Credit union LOC',       color: 'text-blue-400',   bg: 'bg-blue-500/10 border-blue-500/30' },
-  family: { emoji: '👨‍👩‍👧', label: 'Asked family',        color: 'text-amber-400',  bg: 'bg-amber-500/10 border-amber-500/30' },
+  family: { emoji: '👨‍👩‍👧', label: 'Friends & Family',    color: 'text-amber-400',  bg: 'bg-amber-500/10 border-amber-500/30' },
   cut:    { emoji: '✂️', label: 'Cut spending',           color: 'text-slate-300',  bg: 'bg-slate-700/50 border-slate-600/30' },
   wait:   { emoji: '🤷', label: 'Waited it out',          color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/30' },
 }
@@ -35,7 +40,7 @@ const EWA_TAUNTS = [
 
 export default function RoundResultScreen() {
   const navigate = useNavigate()
-  const { roundResults, currentRound, numRounds, scenario } = useApp()
+  const { roundResults, currentRound, numRounds, scenario, profile } = useApp()
 
   // finishRound already ran before we navigated here, so read from roundResults
   // currentRound has been incremented — the round we just finished is at index currentRound - 1
@@ -100,6 +105,45 @@ export default function RoundResultScreen() {
         </div>
         {runningTotal === 0 ? <span className="text-3xl">🏆</span> : <span className="text-3xl">😬</span>}
       </div>
+
+      {/* Wallet recap — shows between rounds only, so player sees the cycle */}
+      {!isLastRound && profile?.weeklyPay && (() => {
+        const weeklyPay = profile.weeklyPay
+        const crisisAmt = crisis.amount
+        const appFee = costOnce  // what the app/path cost (0 for non-EWA)
+        // rough weekly expenses = pay minus what was left before the crisis
+        const weeklyExpenses = weeklyPay - (scenario.available ?? 47) - crisisAmt
+        const startBalance = scenario.available ?? 47
+        const endBalance = startBalance + crisisAmt - crisisAmt + weeklyPay - appFee - weeklyExpenses
+        const rows = [
+          { label: 'Started with', value: startBalance, color: 'text-slate-300' },
+          { label: `Borrowed for ${crisis.emoji ? crisis.emoji.trim() : 'the crisis'}`, value: crisisAmt, color: 'text-blue-400', signed: true },
+          { label: 'Payday hit 🎉', value: weeklyPay, color: 'text-green-400', signed: true },
+          { label: 'Advance repaid' + (appFee > 0 ? ` + ${fmt(appFee)} fee` : ''), value: -(crisisAmt + appFee), color: appFee > 0 ? 'text-red-400' : 'text-slate-300', signed: true },
+          { label: 'Week\'s expenses', value: -weeklyExpenses, color: 'text-slate-400', signed: true },
+        ]
+        return (
+          <div className="bg-slate-800/80 border border-slate-700 rounded-2xl px-4 py-3 mb-3">
+            <p className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-2">Your wallet this week</p>
+            <div className="space-y-1.5">
+              {rows.map((r, i) => (
+                <div key={i} className="flex justify-between items-baseline text-xs">
+                  <span className="text-slate-400">{r.label}</span>
+                  <span className={`font-bold ${r.color}`}>
+                    {r.signed ? fmtSigned(r.value) : fmt(r.value)}
+                  </span>
+                </div>
+              ))}
+              <div className="flex justify-between items-baseline text-sm pt-1.5 border-t border-slate-600 mt-1">
+                <span className="text-slate-300 font-bold">Starting next week</span>
+                <span className={`font-extrabold ${endBalance < 50 ? 'text-red-400' : 'text-green-400'}`}>
+                  {fmt(Math.max(0, endBalance))}
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* EWA pushes back between rounds */}
       {showTaunt && (

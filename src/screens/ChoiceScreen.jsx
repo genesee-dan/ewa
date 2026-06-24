@@ -22,8 +22,8 @@ const PATHS = [
   {
     id: 'family',
     emoji: '👨‍👩‍👧',
-    title: 'Ask family',
-    tagline: "Free. But you'll hear about it at Thanksgiving.",
+    title: 'Friends & Family',
+    tagline: "Sometimes easy, sometimes complicated — but always free.",
     bg: 'linear-gradient(135deg,#92400e,#78350f)',
     border: '#f59e0b',
   },
