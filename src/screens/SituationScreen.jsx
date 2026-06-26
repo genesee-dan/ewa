@@ -7,11 +7,21 @@ function fmt(n) {
 
 export default function SituationScreen() {
   const navigate = useNavigate()
-  const { scenario, profile, gameCrises, currentRound, numRounds, setChosenPath } = useApp()
+  const { scenario, profile, gameCrises, currentRound, numRounds, setChosenPath, roundResults } = useApp()
   const { earned, payday, daysToPayday } = scenario
   const crisis = gameCrises[currentRound] ?? scenario.crisis
   const name = profile?.name && profile.name !== 'Player' ? `, ${profile.name}` : ''
   const isFirstRound = currentRound === 0
+
+  // For round 2+, carry forward balance from previous round's wallet math
+  const carriedBalance = (() => {
+    if (isFirstRound || !roundResults.length || !profile?.weeklyPay) return null
+    const prev = roundResults[currentRound - 1]
+    if (!prev) return null
+    const startBalance = scenario.available ?? 47
+    const weeklyExpenses = profile.weeklyPay - startBalance - prev.crisis.amount
+    return Math.max(0, startBalance + profile.weeklyPay - prev.costOnce - weeklyExpenses)
+  })()
 
   function goToApp() {
     setChosenPath('ewa')
@@ -51,7 +61,9 @@ export default function SituationScreen() {
           </div>
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">
             <span className="text-slate-400 text-sm">In your account right now</span>
-            <span className="text-white font-extrabold text-lg">{fmt(Math.min(earned.available * 0.3, 47))}</span>
+            <span className={`font-extrabold text-lg ${carriedBalance !== null && carriedBalance < 47 ? 'text-amber-400' : 'text-white'}`}>
+              {carriedBalance !== null ? fmt(carriedBalance) : fmt(Math.min(earned.available * 0.3, 47))}
+            </span>
           </div>
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">
             <span className="text-slate-400 text-sm">Days until payday</span>
