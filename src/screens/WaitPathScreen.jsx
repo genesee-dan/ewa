@@ -41,7 +41,7 @@ export default function WaitPathScreen() {
   const s = STEPS[step]
 
   return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-4">{s.day}</p>
         <div className="text-5xl mb-5">{s.emoji}</div>

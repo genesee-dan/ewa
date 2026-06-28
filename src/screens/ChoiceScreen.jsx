@@ -61,7 +61,7 @@ export default function ChoiceScreen() {
   }
 
   return (
-    <div className="flex-1 flex flex-col px-5 pt-5 pb-5 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col px-5 pt-5 pb-safe-5 bg-slate-900 text-white">
       <h1 className="text-xl font-extrabold mb-0.5">What do you do?</h1>
       <p className="text-slate-400 text-xs mb-3">
         You need <span className="text-red-400 font-bold">${crisis.amount}</span>. Pick your move.

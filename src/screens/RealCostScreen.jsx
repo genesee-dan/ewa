@@ -74,7 +74,7 @@ export default function RealCostScreen() {
       {page === 7 && <PageTakeAction resetDemo={resetDemo} navigate={navigate} />}
 
       {/* Prev / Next */}
-      <div className="shrink-0 flex gap-3 px-5 pb-5 pt-2">
+      <div className="shrink-0 flex gap-3 px-5 pb-safe-5 pt-2">
         {page > 0 ? (
           <button
             onClick={() => setPage(p => p - 1)}

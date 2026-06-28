@@ -92,7 +92,7 @@ export default function OnboardingScreen() {
 
   if (step === 'bank') {
     return (
-      <div className="flex-1 min-h-0 flex flex-col px-6 pt-10 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 min-h-0 flex flex-col px-6 pt-10 pb-safe-2 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
         <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 2 of 2</p>
         <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Link your bank</h1>
         <p className="text-sm text-slate-400 mb-3">

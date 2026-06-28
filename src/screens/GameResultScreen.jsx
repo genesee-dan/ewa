@@ -48,7 +48,7 @@ export default function GameResultScreen() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-slate-900 text-white px-5 pt-5 pb-4">
+    <div className="flex-1 flex flex-col bg-slate-900 text-white px-5 pt-5 pb-safe-4">
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Simulation complete</p>
       <h1 className="text-xl font-extrabold mb-3">
         {tookEWA ? `Here's what it cost you${name}.` : `You found another way${name}.`}

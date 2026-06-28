@@ -35,7 +35,7 @@ export default function HomeScreen() {
   return (
     <div className="flex-1 relative overflow-hidden flex flex-col">
       <PushNudge />
-      <div className="flex-1 min-h-0 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 min-h-0 overflow-y-auto pb-safe-6" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pb-5 pt-2">
         <div className="flex items-center justify-between mb-4">

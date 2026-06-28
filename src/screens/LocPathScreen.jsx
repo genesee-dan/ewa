@@ -21,7 +21,7 @@ export default function LocPathScreen() {
   const [step, setStep] = useState(0)
 
   if (step === 0) return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Wednesday</p>
         <div className="text-5xl mb-5">🏦</div>
@@ -53,7 +53,7 @@ export default function LocPathScreen() {
   )
 
   return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4">{payday} — Payday</p>
         <div className="text-5xl mb-5">✅</div>

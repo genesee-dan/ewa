@@ -27,7 +27,7 @@ export default function CutSpendingScreen() {
 
   // If this crisis is too large to cut your way out of, show a dead end
   if (ITEMS_MAX < crisis.amount) return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Cut spending</p>
         <div className="text-5xl mb-5">😬</div>
@@ -69,7 +69,7 @@ export default function CutSpendingScreen() {
   }
 
   if (done) return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4">You found it.</p>
         <div className="text-5xl mb-5">💡</div>
@@ -107,7 +107,7 @@ export default function CutSpendingScreen() {
   )
 
   return (
-    <div className="flex-1 flex flex-col px-5 pt-6 pb-5 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col px-5 pt-6 pb-safe-5 bg-slate-900 text-white">
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Cut spending this week</p>
       <h1 className="text-lg font-extrabold mb-1">Find {fmt(crisis.amount)} somewhere in here.</h1>
       <p className="text-slate-400 text-xs mb-4">Tap things to skip them this week.</p>

@@ -52,7 +52,7 @@ export default function GameSetupScreen() {
   }
 
   if (step === 0) return (
-    <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white">
       <button onClick={() => setGameMode(false)} className="text-slate-400 text-sm mb-5">← Back</button>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 1 of 3</p>
       <h1 className="text-2xl font-extrabold mb-1">What's your name?</h1>
@@ -76,7 +76,7 @@ export default function GameSetupScreen() {
   )
 
   if (step === 1) return (
-    <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white min-h-0">
+    <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white min-h-0">
       <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0" style={{ touchAction: 'manipulation' }}>← Back</button>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1 shrink-0">Step 2 of 3</p>
       <h1 className="text-2xl font-extrabold mb-3 shrink-0">What's your job?</h1>
@@ -124,7 +124,7 @@ export default function GameSetupScreen() {
   )
 
   return (
-    <div className="flex-1 flex flex-col px-6 pt-8 pb-6 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white">
       <button onClick={() => setStep(1)} className="text-slate-400 text-sm mb-5" style={{ touchAction: 'manipulation' }}>← Back</button>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 3 of 3</p>
       <h1 className="text-2xl font-extrabold mb-1">Your weekly take-home pay</h1>

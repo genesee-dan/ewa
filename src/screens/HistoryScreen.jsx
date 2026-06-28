@@ -22,7 +22,7 @@ export default function HistoryScreen() {
     .reduce((s, t) => s + Math.abs(t.amount), 0)
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50 pb-safe-6" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pt-3 pb-4">
         <h1 className="text-xl font-bold text-slate-900 mb-4">Activity</h1>

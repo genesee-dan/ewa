@@ -253,11 +253,11 @@ export function makeGauntlet() {
     seq,
     tipMenu: menu,
     popularTip: menu[randInt(1, 2)],
-    resuggest: chance(0.8) ? randInt(1, 3) : 0,
-    lastChance: chance(0.75),
-    lastChanceDelay: randInt(2, 5),
-    confirmSneak: chance(0.7) ? pick([0.5, 1, 1.5]) : 0,
-    checkbox: chance(0.8),
-    finalModal: chance(0.8),
+    resuggest: 2,
+    lastChance: true,
+    lastChanceDelay: 2,
+    confirmSneak: 1,
+    checkbox: true,
+    finalModal: true,
   }
 }

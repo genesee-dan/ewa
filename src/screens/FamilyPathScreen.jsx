@@ -34,7 +34,7 @@ export default function FamilyPathScreen() {
   const [stage, setStage] = useState('reflect')
 
   if (stage === 'reflect') return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-4">Friends &amp; Family</p>
         <div className="text-5xl mb-5">{reflection.emoji}</div>
@@ -55,7 +55,7 @@ export default function FamilyPathScreen() {
   )
 
   return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-8 bg-slate-900 text-white">
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
         <div className="text-5xl mb-5">💸</div>
         <h1 className="text-2xl font-extrabold mb-3">You got the {fmt(crisis.amount)}.</h1>

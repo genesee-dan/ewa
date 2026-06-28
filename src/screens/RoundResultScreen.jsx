@@ -61,7 +61,7 @@ export default function RoundResultScreen() {
   const showStreak = path !== 'ewa' && roundsDone > 1 && allAvoidedEWA
 
   return (
-    <div className="flex-1 flex flex-col px-6 pt-7 pb-7 bg-slate-900 text-white" style={{ scrollbarWidth: 'none', overflowY: 'auto' }}>
+    <div className="flex-1 flex flex-col px-6 pt-7 pb-safe-7 bg-slate-900 text-white" style={{ scrollbarWidth: 'none', overflowY: 'auto' }}>
       {/* Header with progress dots */}
       <div className="flex items-center justify-between mb-1">
         <p className="text-xs font-bold text-amber-400 uppercase tracking-widest">

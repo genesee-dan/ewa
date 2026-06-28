@@ -236,7 +236,7 @@ export default function TransferScreen() {
           )}
         </div>
 
-        <div className="px-5 pb-4">
+        <div className="px-5 pb-safe-4">
           <button
             onClick={() => {
               if (!canConfirm) return
@@ -737,7 +737,7 @@ export default function TransferScreen() {
         )}
       </div>
 
-      <div className="px-5 pb-4 pt-2 border-t border-slate-100 bg-white">
+      <div className="px-5 pb-safe-4 pt-2 border-t border-slate-100 bg-white">
         <button
           onClick={() => {
             if (amount <= 0 || amount > maxAmount) return
@@ -770,7 +770,7 @@ export default function TransferScreen() {
 
 function TipShell({ title, children }) {
   return (
-    <div className="flex-1 min-h-0 flex flex-col bg-white px-6 pt-10 relative overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 flex flex-col bg-white px-6 pt-10 pb-safe-6 relative overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       <h1 className="text-2xl font-extrabold text-slate-900 text-center mb-3">{title}</h1>
       {children}
     </div>

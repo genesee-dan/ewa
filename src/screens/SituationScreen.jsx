@@ -29,7 +29,7 @@ export default function SituationScreen() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between px-6 pt-8 pb-8 text-white"
+    <div className="flex-1 flex flex-col justify-between px-6 pt-8 pb-safe-8 text-white"
       style={{ background: 'linear-gradient(160deg,#1e293b 0%,#0f172a 100%)' }}>
 
       <div>
