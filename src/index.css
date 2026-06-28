@@ -12,6 +12,9 @@
   .pb-safe-6 { padding-bottom: calc(1.5rem  + env(safe-area-inset-bottom)); }
   .pb-safe-7 { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom)); }
   .pb-safe-8 { padding-bottom: calc(2rem    + env(safe-area-inset-bottom)); }
+  /* Clears the fixed 64px BottomNav plus the safe area, for scrollable
+     screens whose last action would otherwise sit under the nav. */
+  .pb-safe-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
 }
 
 * {
