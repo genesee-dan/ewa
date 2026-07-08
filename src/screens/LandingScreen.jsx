@@ -20,24 +20,22 @@ export default function LandingScreen() {
         This demo shows you exactly how much those fees, tips, and memberships
         actually cost over a year.
       </p>
+      <button
+        onClick={() => { setGameMode(false); setLanded(true) }}
+        className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
+        style={{ touchAction: 'manipulation' }}
+      >
+        {SHOW_GAME ? 'Explore the demo' : 'Start the demo →'}
+      </button>
       {SHOW_GAME && (
         <button
           onClick={() => { setGameMode(true); setLanded(true) }}
-          className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
+          className="w-full bg-slate-700 text-white font-extrabold py-4 rounded-2xl text-sm shadow-xl active:scale-95 transition-transform mb-4"
           style={{ touchAction: 'manipulation' }}
         >
           Play the simulation
         </button>
       )}
-      <button
-        onClick={() => { setGameMode(false); setLanded(true) }}
-        className={`w-full font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-4 ${
-          SHOW_GAME ? 'bg-slate-700 text-white text-sm' : 'bg-amber-500 text-slate-900'
-        }`}
-        style={{ touchAction: 'manipulation' }}
-      >
-        {SHOW_GAME ? 'Explore the demo' : 'Start the demo →'}
-      </button>
       <p className="text-slate-500 text-xs">
         No real money moves. Educational purposes only.
       </p>

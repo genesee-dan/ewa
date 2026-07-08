@@ -71,7 +71,7 @@ export default function RealCostScreen() {
       {page === 4 && <PageVideo navigate={navigate} />}
       {page === 5 && <Page4 setPage={setPage} navigate={navigate} amount={amount} annualCost={annualCost} />}
       {page === 6 && <Page5 navigate={navigate} setPage={setPage} />}
-      {page === 7 && <PageTakeAction resetDemo={resetDemo} navigate={navigate} />}
+      {page === 7 && <PageTakeAction resetDemo={resetDemo} />}
 
       {/* Prev / Next */}
       <div className="shrink-0 flex gap-3 px-5 pb-safe-5 pt-2">
@@ -372,7 +372,7 @@ function Page5({ navigate }) {
   )
 }
 
-function PageTakeAction({ resetDemo, navigate }) {
+function PageTakeAction({ resetDemo }) {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2 flex flex-col" style={{ scrollbarWidth: 'none' }}>
       <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 8 of 8 · Take Action</p>
@@ -401,14 +401,11 @@ function PageTakeAction({ resetDemo, navigate }) {
 
       <div className="flex flex-col gap-2.5 mt-auto">
         <button
-          onClick={() => navigate('/')}
+          onClick={resetDemo}
           className="w-full bg-slate-700 text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Back to the app
-        </button>
-        <button onClick={resetDemo} className="w-full text-slate-500 text-xs font-medium underline py-1">
-          Restart the demo from the beginning
+          Back to the beginning
         </button>
       </div>
 
