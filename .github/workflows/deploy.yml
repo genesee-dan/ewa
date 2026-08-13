@@ -21,8 +21,27 @@ jobs:
         with:
           node-version: 20
           cache: npm
+
+      # --- Main site (game mode enabled), published at / ---
       - run: npm ci
-      - run: npm run build
+      - name: Build main site
+        run: VITE_SHOW_GAME=true npm run build
+
+      # --- Frozen "previous" version, published at /previous/ ---
+      # Snapshot of the pre-accessibility app, kept in the background.
+      - name: Checkout previous version source
+        uses: actions/checkout@v4
+        with:
+          ref: claude/ewa-game
+          path: previous-src
+      - name: Build previous version
+        run: |
+          cd previous-src
+          npm ci
+          VITE_SHOW_GAME=true npx vite build --base=/previous/
+          mkdir -p "$GITHUB_WORKSPACE/dist/previous"
+          cp -r dist/* "$GITHUB_WORKSPACE/dist/previous/"
+
       - run: touch dist/.nojekyll
       - uses: peaceiris/actions-gh-pages@v4
         with:
