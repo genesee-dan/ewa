@@ -15,6 +15,7 @@ export default {
   'push.now': 'now',
 
   'video.close': 'Close',
+  'video.captions': 'Captions',
   'video.back': '← Back',
   'video.next': 'Next →',
   'video.restart': 'Restart demo',

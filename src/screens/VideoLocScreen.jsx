@@ -11,6 +11,10 @@ export default function VideoLocScreen() {
   return (
     <VideoPlayer
       src={`${import.meta.env.BASE_URL}explainer-loc.mp4`}
+      tracks={[
+        { lang: 'en', label: 'English', src: `${import.meta.env.BASE_URL}subtitles/explainer-loc.en.vtt` },
+        { lang: 'es', label: 'Español', src: `${import.meta.env.BASE_URL}subtitles/explainer-loc.es.vtt` },
+      ]}
       onClose={() => navigate('/cost')}
       bottomAction={
         <button

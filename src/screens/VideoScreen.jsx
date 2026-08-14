@@ -14,6 +14,10 @@ export default function VideoScreen() {
         { src: `${import.meta.env.BASE_URL}explainer.mp4`, type: 'video/mp4' },
         { src: `${import.meta.env.BASE_URL}explainer.webm`, type: 'video/webm' },
       ]}
+      tracks={[
+        { lang: 'en', label: 'English', src: `${import.meta.env.BASE_URL}subtitles/explainer.en.vtt` },
+        { lang: 'es', label: 'Español', src: `${import.meta.env.BASE_URL}subtitles/explainer.es.vtt` },
+      ]}
       onClose={() => navigate('/cost')}
       bottomAction={
         <div className="flex gap-3 w-full">

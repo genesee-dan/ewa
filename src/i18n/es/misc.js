@@ -15,6 +15,7 @@ export default {
   'push.now': 'ahora',
 
   'video.close': 'Cerrar',
+  'video.captions': 'Subtítulos',
   'video.back': '← Atrás',
   'video.next': 'Siguiente →',
   'video.restart': 'Reiniciar demo',

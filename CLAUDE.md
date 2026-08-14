@@ -78,6 +78,36 @@ rm /tmp/vid/seg2.wav && node scripts/tts-kokoro.mjs
 
 Pronunciation note: APR is spelled `"eh pee ar"` in TTS text so Kokoro reads each letter.
 
+### Video captions / subtitles (i18n)
+
+The player (`src/components/VideoPlayer.jsx`) supports WebVTT caption tracks via a
+`tracks` prop; a **CC** button cycles off → each available language, and it defaults
+to the app language when a matching track exists. Tracks live in `public/subtitles/`
+as `<video>.<lang>.vtt` and are passed in by `VideoScreen` / `VideoLocScreen`.
+
+Generate/refresh them with:
+
+```bash
+node scripts/gen-subtitles.mjs   # writes public/subtitles/*.{en,es}.vtt
+```
+
+Timings mirror the narration build: if the rendered wavs are in `/tmp/vid` (video
+env) the cues are exact; otherwise they're estimated from word count — re-run in the
+video env for frame-accurate cues. **To add a subtitle language**, add its segment
+array under the matching video key in `scripts/gen-subtitles.mjs`, re-run, and add a
+`{ lang, label, src }` entry to the `tracks` prop in the screen.
+
+### Spanish-narrated (dubbed) videos — TODO
+
+Subtitles are the interim for non-English; the plan is a real Spanish **dub** (natural
+narration, not captions). The Spanish narration script already exists (the `es`
+segment arrays in `scripts/gen-subtitles.mjs`). To produce it, mirror
+`tts-kokoro*.mjs` + `make-video*.mjs` with a Spanish Kokoro voice (e.g. the
+`kokoro-multi-lang-v1_0` model's `ef_`/`em_` Spanish speakers) and translated on-screen
+scene text, writing `public/explainer.es.mp4`; then have `VideoScreen` pick the `.es.mp4`
+source when the app language is `es`. This must run in the video-build environment
+(needs the Kokoro model + Playwright), not a fresh web session.
+
 ## Branch structure
 
 | Branch | Purpose |

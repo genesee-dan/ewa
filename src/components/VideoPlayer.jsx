@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { X, Play, Pause } from 'lucide-react'
-import { useT } from '../i18n'
+import { useT, useLang } from '../i18n'
 
 function fmt(s) {
   const m = Math.floor(s / 60)
@@ -8,13 +8,40 @@ function fmt(s) {
   return `${m}:${sec.toString().padStart(2, '0')}`
 }
 
-export default function VideoPlayer({ src, sources, onClose, onEnded, bottomAction }) {
+// tracks: optional [{ lang, label, src }] WebVTT caption tracks. When present,
+// a CC button cycles off → each available language. Defaults to the app
+// language when a matching track exists and the audio isn't already in it.
+export default function VideoPlayer({ src, sources, tracks, onClose, onEnded, bottomAction }) {
   const t = useT()
+  const { lang } = useLang()
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [ended, setEnded] = useState(false)
+
+  const capLangs = (tracks || []).map(tr => tr.lang)
+  // Default captions: app language if we have that track and the narration
+  // is English (lang !== 'en'); otherwise off. Cycle order: off → each lang.
+  const [capLang, setCapLang] = useState(() =>
+    tracks && capLangs.includes(lang) && lang !== 'en' ? lang : null,
+  )
+
+  function cycleCaptions() {
+    const order = [null, ...capLangs]
+    const idx = order.indexOf(capLang)
+    setCapLang(order[(idx + 1) % order.length])
+  }
+
+  // Apply the selected caption language to the native text tracks.
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    const tt = v.textTracks
+    for (let i = 0; i < tt.length; i++) {
+      tt[i].mode = capLang && tt[i].language === capLang ? 'showing' : 'disabled'
+    }
+  }, [capLang, tracks])
 
   useEffect(() => {
     const v = videoRef.current
@@ -69,6 +96,9 @@ export default function VideoPlayer({ src, sources, onClose, onEnded, bottomActi
           ? sources.map(s => <source key={s.src} src={s.src} type={s.type} />)
           : <source src={src} type="video/mp4" />
         }
+        {(tracks || []).map(tr => (
+          <track key={tr.lang} kind="subtitles" srcLang={tr.lang} label={tr.label} src={tr.src} />
+        ))}
       </video>
 
       {/* Close button */}
@@ -122,6 +152,18 @@ export default function VideoPlayer({ src, sources, onClose, onEnded, bottomActi
             <span className="text-white text-xs font-mono">
               {fmt(currentTime)} / {fmt(duration)}
             </span>
+            {tracks && tracks.length > 0 && (
+              <button
+                onClick={cycleCaptions}
+                className={`ml-auto px-2 py-1 rounded-md text-[11px] font-bold border ${
+                  capLang ? 'bg-white text-slate-900 border-white' : 'text-white/70 border-white/40'
+                }`}
+                style={{ touchAction: 'manipulation' }}
+                aria-label={t('video.captions')}
+              >
+                {capLang ? `CC · ${capLang.toUpperCase()}` : 'CC'}
+              </button>
+            )}
           </div>
         </div>
       )}
