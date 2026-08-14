@@ -128,17 +128,17 @@ export default function HomeScreen() {
       {/* Stats row */}
       <div className="px-5 py-4 flex gap-3">
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Transferred</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.transferred')}</p>
           <p className="text-base font-bold text-slate-800">{fmt(earned.transferred)}</p>
-          <p className="text-xs text-slate-400">this period</p>
+          <p className="text-xs text-slate-400">{t('home.thisPeriod')}</p>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Next payday</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.nextPayday')}</p>
           <p className="text-base font-bold text-slate-800">{scenario.payday}</p>
-          <p className="text-xs text-slate-400">{scenario.daysToPayday} days away</p>
+          <p className="text-xs text-slate-400">{t('home.daysAway', { n: scenario.daysToPayday })}</p>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Employer</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.employer')}</p>
           <p className="text-base font-bold text-slate-800 truncate" style={{ fontSize: '11px', fontWeight: 700 }}>{scenario.job.short}</p>
           <p className="text-xs text-slate-400">{scenario.job.sub}</p>
         </div>
@@ -155,8 +155,8 @@ export default function HomeScreen() {
               <Zap size={18} className="text-green-600" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">Instant Transfer</p>
-              <p className="text-xs text-slate-400">In your bank in minutes</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.instantTransfer')}</p>
+              <p className="text-xs text-slate-400">{t('home.instantTransferSub')}</p>
             </div>
             <ChevronRight size={16} className="text-slate-300" />
           </button>
@@ -165,8 +165,8 @@ export default function HomeScreen() {
               <Shield size={18} className="text-blue-500" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">No credit check</p>
-              <p className="text-xs text-slate-400">It's your money, access it anytime</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.noCreditCheck')}</p>
+              <p className="text-xs text-slate-400">{t('home.noCreditCheckSub')}</p>
             </div>
           </div>
           <div className="flex items-center px-4 py-3.5">
@@ -174,8 +174,8 @@ export default function HomeScreen() {
               <Clock size={18} className="text-amber-500" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">Auto repay on payday</p>
-              <p className="text-xs text-slate-400">Repaid automatically from paycheck</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.autoRepay')}</p>
+              <p className="text-xs text-slate-400">{t('home.autoRepaySub')}</p>
             </div>
           </div>
         </div>
@@ -185,9 +185,9 @@ export default function HomeScreen() {
       {recent.length > 0 && (
         <div className="px-5 mb-6">
           <div className="flex justify-between items-center mb-2">
-            <p className="text-sm font-bold text-slate-700">Recent Activity</p>
+            <p className="text-sm font-bold text-slate-700">{t('home.recentActivity')}</p>
             <button onClick={() => navigate('/history')} className="text-xs text-green-600 font-medium">
-              See all
+              {t('home.seeAll')}
             </button>
           </div>
           <div className="bg-white rounded-2xl divide-y divide-slate-50">

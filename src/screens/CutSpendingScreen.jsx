@@ -31,17 +31,16 @@ export default function CutSpendingScreen() {
   if (ITEMS_MAX < crisis.amount) return (
     <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Cut spending</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{t('cut.eyebrow')}</p>
         <div className="text-5xl mb-5">😬</div>
-        <h1 className="text-2xl font-extrabold mb-3">There's not enough to cut.</h1>
+        <h1 className="text-2xl font-extrabold mb-3">{t('cut.notEnough')}</h1>
         <p className="text-slate-300 text-sm leading-relaxed mb-4">
-          Even if you skipped everything discretionary this week, you'd only find {fmt(ITEMS_MAX)}.
-          You need {fmt(crisis.amount)}. Sometimes cutting isn't the answer.
+          {t('cut.notEnoughBody', { max: fmt(ITEMS_MAX), amount: fmt(crisis.amount) })}
         </p>
         <div className="bg-slate-800 rounded-2xl px-5 py-4 text-center">
-          <p className="text-slate-400 text-sm">Max you could free up</p>
+          <p className="text-slate-400 text-sm">{t('cut.maxFreeUp')}</p>
           <p className="text-2xl font-extrabold text-red-400 mt-1">{fmt(ITEMS_MAX)}</p>
-          <p className="text-slate-500 text-xs mt-1">vs {fmt(crisis.amount)} needed</p>
+          <p className="text-slate-500 text-xs mt-1">{t('cut.vsNeeded', { amount: fmt(crisis.amount) })}</p>
         </div>
       </div>
       <button
@@ -49,7 +48,7 @@ export default function CutSpendingScreen() {
         className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         style={{ touchAction: 'manipulation' }}
       >
-        ← Go back and choose differently
+        {t('cut.goBack')}
       </button>
     </div>
   )
@@ -73,24 +72,24 @@ export default function CutSpendingScreen() {
   if (done) return (
     <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
       <div>
-        <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4">You found it.</p>
+        <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-4">{t('cut.foundIt')}</p>
         <div className="text-5xl mb-5">💡</div>
-        <h1 className="text-2xl font-extrabold mb-3">The money was already yours.</h1>
+        <h1 className="text-2xl font-extrabold mb-3">{t('cut.moneyWasYours')}</h1>
         <p className="text-slate-300 text-sm leading-relaxed mb-6">
-          You didn't need to borrow anything. You just needed to see where it was going.
+          {t('cut.moneyWasYoursBody')}
         </p>
         <div className="space-y-2">
           {[...selected].map(id => {
             const item = ITEMS.find(i => i.id === id)
             return (
               <div key={id} className="flex justify-between items-center bg-slate-800 rounded-xl px-4 py-3 text-sm">
-                <span className="text-slate-300">{item.emoji} {item.label}</span>
+                <span className="text-slate-300">{item.emoji} {t(`cut.item.${item.id}.label`)}</span>
                 <span className="text-green-400 font-bold">{fmt(item.amount)}</span>
               </div>
             )
           })}
           <div className="flex justify-between items-center bg-green-900/30 border border-green-500/30 rounded-xl px-4 py-3 text-sm mt-1">
-            <span className="text-green-300 font-bold">You kept</span>
+            <span className="text-green-300 font-bold">{t('cut.youKept')}</span>
             <span className="text-green-400 font-extrabold text-base">{fmt(total)}</span>
           </div>
         </div>
@@ -103,16 +102,16 @@ export default function CutSpendingScreen() {
         className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         style={{ touchAction: 'manipulation' }}
       >
-        {gameMode ? 'See how you did →' : '← Back'}
+        {gameMode ? t('cut.seeHowYouDid') : t('cut.back')}
       </button>
     </div>
   )
 
   return (
     <div className="flex-1 flex flex-col px-5 pt-6 pb-safe-5 bg-slate-900 text-white">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Cut spending this week</p>
-      <h1 className="text-lg font-extrabold mb-1">Find {fmt(crisis.amount)} somewhere in here.</h1>
-      <p className="text-slate-400 text-xs mb-4">Tap things to skip them this week.</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('cut.eyebrowThisWeek')}</p>
+      <h1 className="text-lg font-extrabold mb-1">{t('cut.findSomewhere', { amount: fmt(crisis.amount) })}</h1>
+      <p className="text-slate-400 text-xs mb-4">{t('cut.tapToSkip')}</p>
 
       <div className="space-y-2 mb-4">
         {ITEMS.map(item => {
@@ -128,9 +127,9 @@ export default function CutSpendingScreen() {
               <span className="text-2xl shrink-0">{item.emoji}</span>
               <div className="flex-1 min-w-0">
                 <p className={`text-sm font-bold leading-tight ${on ? 'line-through text-slate-400' : 'text-white'}`}>
-                  {item.label}
+                  {t(`cut.item.${item.id}.label`)}
                 </p>
-                <p className="text-[11px] text-slate-500 leading-tight">{item.desc}</p>
+                <p className="text-[11px] text-slate-500 leading-tight">{t(`cut.item.${item.id}.desc`)}</p>
               </div>
               <span className={`font-extrabold text-sm shrink-0 ${on ? 'text-green-400' : 'text-slate-400'}`}>
                 {fmt(item.amount)}
@@ -145,7 +144,7 @@ export default function CutSpendingScreen() {
         covered ? 'bg-green-900/30 border border-green-500/30' : 'bg-slate-800'
       }`}>
         <span className={`text-sm font-bold ${covered ? 'text-green-300' : 'text-slate-400'}`}>
-          {covered ? '✓ Found enough' : 'Found so far'}
+          {covered ? t('cut.foundEnough') : t('cut.foundSoFar')}
         </span>
         <span className={`font-extrabold text-lg ${covered ? 'text-green-400' : 'text-slate-200'}`}>
           {fmt(total)}
@@ -159,7 +158,7 @@ export default function CutSpendingScreen() {
           covered ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-500'
         }`}
       >
-        {covered ? "That'll do it →" : `Need ${fmt(crisis.amount - total)} more`}
+        {covered ? t('cut.thatllDoIt') : t('cut.needMore', { amount: fmt(crisis.amount - total) })}
       </button>
     </div>
   )

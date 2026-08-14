@@ -1,5 +1,6 @@
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -10,16 +11,17 @@ function fmtShort(n) {
 
 const PLUS_MONTHLY = 9.99
 
-const PATH_LABELS = {
-  ewa:    { emoji: '🤳', label: 'EarnNow app' },
-  loc:    { emoji: '🏦', label: 'Credit union LOC' },
-  family: { emoji: '👨‍👩‍👧', label: 'Friends & Family' },
-  cut:    { emoji: '✂️', label: 'Cut spending' },
-  wait:   { emoji: '🤷', label: 'Wait it out' },
+const PATH_EMOJI = {
+  ewa:    '🤳',
+  loc:    '🏦',
+  family: '👨‍👩‍👧',
+  cut:    '✂️',
+  wait:   '🤷',
 }
 
 export default function GameResultScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { roundResults, scenario, profile, isPlus, restartGame, numRounds, setCostPage, lastTransfer } = useApp()
 
   if (!roundResults.length) return <Navigate to="/situation" replace />
@@ -49,9 +51,9 @@ export default function GameResultScreen() {
 
   return (
     <div className="flex-1 min-h-0 overflow-y-auto flex flex-col bg-slate-900 text-white px-5 pt-5 pb-safe-4" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Simulation complete</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('gameresult.simComplete')}</p>
       <h1 className="text-xl font-extrabold mb-3">
-        {tookEWA ? `Here's what it cost you${name}.` : `You found another way${name}.`}
+        {tookEWA ? t('gameresult.headingEwa', { name }) : t('gameresult.headingOther', { name })}
       </h1>
 
       {/* APR — lead with the gut-punch */}

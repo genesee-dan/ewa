@@ -282,54 +282,55 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 }
 
 function PageStacking() {
+  const t = useT()
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 4 of 8 · Stacking</p>
-      <h1 className="text-2xl font-extrabold mb-3">Most users have more than one app.</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.stack.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-3">{t('realcost.stack.title')}</h1>
 
       <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
-        <p className="text-sm text-red-300 mb-0.5">Frequent EWA users who use</p>
+        <p className="text-sm text-red-300 mb-0.5">{t('realcost.stack.freqUsers')}</p>
         <p className="text-red-400 leading-none mb-0.5">
-          <span className="text-5xl font-extrabold">1 in 3</span>
+          <span className="text-5xl font-extrabold">{t('realcost.stack.oneInThree')}</span>
         </p>
-        <p className="text-sm font-bold text-red-300">2+ apps simultaneously</p>
+        <p className="text-sm font-bold text-red-300">{t('realcost.stack.twoPlus')}</p>
         <p className="text-[11px] text-slate-400 mt-2">
-          Each app charges its own fee or tip against the same upcoming paycheck.
-          No app can see what the others have already advanced.
+          {t('realcost.stack.eachCharges')}
         </p>
       </div>
 
       <div className="bg-slate-800 rounded-2xl p-4 mb-3">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">What it adds up to</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">{t('realcost.stack.addsUp')}</p>
         <div className="space-y-1.5 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-400">CFPB avg: 27 advances/year</span>
-            <span className="text-slate-200 font-bold">~$70/yr</span>
+            <span className="text-slate-400">{t('realcost.stack.cfpbAvg')}</span>
+            <span className="text-slate-200 font-bold">{t('realcost.stack.cfpbAvgVal')}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">Frequent user: 36 advances/year</span>
-            <span className="text-amber-400 font-bold">~$140/yr</span>
+            <span className="text-slate-400">{t('realcost.stack.freqUser')}</span>
+            <span className="text-amber-400 font-bold">{t('realcost.stack.freqUserVal')}</span>
           </div>
           <div className="flex justify-between border-t border-slate-600 pt-1.5 mt-1">
-            <span className="text-slate-300">Stacker (3 apps, 36×/yr each)</span>
-            <span className="text-red-400 font-extrabold">~$420/yr</span>
+            <span className="text-slate-300">{t('realcost.stack.stacker')}</span>
+            <span className="text-red-400 font-extrabold">{t('realcost.stack.stackerVal')}</span>
           </div>
         </div>
-        <p className="text-[10px] text-slate-500 mt-2">Source: CFPB Data Spotlight, July 2024. Assumes ~$3.90 avg fee+tip per advance.</p>
+        <p className="text-[10px] text-slate-500 mt-2">{t('realcost.stack.source')}</p>
       </div>
 
       <p className="text-xs text-slate-400 leading-relaxed">
-        EWA apps do <strong className="text-slate-200">no credit check</strong> and share no data with each other. For the apps, stacking users are their best customers.
+        {t('realcost.stack.footerPre')}<strong className="text-slate-200">{t('realcost.stack.noCreditCheck')}</strong>{t('realcost.stack.footerEnd')}
       </p>
     </div>
   )
 }
 
 function Page5({ navigate }) {
+  const t = useT()
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 7 of 8 · Other Options</p>
-      <h1 className="text-xl font-extrabold mb-4">Other ways people handle situations like this</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.other.eyebrow')}</p>
+      <h1 className="text-xl font-extrabold mb-4">{t('realcost.other.title')}</h1>
 
       <div className="space-y-2">
         <button
@@ -339,8 +340,8 @@ function Page5({ navigate }) {
         >
           <span className="text-xl shrink-0">👨‍👩‍👧</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Ask family →</p>
-            <p className="text-xs text-slate-400">Financial cost: $0. Emotional cost: one awkward conversation.</p>
+            <p className="text-sm font-bold text-slate-200">{t('realcost.other.familyTitle')}</p>
+            <p className="text-xs text-slate-400">{t('realcost.other.familyDesc')}</p>
           </div>
         </button>
         <button
@@ -350,8 +351,8 @@ function Page5({ navigate }) {
         >
           <span className="text-xl shrink-0">✂️</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Cut one week of spending →</p>
-            <p className="text-xs text-slate-400">Skip delivery, coffee runs, happy hour — often enough to cover a small shortfall.</p>
+            <p className="text-sm font-bold text-slate-200">{t('realcost.other.cutTitle')}</p>
+            <p className="text-xs text-slate-400">{t('realcost.other.cutDesc')}</p>
           </div>
         </button>
         <button
@@ -361,8 +362,8 @@ function Page5({ navigate }) {
         >
           <span className="text-xl shrink-0">🤷</span>
           <div>
-            <p className="text-sm font-bold text-slate-200">Wait it out →</p>
-            <p className="text-xs text-slate-400">Many "urgent" expenses aren't. Payday is closer than it feels at 2am.</p>
+            <p className="text-sm font-bold text-slate-200">{t('realcost.other.waitTitle')}</p>
+            <p className="text-xs text-slate-400">{t('realcost.other.waitDesc')}</p>
           </div>
         </button>
       </div>
@@ -371,14 +372,13 @@ function Page5({ navigate }) {
 }
 
 function PageTakeAction({ resetDemo }) {
+  const t = useT()
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2 flex flex-col" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 8 of 8 · Take Action</p>
-      <h1 className="text-2xl font-extrabold mb-2">Now do something about it.</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.action.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-2">{t('realcost.action.title')}</h1>
       <p className="text-sm text-slate-400 mb-4 leading-relaxed">
-        Cash advance apps are barely regulated — they dodge the rules that cover real loans.
-        The <strong className="text-slate-200">STOP Act</strong> (Stop Taking Our Pay Act) would change that.
-        If you're in New York, email your elected officials to support it.
+        {t('realcost.action.bodyPre')}<strong className="text-slate-200">{t('realcost.action.stopAct')}</strong>{t('realcost.action.bodyEnd')}
       </p>
 
       <a
@@ -388,12 +388,12 @@ function PageTakeAction({ resetDemo }) {
         className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm text-center active:scale-95 transition-transform mb-4"
         style={{ touchAction: 'manipulation' }}
       >
-        New Yorkers: Email your elected officials →
+        {t('realcost.action.emailBtn')}
       </a>
 
       <div className="bg-white rounded-2xl p-4 flex flex-col items-center mb-4">
-        <img src={`${import.meta.env.BASE_URL}stopact-qr.png`} alt="QR code linking to the STOP Act action page" className="w-40 h-40" />
-        <p className="text-xs text-slate-500 mt-2 text-center">Not on your phone? Scan to take action.</p>
+        <img src={`${import.meta.env.BASE_URL}stopact-qr.png`} alt={t('realcost.action.qrAlt')} className="w-40 h-40" />
+        <p className="text-xs text-slate-500 mt-2 text-center">{t('realcost.action.qrScan')}</p>
         <p className="text-[11px] text-slate-400 mt-1 text-center font-mono">neweconomynyc.ourpowerbase.net</p>
       </div>
 
@@ -403,14 +403,14 @@ function PageTakeAction({ resetDemo }) {
           className="w-full bg-slate-700 text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Back to the beginning
+          {t('realcost.action.reset')}
         </button>
       </div>
 
       <div className="flex items-center justify-center gap-3 mt-4 pt-4 border-t border-slate-700">
         <img src={`${import.meta.env.BASE_URL}genesee-icon.png`} alt="" className="w-8 h-8 rounded-lg" />
         <p className="text-xs text-slate-400 leading-snug">
-          Brought to you by<br />
+          {t('realcost.action.broughtBy')}<br />
           <span className="text-slate-200 font-semibold">Genesee Co-op Federal Credit Union</span>
         </p>
       </div>
