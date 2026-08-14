@@ -95,14 +95,14 @@ export default function OnboardingScreen() {
   if (step === 'bank') {
     return (
       <div className="flex-1 min-h-0 flex flex-col px-6 pt-10 pb-safe-2 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 2 of 2</p>
-        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Link your bank</h1>
+        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">{t('onboarding.step2')}</p>
+        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">{t('onboarding.linkBank')}</h1>
         <p className="text-sm text-slate-400 mb-3">
-          So we know where to send your money. <span className="text-slate-300">(Demo — nothing is really linked.)</span>
+          {t('onboarding.linkBankSub')}<span className="text-slate-300">{t('onboarding.linkBankDemo')}</span>
         </p>
         <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-5">
           <p className="text-xs text-amber-700 leading-relaxed">
-            <strong>Real apps connect through services like Plaid,</strong> giving them read access to your full transaction history, balance, and direct deposit records.
+            <strong>{t('onboarding.bankWarningBold')}</strong>{t('onboarding.bankWarningRest')}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 mb-6">
@@ -134,7 +134,7 @@ export default function OnboardingScreen() {
               : 'bg-slate-200 text-slate-400'
           }`}
         >
-          Securely Connect
+          {t('onboarding.securelyConnect')}
         </button>
       </div>
     )
@@ -144,8 +144,8 @@ export default function OnboardingScreen() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-8 bg-white text-center">
       <div className="w-14 h-14 border-4 border-green-100 border-t-green-500 rounded-full animate-spin mb-6" />
-      <p className="text-lg font-bold text-slate-800 mb-1">Connecting to {bank}…</p>
-      <p className="text-sm text-slate-400">Verifying your paycheck deposits</p>
+      <p className="text-lg font-bold text-slate-800 mb-1">{t('onboarding.connectingTo', { bank })}</p>
+      <p className="text-sm text-slate-400">{t('onboarding.verifying')}</p>
     </div>
   )
 }
