@@ -1,15 +1,27 @@
-import { createContext, useContext, useState, useCallback, useMemo } from 'react'
-import { en } from './en'
-import { es } from './es'
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react'
 
-// Add a language here and it becomes available everywhere — no other code changes.
-// `label` is what shows in the picker; it's always written in that language.
+// Every language lives as a folder of dictionary fragments under src/i18n/<code>/.
+// They're auto-discovered here — adding a language is a new folder + a row in
+// LANGUAGES below. `rtl` flips layout direction; `beta` shows a tag in the picker.
 export const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Español' },
+  { code: 'zh', label: '中文', beta: true },
+  { code: 'ar', label: 'العربية', rtl: true, beta: true },
+  { code: 'so', label: 'Soomaali', beta: true },
+  { code: 'prs', label: 'دری', rtl: true, beta: true },
+  { code: 'ne', label: 'नेपाली', beta: true },
 ]
 
-const DICTS = { en, es }
+// Build one merged dictionary per language folder: './ar/data.js' → DICTS.ar
+const modules = import.meta.glob('./*/*.js', { eager: true })
+const DICTS = {}
+for (const [path, mod] of Object.entries(modules)) {
+  const code = path.split('/')[1]
+  DICTS[code] = Object.assign(DICTS[code] || {}, mod.default || {})
+}
+
+const RTL = new Set(LANGUAGES.filter((l) => l.rtl).map((l) => l.code))
 const STORAGE_KEY = 'ewa-lang'
 
 function initialLang() {
@@ -26,18 +38,22 @@ export function LanguageProvider({ children }) {
   const [lang, setLangState] = useState(initialLang)
 
   const setLang = useCallback((code) => {
-    if (!DICTS[code]) return
+    if (!DICTS[code] && code !== 'en') return
     setLangState(code)
     try { localStorage.setItem(STORAGE_KEY, code) } catch { /* ignore */ }
   }, [])
 
-  // t(key, vars?) — looks up the current language, falls back to English, then
-  // to the key itself. English is always the source of truth, so a missing
-  // translation degrades gracefully to English rather than breaking.
+  // Keep the document's language + text direction in sync (RTL for ar/prs).
+  useEffect(() => {
+    document.documentElement.lang = lang
+    document.documentElement.dir = RTL.has(lang) ? 'rtl' : 'ltr'
+  }, [lang])
+
+  // t(key, vars?) — current language, then English fallback, then the key.
   const t = useCallback((key, vars) => {
-    const dict = DICTS[lang] || en
+    const dict = DICTS[lang] || DICTS.en
     let str = dict[key]
-    if (str == null) str = en[key]
+    if (str == null) str = DICTS.en[key]
     if (str == null) return key
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
@@ -57,7 +73,6 @@ export function useLang() {
   return ctx
 }
 
-// Convenience hook when a component only needs the translate function.
 export function useT() {
   return useLang().t
 }

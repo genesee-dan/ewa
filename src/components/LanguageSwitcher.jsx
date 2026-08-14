@@ -16,9 +16,9 @@ export default function LanguageSwitcher({ className = '' }) {
         className="appearance-none bg-slate-800/80 border border-slate-600 text-slate-100 text-xs font-bold rounded-full pl-7 pr-7 py-1.5 outline-none focus:border-amber-400"
         style={{ touchAction: 'manipulation' }}
       >
-        {LANGUAGES.map(({ code, label }) => (
+        {LANGUAGES.map(({ code, label, beta }) => (
           <option key={code} value={code} className="bg-slate-800 text-slate-100">
-            {label}
+            {label}{beta ? ' (beta)' : ''}
           </option>
         ))}
       </select>
