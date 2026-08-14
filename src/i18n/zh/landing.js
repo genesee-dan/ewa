@@ -1,0 +1,14 @@
+export default {
+  'lang.label': '语言',
+
+  'landing.badge': '教育演示',
+  'landing.hook': '看看预支工资类应用是如何让你花冤枉钱的',
+  'landing.body':
+    'DailyPay、Dave 和 EarnIn 这类应用承诺"提前拿到你的工资——而且免费"。本演示会让你清楚地看到，这些手续费、小费和会员费在一年里实际会花掉你多少钱。',
+  'landing.exploreDemo': '体验演示',
+  'landing.startDemo': '开始演示 →',
+  'landing.playSim': '玩玩模拟游戏',
+  'landing.disclaimer1': '不涉及任何真实资金转移。仅用于教育目的。',
+  'landing.disclaimer2':
+    '"EarnNow" 是为教育目的虚构的应用。文中提及的公司名称仅用于识别。',
+}
