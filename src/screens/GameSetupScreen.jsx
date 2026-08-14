@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 import { PROFESSIONS } from '../data/scenario'
 
 function fmt(n) {
@@ -12,6 +13,7 @@ const ALL_PROFS = [...PROFESSIONS, OTHER]
 
 export default function GameSetupScreen() {
   const { startGame, setGameMode } = useApp()
+  const t = useT()
   const navigate = useNavigate()
   const [step, setStep] = useState(0) // 0=name, 1=profession, 2=pay
   const [name, setName] = useState('')
@@ -53,33 +55,33 @@ export default function GameSetupScreen() {
 
   if (step === 0) return (
     <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white">
-      <button onClick={() => setGameMode(false)} className="text-slate-400 text-sm mb-5">← Back</button>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 1 of 3</p>
-      <h1 className="text-2xl font-extrabold mb-1">What's your name?</h1>
-      <p className="text-sm text-slate-400 mb-8">We'll personalize the reveal at the end.</p>
+      <button onClick={() => setGameMode(false)} className="text-slate-400 text-sm mb-5">{t('setup.back')}</button>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">{t('setup.step1')}</p>
+      <h1 className="text-2xl font-extrabold mb-1">{t('setup.nameQ')}</h1>
+      <p className="text-sm text-slate-400 mb-8">{t('setup.nameSub')}</p>
       <input
         autoFocus
         type="text"
         value={name}
         onChange={e => setName(e.target.value)}
         onKeyDown={e => e.key === 'Enter' && goStep(1)}
-        placeholder="First name (optional)"
+        placeholder={t('setup.namePlaceholder')}
         className="w-full bg-slate-800 border-2 border-slate-700 rounded-2xl px-4 py-4 text-base font-semibold text-white outline-none focus:border-amber-400 mb-auto"
       />
       <button
         onClick={() => goStep(1)}
         className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform mt-8"
       >
-        Next →
+        {t('setup.next')}
       </button>
     </div>
   )
 
   if (step === 1) return (
     <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white min-h-0">
-      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0" style={{ touchAction: 'manipulation' }}>← Back</button>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1 shrink-0">Step 2 of 3</p>
-      <h1 className="text-2xl font-extrabold mb-3 shrink-0">What's your job?</h1>
+      <button onClick={() => setStep(0)} className="text-slate-400 text-sm mb-4 shrink-0" style={{ touchAction: 'manipulation' }}>{t('setup.back')}</button>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1 shrink-0">{t('setup.step2')}</p>
+      <h1 className="text-2xl font-extrabold mb-3 shrink-0">{t('setup.jobQ')}</h1>
       <div className="flex-1 overflow-y-auto min-h-0 mb-3" style={{ scrollbarWidth: 'none' }}>
         <div className="grid grid-cols-2 gap-2">
           {ALL_PROFS.map(p => (
@@ -92,7 +94,7 @@ export default function GameSetupScreen() {
               }`}
             >
               <span className={`text-sm font-bold leading-tight block ${prof?.role === p.role ? 'text-amber-300' : 'text-slate-200'}`}>
-                {p.role}
+                {p.role === 'Other' ? t('setup.other') : p.role}
               </span>
             </button>
           ))}
@@ -102,7 +104,7 @@ export default function GameSetupScreen() {
             type="text"
             value={customJob}
             onChange={e => setCustomJob(e.target.value)}
-            placeholder="Enter your job title"
+            placeholder={t('setup.jobPlaceholder')}
             style={{ fontSize: '16px' }}
             className="w-full bg-slate-800 border-2 border-amber-400 rounded-2xl px-4 py-3 font-semibold text-white outline-none mt-2"
           />
@@ -118,22 +120,22 @@ export default function GameSetupScreen() {
             : 'bg-slate-700 text-slate-500'
         }`}
       >
-        Next →
+        {t('setup.next')}
       </button>
     </div>
   )
 
   return (
     <div className="flex-1 flex flex-col px-6 pt-8 pb-safe-6 bg-slate-900 text-white">
-      <button onClick={() => setStep(1)} className="text-slate-400 text-sm mb-5" style={{ touchAction: 'manipulation' }}>← Back</button>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Step 3 of 3</p>
-      <h1 className="text-2xl font-extrabold mb-1">Your weekly take-home pay</h1>
-      <p className="text-sm text-slate-400 mb-8">After taxes, what lands in your account each week?</p>
+      <button onClick={() => setStep(1)} className="text-slate-400 text-sm mb-5" style={{ touchAction: 'manipulation' }}>{t('setup.back')}</button>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">{t('setup.step3')}</p>
+      <h1 className="text-2xl font-extrabold mb-1">{t('setup.payQ')}</h1>
+      <p className="text-sm text-slate-400 mb-8">{t('setup.paySub')}</p>
       <div className="bg-slate-800 rounded-2xl p-6 mb-auto">
         <div className="text-center mb-6">
           <span className="text-5xl font-extrabold text-amber-400">{fmt(weeklyPay)}</span>
-          <span className="text-slate-400 text-base ml-1">/week</span>
-          <p className="text-sm text-slate-400 mt-2">{fmt(weeklyPay * 52)} / year</p>
+          <span className="text-slate-400 text-base ml-1">{t('setup.perWeek')}</span>
+          <p className="text-sm text-slate-400 mt-2">{t('setup.perYear', { amount: fmt(weeklyPay * 52) })}</p>
         </div>
         <input
           type="range"
@@ -153,10 +155,10 @@ export default function GameSetupScreen() {
         onClick={handleEnter}
         className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base active:scale-95 transition-transform mt-6"
       >
-        Enter the simulation →
+        {t('setup.enter')}
       </button>
       <p className="text-center text-[11px] text-slate-500 mt-3">
-        No scores shown during play — only at the end.
+        {t('setup.noScores')}
       </p>
     </div>
   )
