@@ -59,43 +59,41 @@ export default function GameResultScreen() {
       {/* APR — lead with the gut-punch */}
       {tookEWA && apr !== null && (
         <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center mb-3">
-          <p className="text-xs text-red-300 mb-0.5">You paid the equivalent of</p>
+          <p className="text-xs text-red-300 mb-0.5">{t('gameresult.equivalentOf')}</p>
           <p className="text-red-400 leading-none">
             <span className="text-5xl font-extrabold">{apr.toFixed(0)}%</span>
-            <span className="text-xl font-bold ml-1">APR</span>
+            <span className="text-xl font-bold ml-1">{t('gameresult.aprSuffix')}</span>
           </p>
           <p className="text-[11px] text-slate-300 mt-2 leading-relaxed">
-            APR = Annual Percentage Rate. It's the standard way to compare borrowing costs.
-            A credit card charges ~24% APR. A payday loan ~400%. You just paid {apr.toFixed(0)}%.
+            {t('gameresult.aprExplainer', { apr: apr.toFixed(0) })}
           </p>
-          <p className="text-[10px] text-slate-500 mt-1">The app called it a "fee" and a "tip."</p>
+          <p className="text-[10px] text-slate-500 mt-1">{t('gameresult.feeTipNote')}</p>
         </div>
       )}
 
       {/* Annual projection */}
       {tookEWA && (
         <div className="bg-slate-800 rounded-2xl px-4 py-3 text-center mb-3">
-          <p className="text-[10px] text-slate-400 mb-0.5">At {advancesPerYear}× / year</p>
+          <p className="text-[10px] text-slate-400 mb-0.5">{t('gameresult.atPerYear', { n: advancesPerYear })}</p>
           <p className="text-2xl font-extrabold text-red-400">{fmt(ewaAnnual)}</p>
-          <p className="text-[10px] text-slate-500 mt-0.5">to receive your own paycheck a few days early</p>
+          <p className="text-[10px] text-slate-500 mt-0.5">{t('gameresult.toReceive')}</p>
         </div>
       )}
 
       {/* $0 callout for non-EWA runs */}
       {!tookEWA && (
         <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4 text-center mb-3">
-          <p className="text-xs text-green-300 mb-0.5">EarnNow collected</p>
+          <p className="text-xs text-green-300 mb-0.5">{t('gameresult.collected')}</p>
           <p className="text-4xl font-extrabold text-green-400">$0.00</p>
-          <p className="text-[10px] text-slate-400 mt-1">You found a better way every time.</p>
+          <p className="text-[10px] text-slate-400 mt-1">{t('gameresult.betterWay')}</p>
         </div>
       )}
 
       {/* Per-round breakdown */}
       <div className="bg-slate-800 rounded-2xl p-3 mb-3">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-2">How each week went</p>
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-2">{t('gameresult.howEachWeek')}</p>
         <div className="space-y-1.5">
           {roundResults.map((r, i) => {
-            const info = PATH_LABELS[r.path]
             return (
               <div key={i} className={`flex items-center gap-2.5 rounded-xl px-3 py-2 ${
                 r.path === 'ewa' ? 'bg-red-500/10 border border-red-500/30' : 'bg-slate-700/50'
@@ -103,7 +101,7 @@ export default function GameResultScreen() {
                 <span className="text-sm shrink-0">{r.crisis.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] text-slate-400 leading-tight truncate">{r.crisis.what.split('.')[0]}</p>
-                  <p className="text-[11px] font-bold text-slate-300 mt-0.5">{info.emoji} {info.label}</p>
+                  <p className="text-[11px] font-bold text-slate-300 mt-0.5">{PATH_EMOJI[r.path]} {t(`gameresult.pathlabel.${r.path}`)}</p>
                 </div>
                 <p className={`text-sm font-extrabold shrink-0 ${r.costOnce === 0 ? 'text-green-400' : 'text-red-400'}`}>
                   {fmtShort(r.costOnce)}
@@ -112,7 +110,7 @@ export default function GameResultScreen() {
             )
           })}
           <div className="flex justify-between items-center px-3 py-1.5 border-t border-slate-600 mt-0.5">
-            <span className="text-[10px] font-bold text-slate-400">Total cost</span>
+            <span className="text-[10px] font-bold text-slate-400">{t('gameresult.totalCost')}</span>
             <span className={`font-extrabold text-sm ${totalFees === 0 ? 'text-green-400' : 'text-red-400'}`}>
               {fmtShort(totalFees)}
             </span>
@@ -126,7 +124,7 @@ export default function GameResultScreen() {
           className="w-full bg-amber-500 text-slate-900 font-extrabold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          See how EWA really works →
+          {t('gameresult.seeHow')}
         </button>
         <a
           href="https://neweconomynyc.ourpowerbase.net/civicrm/petition/sign?reset=1&sid=50"
@@ -135,14 +133,14 @@ export default function GameResultScreen() {
           className="block w-full bg-green-600 text-white font-bold py-3.5 rounded-2xl text-sm text-center active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          New Yorkers: support the STOP Act →
+          {t('gameresult.stopAct')}
         </a>
         <button
           onClick={restartGame}
           className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Play again
+          {t('gameresult.playAgain')}
         </button>
       </div>
     </div>

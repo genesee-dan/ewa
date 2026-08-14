@@ -759,7 +759,7 @@ export default function TransferScreen() {
               : 'bg-slate-200 text-slate-400'
           }`}
         >
-          {amount > 0 ? `Get ${fmt(amount)} Now` : 'Enter an amount'}
+          {amount > 0 ? t('transfer.amount.getNow', { amount: fmt(amount) }) : t('transfer.amount.enterAmount')}
         </button>
       </div>
     </div>

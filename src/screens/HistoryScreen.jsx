@@ -70,7 +70,7 @@ export default function HistoryScreen() {
                   {tx.fee > 0 && (
                     <>
                       <span className="text-slate-200">·</span>
-                      <p className="text-xs text-slate-400">Fee: {fmt(tx.fee)}</p>
+                      <p className="text-xs text-slate-400">{t('history.fee', { amount: fmt(tx.fee) })}</p>
                     </>
                   )}
                   <span className="text-slate-200">·</span>
@@ -95,7 +95,7 @@ export default function HistoryScreen() {
 
       {/* Footnote */}
       <p className="text-xs text-slate-400 text-center px-6 pb-6">
-        Advances are repaid automatically from your paycheck. No interest charged.
+        {t('history.footnote')}
       </p>
     </div>
   )
