@@ -54,7 +54,7 @@ export default function SituationScreen() {
 
         <div className="text-6xl mb-5">{crisis.emoji}</div>
 
-        <h1 className="text-2xl font-extrabold leading-snug mb-4">{crisis.what}</h1>
+        <h1 className="text-2xl font-extrabold leading-snug mb-4">{t(`data.crisis.${crisis.id}.what`)}</h1>
 
         <div className="space-y-2.5 mb-6">
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">

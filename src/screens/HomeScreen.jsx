@@ -140,7 +140,7 @@ export default function HomeScreen() {
         <div className="flex-1 bg-white rounded-2xl p-3.5">
           <p className="text-xs text-slate-400 mb-0.5">{t('home.employer')}</p>
           <p className="text-base font-bold text-slate-800 truncate" style={{ fontSize: '11px', fontWeight: 700 }}>{scenario.job.short}</p>
-          <p className="text-xs text-slate-400">{scenario.job.sub}</p>
+          <p className="text-xs text-slate-400">{t(`data.job.${scenario.job.id}.sub`)}</p>
         </div>
       </div>
 
@@ -199,7 +199,7 @@ export default function HomeScreen() {
                   <span className="text-base">{tx.type === 'repay' ? '💰' : '⚡'}</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-800">{tx.description}</p>
+                  <p className="text-sm font-medium text-slate-800">{tx.descKind ? t(`data.tx.${tx.descKind}`, { last4: tx.last4 }) : tx.description}</p>
                   <p className="text-xs text-slate-400">{tx.date}</p>
                 </div>
                 <p className={`text-sm font-bold ${tx.amount < 0 ? 'text-green-600' : 'text-blue-500'}`}>

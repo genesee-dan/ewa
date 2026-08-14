@@ -106,6 +106,8 @@ export function AppProvider({ children }) {
       type: 'transfer',
       amount: -amount,
       date: 'Today',
+      descKind: isInstant ? 'instant' : 'standard',
+      last4: scenario.last4,
       description: `${isInstant ? 'Instant' : 'Standard'} transfer to ••${scenario.last4}`,
       status: 'completed',
       fee: fee + tip,

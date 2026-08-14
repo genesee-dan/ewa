@@ -64,7 +64,7 @@ export default function HistoryScreen() {
             <div key={tx.id} className="flex items-center px-4 py-3.5 gap-3">
               <TxIcon type={tx.type} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-800 truncate">{tx.description}</p>
+                <p className="text-sm font-semibold text-slate-800 truncate">{tx.descKind ? t(`data.tx.${tx.descKind}`, { last4: tx.last4 }) : tx.description}</p>
                 <div className="flex items-center gap-1 mt-0.5">
                   <p className="text-xs text-slate-400">{tx.date}</p>
                   {tx.fee > 0 && (

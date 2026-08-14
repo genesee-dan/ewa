@@ -94,7 +94,7 @@ export default function GameSetupScreen() {
               }`}
             >
               <span className={`text-sm font-bold leading-tight block ${prof?.role === p.role ? 'text-amber-300' : 'text-slate-200'}`}>
-                {p.role === 'Other' ? t('setup.other') : p.role}
+                {p.role === 'Other' ? t('setup.other') : t(`data.job.${p.id}.role`)}
               </span>
             </button>
           ))}

@@ -100,7 +100,7 @@ export default function GameResultScreen() {
               }`}>
                 <span className="text-sm shrink-0">{r.crisis.emoji}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-slate-400 leading-tight truncate">{r.crisis.what.split('.')[0]}</p>
+                  <p className="text-[10px] text-slate-400 leading-tight truncate">{t(`data.crisis.${r.crisis.id}.what`).split('.')[0]}</p>
                   <p className="text-[11px] font-bold text-slate-300 mt-0.5">{PATH_EMOJI[r.path]} {t(`gameresult.pathlabel.${r.path}`)}</p>
                 </div>
                 <p className={`text-sm font-extrabold shrink-0 ${r.costOnce === 0 ? 'text-green-400' : 'text-red-400'}`}>

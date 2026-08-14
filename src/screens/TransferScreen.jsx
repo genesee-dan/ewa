@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, Zap, Clock, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import TipArt from '../components/TipArt'
-import { makeGauntlet } from '../data/scenario'
+import { makeGauntlet, SURVEY_OPTION_COUNT } from '../data/scenario'
 import { useT } from '../i18n'
 
 function fmt(n) {
@@ -414,11 +414,11 @@ export default function TransferScreen() {
       return (
         <TipModalStage
           art={stage.art}
-          title={stage.title}
-          body={stage.body}
-          acceptLabel={stage.tipValue === 'pct10' ? t('transfer.guilt.tip10', { amount: fmt(tipValueOf('pct10')) }) : stage.acceptLabel}
+          title={t(`data.guilt.${stage.id}.title`, stage.fracIndex != null ? { frac: t(`data.guilt.social.frac.${stage.fracIndex}`) } : undefined)}
+          body={t(`data.guilt.${stage.id}.body`)}
+          acceptLabel={stage.tipValue === 'pct10' ? t('transfer.guilt.tip10', { amount: fmt(tipValueOf('pct10')) }) : t(`data.guilt.${stage.id}.accept`)}
           onAccept={() => acceptTip(stage.tipValue)}
-          declineLabel={stage.declineLabel}
+          declineLabel={t(`data.guilt.${stage.id}.decline`)}
           onDecline={() => {
             countDodgeTap()
             advanceQueue()
@@ -450,34 +450,34 @@ export default function TransferScreen() {
         <TipShell title={t('transfer.survey.title')}>
           <TipArt main="🤔" minis={['📋', '✏️', '💭', '❓']} from="#f1f5f9" to="#e2e8f0" />
           <p className="text-sm text-slate-500 text-center mb-5">
-            {stage.question} <span className="text-red-400">{t('transfer.survey.required')}</span>
+            {t(`data.survey.${stage.id}.question`)} <span className="text-red-400">{t('transfer.survey.required')}</span>
           </p>
           <div className="space-y-2 mb-6">
-            {stage.options.map(o => (
+            {Array.from({ length: SURVEY_OPTION_COUNT }, (_, i) => (
               <button
-                key={o}
+                key={i}
                 onClick={() => {
-                  if (surveyChoice !== o) countDodgeTap()
-                  setSurveyChoice(o)
+                  if (surveyChoice !== i) countDodgeTap()
+                  setSurveyChoice(i)
                 }}
                 className={`w-full text-left px-4 py-3.5 rounded-xl border-2 text-sm font-medium transition-colors ${
-                  surveyChoice === o ? 'border-green-500 bg-green-50 text-green-700' : 'border-slate-200 text-slate-600'
+                  surveyChoice === i ? 'border-green-500 bg-green-50 text-green-700' : 'border-slate-200 text-slate-600'
                 }`}
               >
-                {o}
+                {t(`data.survey.${stage.id}.opt.${i}`)}
               </button>
             ))}
           </div>
           <button
             onClick={() => {
-              if (!surveyChoice) return
+              if (surveyChoice === null) return
               countDodgeTap()
               setSurveyChoice(null)
               advanceQueue()
             }}
-            disabled={!surveyChoice}
+            disabled={surveyChoice === null}
             className={`w-full font-bold py-4 rounded-2xl text-base transition-all ${
-              surveyChoice ? 'bg-green-500 text-white active:scale-95' : 'bg-slate-200 text-slate-400'
+              surveyChoice !== null ? 'bg-green-500 text-white active:scale-95' : 'bg-slate-200 text-slate-400'
             }`}
           >
             {t('transfer.survey.submit')}
