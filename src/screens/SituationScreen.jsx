@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
@@ -7,6 +8,7 @@ function fmt(n) {
 
 export default function SituationScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { scenario, profile, gameCrises, currentRound, numRounds, setChosenPath, roundResults } = useApp()
   const { earned, payday, daysToPayday } = scenario
   const crisis = gameCrises[currentRound] ?? scenario.crisis
@@ -35,9 +37,9 @@ export default function SituationScreen() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-bold text-amber-400 uppercase tracking-widest">
-            {numRounds > 1 ? `Week ${currentRound + 1} of ${numRounds}` : 'This week'}
+            {numRounds > 1 ? t('situation.weekOf', { n: currentRound + 1, total: numRounds }) : t('situation.thisWeek')}
           </p>
-          <p className="text-xs text-slate-500">Payday {payday}</p>
+          <p className="text-xs text-slate-500">{t('situation.payday', { date: payday })}</p>
         </div>
 
         {numRounds > 1 && (
@@ -56,30 +58,28 @@ export default function SituationScreen() {
 
         <div className="space-y-2.5 mb-6">
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">
-            <span className="text-slate-400 text-sm">You need</span>
+            <span className="text-slate-400 text-sm">{t('situation.youNeed')}</span>
             <span className="text-red-400 font-extrabold text-lg">{fmt(crisis.amount)}</span>
           </div>
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">
-            <span className="text-slate-400 text-sm">In your account right now</span>
+            <span className="text-slate-400 text-sm">{t('situation.inAccount')}</span>
             <span className={`font-extrabold text-lg ${carriedBalance !== null && carriedBalance < 47 ? 'text-amber-400' : 'text-white'}`}>
               {carriedBalance !== null ? fmt(carriedBalance) : fmt(Math.min(earned.available * 0.3, 47))}
             </span>
           </div>
           <div className="flex justify-between items-baseline bg-slate-800 rounded-xl px-4 py-3">
-            <span className="text-slate-400 text-sm">Days until payday</span>
+            <span className="text-slate-400 text-sm">{t('situation.daysUntilPayday')}</span>
             <span className="text-white font-extrabold text-lg">{daysToPayday}</span>
           </div>
         </div>
 
         {isFirstRound ? (
           <p className="text-slate-300 text-base leading-relaxed">
-            You need <strong className="text-white">{fmt(crisis.amount)}</strong> and you need it now{name}.
-            The EarnNow app is already on your phone. It's the obvious move.
+            {t('situation.needPre')}<strong className="text-white">{fmt(crisis.amount)}</strong>{t('situation.needPostFirst', { name })}
           </p>
         ) : (
           <p className="text-slate-300 text-base leading-relaxed">
-            You need <strong className="text-white">{fmt(crisis.amount)}</strong> and you need it now{name}.
-            You know how the app works. What do you do this time?
+            {t('situation.needPre')}<strong className="text-white">{fmt(crisis.amount)}</strong>{t('situation.needPostLater', { name })}
           </p>
         )}
       </div>
@@ -90,7 +90,7 @@ export default function SituationScreen() {
           className="w-full font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
           style={{ background: 'linear-gradient(135deg,#16a34a,#14532d)', touchAction: 'manipulation' }}
         >
-          🤳 Open EarnNow →
+          {t('situation.openApp')}
         </button>
       ) : (
         <button
@@ -98,7 +98,7 @@ export default function SituationScreen() {
           className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Okay... →
+          {t('situation.okay')}
         </button>
       )}
     </div>

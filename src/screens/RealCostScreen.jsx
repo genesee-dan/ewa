@@ -1,15 +1,9 @@
 import { useRef } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
-const DARK_PATTERNS = [
-  ['Preselected tip', 'The $4 option was already highlighted before you chose anything.'],
-  ['Social pressure', '"9 out of 10 members tip" — unverifiable, designed to shame you.'],
-  ['Forced waiting', 'The skip button was hidden behind a countdown timer.'],
-  ['Subscription trap', 'A "money-saving" membership that auto-renews and requires calling to cancel.'],
-  ['Manufactured urgency', '"Boosted limit expires in 2:59:14" — the deadline is invented.'],
-  ['The debt loop', 'Repaying on payday leaves your check short — so the app offers to advance again immediately.'],
-]
+const DARK_PATTERNS = ['preselected', 'social', 'waiting', 'subscription', 'urgency', 'debtloop']
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -18,6 +12,7 @@ function fmt(n) {
 const PLUS_MONTHLY = 9.99
 
 export default function RealCostScreen() {
+  const t = useT()
   const navigate = useNavigate()
   const { lastTransfer, isPlus, scenario, resetDemo, costPage: page, setCostPage: setPage } = useApp()
   const touchStartX = useRef(null)
@@ -80,7 +75,7 @@ export default function RealCostScreen() {
             onClick={() => setPage(p => p - 1)}
             className="flex-1 bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           >
-            ← Back
+            {t('realcost.back')}
           </button>
         ) : <div className="flex-1" />}
         {page < 7 ? (
@@ -88,7 +83,7 @@ export default function RealCostScreen() {
             onClick={() => setPage(p => p + 1)}
             className="flex-1 bg-amber-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           >
-            Next →
+            {t('realcost.next')}
           </button>
         ) : <div className="flex-1" />}
       </div>
@@ -97,45 +92,46 @@ export default function RealCostScreen() {
 }
 
 function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PAYDAY, dodgeTaps }) {
+  const t = useT()
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-2 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 1 of 8 · This Advance</p>
-      <h1 className="text-xl font-extrabold mb-2">What just happened?</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.p1.eyebrow')}</p>
+      <h1 className="text-xl font-extrabold mb-2">{t('realcost.p1.title')}</h1>
 
       {/* APR — lead with the gut-punch */}
       <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-3 text-center">
-        <p className="text-xs text-red-300 mb-0.5">You just paid the equivalent of</p>
+        <p className="text-xs text-red-300 mb-0.5">{t('realcost.p1.aprIntro')}</p>
         <p className="text-5xl font-extrabold text-red-400 leading-none">{apr.toFixed(0)}%</p>
-        <p className="text-sm font-bold text-red-300 mt-0.5">APR</p>
+        <p className="text-sm font-bold text-red-300 mt-0.5">{t('realcost.p1.apr')}</p>
         <p className="text-[11px] text-slate-400 mt-2">
-          Credit card ~24% · Payday loan ~400% · The app called it a "fee" and a "tip."
+          {t('realcost.p1.aprCompare')}
         </p>
       </div>
 
       {/* Fee breakdown */}
       <div className="bg-slate-800 rounded-2xl p-4 mb-3">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">How we got there</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">{t('realcost.p1.howHeading')}</p>
         <div className="space-y-1.5">
-          <Row label="You borrowed" value={fmt(amount)} />
-          <Row label="Instant fee" value={isPlus ? `${fmt(0)} ("waived")` : fmt(fee)} />
-          <Row label="Tip (after the nudges)" value={fmt(tip)} />
-          {isPlus && <Row label="EarnNow+ share (½ month of $9.99)" value={fmt(subThis)} />}
-          <Row label={`Total · ${DAYS_UNTIL_PAYDAY} days early`} value={fmt(costThis)} bold />
+          <Row label={t('realcost.p1.borrowed')} value={fmt(amount)} />
+          <Row label={t('realcost.p1.instantFee')} value={isPlus ? t('realcost.p1.feeWaived', { amount: fmt(0) }) : fmt(fee)} />
+          <Row label={t('realcost.p1.tipAfterNudges')} value={fmt(tip)} />
+          {isPlus && <Row label={t('realcost.p1.plusShare')} value={fmt(subThis)} />}
+          <Row label={t('realcost.p1.total', { days: DAYS_UNTIL_PAYDAY })} value={fmt(costThis)} bold />
         </div>
       </div>
 
       <div className="bg-slate-800 rounded-2xl p-4 mb-2">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">The tip "choice"</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">{t('realcost.p1.tipChoice')}</p>
         {tip > 0 ? (
           <p className="text-sm text-slate-300">
-            You tipped <strong className="text-white">{fmt(tip)}</strong>
-            {dodgeTaps > 0 && <> after <strong className="text-red-400">{dodgeTaps} guilt screens</strong></>}.
-            Accepting always takes <strong className="text-green-400">1 tap</strong>.
+            {t('realcost.p1.tippedPre')}<strong className="text-white">{fmt(tip)}</strong>
+            {dodgeTaps > 0 && <>{t('realcost.p1.tippedAfter')}<strong className="text-red-400">{t('realcost.p1.guiltScreens', { n: dodgeTaps })}</strong></>}
+            {t('realcost.p1.tippedEnd')}<strong className="text-green-400">{t('realcost.p1.oneTap')}</strong>{t('realcost.p1.tippedDot')}
           </p>
         ) : (
           <p className="text-sm text-slate-300">
-            You avoided the tip — <strong className="text-red-400">{dodgeTaps} taps</strong> through
-            guilt screens and timers. Accepting takes <strong className="text-green-400">1 tap</strong>.
+            {t('realcost.p1.avoidedPre')}<strong className="text-red-400">{t('realcost.p1.avoidedTaps', { n: dodgeTaps })}</strong>
+            {t('realcost.p1.avoidedMid')}<strong className="text-green-400">{t('realcost.p1.oneTap')}</strong>{t('realcost.p1.avoidedEnd')}
           </p>
         )}
       </div>
@@ -144,61 +140,61 @@ function Page1({ amount, fee, tip, subThis, costThis, apr, isPlus, DAYS_UNTIL_PA
 }
 
 function Page2({ amount, fee, tip, annualBorrowed, annualCost, annualSub, isPlus, ADVANCES_PER_YEAR }) {
+  const t = useT()
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-3 pb-2" style={{ scrollbarWidth: 'none' }}>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 2 of 8 · Your Year</p>
-      <h1 className="text-2xl font-extrabold mb-1">Over a full year</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.p2.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-1">{t('realcost.p2.title')}</h1>
       <p className="text-sm text-slate-400 mb-4">
-        Research finds frequent users take 24–36 advances a year — often every pay period.
+        {t('realcost.p2.sub')}
       </p>
 
       <div className="bg-slate-800 rounded-2xl p-5 mb-4">
         <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
-          At {ADVANCES_PER_YEAR} advances like this one
+          {t('realcost.p2.atAdvances', { n: ADVANCES_PER_YEAR })}
         </p>
         <div className="space-y-2">
-          <Row label="Borrowed over the year" value={fmt(annualBorrowed)} />
-          <Row label="Fees + tips over the year" value={fmt((fee + tip) * ADVANCES_PER_YEAR)} />
-          {isPlus && <Row label='EarnNow+ membership (12 × $9.99)' value={fmt(annualSub)} />}
+          <Row label={t('realcost.p2.borrowedYear')} value={fmt(annualBorrowed)} />
+          <Row label={t('realcost.p2.feesYear')} value={fmt((fee + tip) * ADVANCES_PER_YEAR)} />
+          {isPlus && <Row label={t('realcost.p2.membershipYear')} value={fmt(annualSub)} />}
         </div>
         <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center mt-4">
-          <p className="text-xs text-red-300 mb-1">Total cost over the year</p>
+          <p className="text-xs text-red-300 mb-1">{t('realcost.p2.totalYear')}</p>
           <p className="text-4xl font-extrabold text-red-400">{fmt(annualCost)}</p>
           <p className="text-[11px] text-slate-400 mt-2">
-            paid just to receive your own paycheck a few days early
+            {t('realcost.p2.totalNote')}
           </p>
         </div>
         {isPlus && (
           <p className="text-[11px] text-amber-400/90 mt-3">
-            The membership "waives" a $3.99 fee {ADVANCES_PER_YEAR} times ({fmt(3.99 * ADVANCES_PER_YEAR)}) —
-            but costs {fmt(annualSub)} whether you use it or not, auto-renews, and requires calling support to cancel.
+            {t('realcost.p2.membershipNote', { n: ADVANCES_PER_YEAR, waived: fmt(3.99 * ADVANCES_PER_YEAR), sub: fmt(annualSub) })}
           </p>
         )}
         <p className="text-[11px] text-slate-400 mt-3">
-          That's {fmt(annualCost)} a year to receive {fmt(amount)} of <em>your own paycheck</em> a few days
-          early — money that never builds savings, credit, or anything else.
+          {t('realcost.p2.recap', { cost: fmt(annualCost), amount: fmt(amount) })}
         </p>
       </div>
 
       <p className="text-[10px] text-slate-500 text-center mb-2">
-        This is an educational demo. No real money moves. Figures based on published research.
+        {t('realcost.p2.disclaimer')}
       </p>
     </div>
   )
 }
 
 function Page3() {
+  const t = useT()
   return (
     <div className="flex-1 px-5 pt-3 pb-2 flex flex-col justify-center">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 3 of 8 · The Tricks</p>
-      <h1 className="text-2xl font-extrabold mb-1">Tricks the companies use to get your money</h1>
-      <p className="text-[10px] text-slate-500 mb-4">Shuffled every run — each demo is different.</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.p3.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-1">{t('realcost.p3.title')}</h1>
+      <p className="text-[10px] text-slate-500 mb-4">{t('realcost.p3.sub')}</p>
       <div className="space-y-3">
-        {DARK_PATTERNS.map(([name, desc]) => (
-          <div key={name} className="flex gap-3 items-start">
+        {DARK_PATTERNS.map(key => (
+          <div key={key} className="flex gap-3 items-start">
             <span className="text-green-400 text-sm mt-0.5 shrink-0">✓</span>
             <p className="text-sm text-slate-400 leading-snug">
-              <strong className="text-slate-200">{name}.</strong> {desc}
+              <strong className="text-slate-200">{t(`realcost.pattern.${key}.name`)}.</strong> {t(`realcost.pattern.${key}.desc`)}
             </p>
           </div>
         ))}
@@ -208,12 +204,13 @@ function Page3() {
 }
 
 function PageVideo({ navigate }) {
+  const t = useT()
   return (
     <div className="flex-1 flex flex-col justify-center items-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">Page 5 of 8 · The Video</p>
-      <h1 className="text-2xl font-extrabold mb-2 text-center">See how it works</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">{t('realcost.video.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-2 text-center">{t('realcost.video.title')}</h1>
       <p className="text-sm text-slate-400 text-center mb-8 leading-relaxed">
-        A 47-second explainer showing exactly how cash advance apps make their money.
+        {t('realcost.video.sub')}
       </p>
       <button
         onClick={() => navigate('/watch')}
@@ -221,14 +218,15 @@ function PageVideo({ navigate }) {
         style={{ touchAction: 'manipulation' }}
       >
         <span className="text-5xl mb-1">▶</span>
-        <span className="text-white text-xs font-bold">Watch now</span>
+        <span className="text-white text-xs font-bold">{t('realcost.video.watchNow')}</span>
       </button>
-      <p className="text-xs text-slate-500 text-center">Tap back when done to continue</p>
+      <p className="text-xs text-slate-500 text-center">{t('realcost.video.tapBack')}</p>
     </div>
   )
 }
 
 function Page4({ setPage, navigate, amount, annualCost }) {
+  const t = useT()
   const locRate = 0.18
   const locDays = 14
   const locInterest = +(amount * locRate / 365 * locDays).toFixed(2)
@@ -237,27 +235,27 @@ function Page4({ setPage, navigate, amount, annualCost }) {
 
   return (
     <div className="flex-1 flex flex-col justify-center px-5 pt-3 pb-2">
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Page 6 of 8 · The Alternative</p>
-      <h1 className="text-2xl font-extrabold mb-4">There's a better way.</h1>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">{t('realcost.alt.eyebrow')}</p>
+      <h1 className="text-2xl font-extrabold mb-4">{t('realcost.alt.title')}</h1>
 
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mb-4">
-        <p className="text-xs font-bold text-blue-300 uppercase tracking-wide mb-2">🏦 Credit union line of credit</p>
+        <p className="text-xs font-bold text-blue-300 uppercase tracking-wide mb-2">{t('realcost.alt.locHeading')}</p>
         <p className="text-sm text-slate-300 mb-3 leading-relaxed">
-          A personal LOC at 18% APR — the federal credit union cap — gives you the same {fmt(amount)} with no app, no tips, no guilt screens.
+          {t('realcost.alt.locBody', { amount: fmt(amount) })}
         </p>
         <div className="space-y-1.5 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-400">Cost for this advance (14 days)</span>
+            <span className="text-slate-400">{t('realcost.alt.costThisAdvance')}</span>
             <span className="font-bold text-blue-300">{fmt(locInterest)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">vs. what you just paid</span>
+            <span className="text-slate-400">{t('realcost.alt.vsPaid')}</span>
             <span className="font-bold text-red-400">{fmt(annualCost / 26)}</span>
           </div>
         </div>
         {annualSavings > 0 && (
           <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 mt-3 text-center">
-            <p className="text-xs text-green-400 mb-0.5">Annual savings switching to a LOC</p>
+            <p className="text-xs text-green-400 mb-0.5">{t('realcost.alt.annualSavings')}</p>
             <p className="text-2xl font-extrabold text-green-400">{fmt(annualSavings)}</p>
           </div>
         )}
@@ -269,14 +267,14 @@ function Page4({ setPage, navigate, amount, annualCost }) {
           className="w-full bg-blue-500 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          ▶ Watch: how a credit union LOC works
+          {t('realcost.alt.watchLoc')}
         </button>
         <button
           onClick={() => setPage(6)}
           className="w-full bg-slate-700 text-white font-bold py-3.5 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          Other ways people handle this →
+          {t('realcost.alt.otherWays')}
         </button>
       </div>
     </div>

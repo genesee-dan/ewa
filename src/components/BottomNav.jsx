@@ -1,20 +1,22 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Home, Clock, ArrowUpCircle, User } from 'lucide-react'
+import { useT } from '../i18n'
 
 const tabs = [
-  { path: '/', label: 'Home', Icon: Home },
-  { path: '/history', label: 'History', Icon: Clock },
-  { path: '/transfer', label: 'Get Paid', Icon: ArrowUpCircle, primary: true },
-  { path: '/account', label: 'Account', Icon: User },
+  { path: '/', labelKey: 'nav.home', Icon: Home },
+  { path: '/history', labelKey: 'nav.history', Icon: Clock },
+  { path: '/transfer', labelKey: 'nav.getpaid', Icon: ArrowUpCircle, primary: true },
+  { path: '/account', labelKey: 'nav.account', Icon: User },
 ]
 
 export default function BottomNav() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const t = useT()
 
   return (
     <div className="bg-white border-t border-slate-100 flex items-center justify-around px-2 py-2" style={{ minHeight: '64px' }}>
-      {tabs.map(({ path, label, Icon, primary }) => {
+      {tabs.map(({ path, labelKey, Icon, primary }) => {
         const active = pathname === path
         return (
           <button
@@ -29,7 +31,7 @@ export default function BottomNav() {
             }`}
           >
             <Icon size={primary ? 22 : 20} strokeWidth={active || primary ? 2.5 : 1.8} />
-            <span className={`text-xs font-medium ${primary ? 'text-white' : ''}`}>{label}</span>
+            <span className={`text-xs font-medium ${primary ? 'text-white' : ''}`}>{t(labelKey)}</span>
           </button>
         )
       })}

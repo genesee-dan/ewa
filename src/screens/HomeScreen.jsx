@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, Zap, Shield, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 import PushNudge from '../components/PushNudge'
 
 function useCountdown(deadlineRef) {
@@ -22,6 +23,7 @@ function fmt(n) {
 
 export default function HomeScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { earned, transactions, profile, lastTransfer, limitDeadline, scenario } = useApp()
   const firstName = (profile?.name || 'Friend').split(' ')[0]
   const recent = transactions.slice(0, 2)
@@ -40,10 +42,10 @@ export default function HomeScreen() {
       <div className="bg-white px-5 pb-5 pt-2">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-xs text-slate-400 font-medium">Good morning,</p>
+            <p className="text-xs text-slate-400 font-medium">{t('home.greeting')}</p>
             <p className="text-lg font-bold text-slate-900">{firstName} 👋</p>
             <span className="inline-flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1">
-              🔥 {streak}-week advance streak{lastTransfer ? ' — extended!' : ''}
+              {t('home.streak', { n: streak })}{lastTransfer ? t('home.streakExtended') : ''}
             </span>
           </div>
           <button className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-green-200">
@@ -59,25 +61,25 @@ export default function HomeScreen() {
           <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-5" />
           <div className="absolute -right-2 -bottom-10 w-40 h-40 rounded-full bg-white opacity-5" />
 
-          <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">Available to transfer</p>
+          <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">{t('home.availableToTransfer')}</p>
           <p className="text-4xl font-bold mb-1">{fmt(earned.available)}</p>
           <p className="text-green-200 text-xs mb-3">
-            of {fmt(earned.total)} earned this period · limit {scenario.accessPct}% of earnings
+            {t('home.earnedThisPeriod', { total: fmt(earned.total), pct: scenario.accessPct })}
           </p>
 
           {/* completely artificial deadline */}
           <div className="inline-flex items-center gap-1.5 bg-green-800/60 rounded-full px-3 py-1.5 mb-4">
             <span className="text-xs">⏰</span>
             <p className="text-[11px] font-bold text-amber-300">
-              Boosted limit expires in <span className="tabular-nums">{countdown}</span>
+              {t('home.boostedExpires')}<span className="tabular-nums">{countdown}</span>
             </p>
           </div>
 
           {/* Pay period progress */}
           <div className="mb-3">
             <div className="flex justify-between text-xs text-green-200 mb-1">
-              <span>Jun 1</span>
-              <span>Pay period {Math.round(scenario.progress * 100)}% complete</span>
+              <span>{t('home.periodStart')}</span>
+              <span>{t('home.payPeriodComplete', { pct: Math.round(scenario.progress * 100) })}</span>
               <span>{scenario.payday}</span>
             </div>
             <div className="h-1.5 bg-green-700 rounded-full overflow-hidden">
@@ -92,10 +94,10 @@ export default function HomeScreen() {
             onClick={() => navigate('/transfer')}
             className="w-full bg-white text-green-700 font-bold py-3 rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
           >
-            Get Paid Now
+            {t('home.getPaidNow')}
           </button>
           <p className="text-center text-green-200 text-[11px] font-medium mt-2.5">
-            It's your pay. Get it now.™ ⚡
+            {t('home.tagline')}
           </p>
         </div>
       </div>
@@ -107,16 +109,15 @@ export default function HomeScreen() {
             <div className="flex items-start gap-3">
               <span className="text-2xl">📉</span>
               <div className="flex-1">
-                <p className="text-sm font-bold text-amber-800 mb-0.5">Heads up — payday {scenario.payday}</p>
+                <p className="text-sm font-bold text-amber-800 mb-0.5">{t('home.headsUp', { payday: scenario.payday })}</p>
                 <p className="text-xs text-amber-700 mb-3">
-                  Your paycheck will be <strong>{fmt(repayTotal)} smaller</strong> after we collect what you
-                  advanced. Most members bridge the gap with another advance.
+                  {t('home.paycheckPrefix')}<strong>{t('home.paycheckAmount', { amount: fmt(repayTotal) })}</strong>{t('home.paycheckSuffix')}
                 </p>
                 <button
                   onClick={() => navigate('/transfer')}
                   className="bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-xl active:scale-95 transition-transform"
                 >
-                  Get another advance →
+                  {t('home.getAnotherAdvance')}
                 </button>
               </div>
             </div>

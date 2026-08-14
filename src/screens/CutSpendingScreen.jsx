@@ -2,24 +2,26 @@ import { useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
 }
 
 const ITEMS = [
-  { id: 'coffee', emoji: '☕', label: 'Morning coffee run', desc: '2 days × $5.50', amount: 11.00 },
-  { id: 'lunch', emoji: '🍕', label: 'Lunch out Thursday', desc: 'You were going to treat yourself', amount: 14.00 },
-  { id: 'streaming', emoji: '📺', label: 'Streaming subscription', desc: "Wait — you forgot you had this", amount: 15.99 },
-  { id: 'drinks', emoji: '🍺', label: 'Friday happy hour', desc: 'The group chat is already planning it', amount: 22.00 },
-  { id: 'delivery', emoji: '🛵', label: 'Food delivery tonight', desc: 'Delivery fee + tip + surge', amount: 18.50 },
-  { id: 'parking', emoji: '🅿️', label: 'Paid parking this week', desc: 'You could take the bus twice', amount: 9.00 },
+  { id: 'coffee', emoji: '☕', amount: 11.00 },
+  { id: 'lunch', emoji: '🍕', amount: 14.00 },
+  { id: 'streaming', emoji: '📺', amount: 15.99 },
+  { id: 'drinks', emoji: '🍺', amount: 22.00 },
+  { id: 'delivery', emoji: '🛵', amount: 18.50 },
+  { id: 'parking', emoji: '🅿️', amount: 9.00 },
 ]
 
 export const ITEMS_MAX = ITEMS.reduce((s, i) => s + i.amount, 0)
 
 export default function CutSpendingScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { scenario, gameCrises, currentRound, finishRound, gameMode } = useApp()
   const crisis = gameCrises[currentRound] ?? scenario.crisis
   const [selected, setSelected] = useState(new Set())

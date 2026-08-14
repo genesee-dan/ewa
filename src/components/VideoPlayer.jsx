@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { X, Play, Pause } from 'lucide-react'
+import { useT } from '../i18n'
 
 function fmt(s) {
   const m = Math.floor(s / 60)
@@ -8,6 +9,7 @@ function fmt(s) {
 }
 
 export default function VideoPlayer({ src, sources, onClose, onEnded, bottomAction }) {
+  const t = useT()
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -73,7 +75,7 @@ export default function VideoPlayer({ src, sources, onClose, onEnded, bottomActi
       <button
         onClick={onClose}
         className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 flex items-center justify-center text-white z-20"
-        aria-label="Close"
+        aria-label={t('video.close')}
         style={{ touchAction: 'manipulation' }}
       >
         <X size={18} />

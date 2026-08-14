@@ -1,5 +1,6 @@
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 import { pick } from '../data/scenario'
 
 function fmtSigned(n) {

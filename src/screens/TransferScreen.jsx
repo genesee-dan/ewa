@@ -5,6 +5,7 @@ import { ChevronLeft, Zap, Clock, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import TipArt from '../components/TipArt'
 import { makeGauntlet } from '../data/scenario'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -17,6 +18,7 @@ function fmt(n) {
  */
 export default function TransferScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { earned, profile, scenario, isPlus, setIsPlus, requestTransfer, countDodgeTap, resetDodgeTaps, gameMode, finishRound } = useApp()
   const bank = profile?.bank || 'your bank'
   const bankLabel = `${profile?.bank || 'Bank'} ••${scenario.last4}`
@@ -105,35 +107,35 @@ export default function TransferScreen() {
         <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-5">
           <span className="text-4xl">✅</span>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Transfer Sent!</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">{t('transfer.success.title')}</h2>
         <p className="text-slate-500 text-sm text-center mb-3">
-          {fmt(amount)} is on its way to your {bank} account
+          {t('transfer.success.onItsWay', { amount: fmt(amount), bank })}
         </p>
         <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded-full px-3.5 py-1.5 mb-5">
           <span className="text-sm">🔥</span>
           <p className="text-xs font-bold text-orange-600">
-            Streak extended — {scenario.streak + 1} weeks in a row!
+            {t('transfer.success.streak', { weeks: scenario.streak + 1 })}
           </p>
         </div>
         <div className="bg-slate-50 rounded-2xl w-full p-4 mb-6 space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Amount</span>
+            <span className="text-slate-500">{t('transfer.success.amount')}</span>
             <span className="font-semibold text-slate-800">{fmt(amount)}</span>
           </div>
           {fee > 0 && (
             <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Instant fee</span>
+              <span className="text-slate-500">{t('transfer.success.instantFee')}</span>
               <span className="font-semibold text-slate-800">{fmt(fee)}</span>
             </div>
           )}
           {finalTip > 0 && (
             <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Tip</span>
+              <span className="text-slate-500">{t('transfer.success.tip')}</span>
               <span className="font-semibold text-slate-800">{fmt(finalTip)}</span>
             </div>
           )}
           <div className="flex justify-between text-sm border-t border-slate-200 pt-2">
-            <span className="text-slate-500">Repaid on payday ({scenario.payday})</span>
+            <span className="text-slate-500">{t('transfer.success.repaidOnPayday', { payday: scenario.payday })}</span>
             <span className="font-bold text-slate-900">{fmt(amount + fee + finalTip)}</span>
           </div>
         </div>
@@ -144,10 +146,10 @@ export default function TransferScreen() {
           }}
           className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform mb-3"
         >
-          {gameMode ? 'See how that went →' : 'See what this really costs →'}
+          {gameMode ? t('transfer.success.ctaGame') : t('transfer.success.ctaDemo')}
         </button>
         <button onClick={() => navigate('/')} className="text-sm text-slate-400 font-medium">
-          Back to home
+          {t('transfer.success.backHome')}
         </button>
       </div>
     )
@@ -163,40 +165,40 @@ export default function TransferScreen() {
           <button onClick={() => setStep('amount')} className="mr-3">
             <ChevronLeft size={24} className="text-slate-700" />
           </button>
-          <h1 className="text-lg font-bold text-slate-900">Confirm Transfer</h1>
+          <h1 className="text-lg font-bold text-slate-900">{t('transfer.confirm.title')}</h1>
         </div>
 
         <div className="flex-1 min-h-0 px-5 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           <div className="bg-green-50 rounded-2xl p-5 mb-5 text-center">
-            <p className="text-sm text-green-700 font-medium mb-1">You'll receive</p>
+            <p className="text-sm text-green-700 font-medium mb-1">{t('transfer.confirm.youllReceive')}</p>
             <p className="text-4xl font-bold text-green-700">{fmt(amount)}</p>
           </div>
 
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3 mb-4">
             <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Transfer to</span>
+              <span className="text-slate-500">{t('transfer.confirm.transferTo')}</span>
               <span className="font-semibold text-slate-800">{bankLabel}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Delivery</span>
+              <span className="text-slate-500">{t('transfer.confirm.delivery')}</span>
               <span className="font-semibold text-slate-800">
-                {isInstant ? '⚡ Instant (1–5 min)' : '🕐 Standard (1–3 days)'}
+                {isInstant ? t('transfer.confirm.deliveryInstant') : t('transfer.confirm.deliveryStandard')}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-slate-500">{isInstant ? 'Instant fee' : 'Transfer fee'}</span>
-              <span className="font-semibold text-slate-800">{fee > 0 ? fmt(fee) : 'Free'}</span>
+              <span className="text-slate-500">{isInstant ? t('transfer.confirm.instantFee') : t('transfer.confirm.transferFee')}</span>
+              <span className="font-semibold text-slate-800">{fee > 0 ? fmt(fee) : t('transfer.confirm.free')}</span>
             </div>
             {tip + suggestedTip > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Your tip 💚</span>
+                <span className="text-slate-500">{t('transfer.confirm.yourTip')}</span>
                 <span className="font-semibold text-slate-800">{fmt(tip + suggestedTip)}</span>
               </div>
             )}
             {confirmSuggested > 0 && (
               <div className="flex justify-between text-sm items-center">
                 <span className="text-slate-500">
-                  Community tip <span className="text-slate-300">(suggested)</span>
+                  {t('transfer.confirm.communityTip')} <span className="text-slate-300">{t('transfer.confirm.suggested')}</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="font-semibold text-slate-800">{fmt(confirmSuggested)}</span>
@@ -207,13 +209,13 @@ export default function TransferScreen() {
                     }}
                     className="text-xs text-slate-300 underline"
                   >
-                    remove
+                    {t('transfer.confirm.remove')}
                   </button>
                 </span>
               </div>
             )}
             <div className="border-t border-slate-200 pt-3 flex justify-between text-sm">
-              <span className="text-slate-700 font-medium">Total repaid on payday</span>
+              <span className="text-slate-700 font-medium">{t('transfer.confirm.totalRepaid')}</span>
               <span className="font-bold text-slate-900">{fmt(total)}</span>
             </div>
           </div>
@@ -230,7 +232,7 @@ export default function TransferScreen() {
                 className="mt-0.5 accent-green-600"
               />
               <span className="text-xs text-amber-700">
-                I understand EarnNow relies on tips to stay free, and I choose not to contribute today.
+                {t('transfer.confirm.ack')}
               </span>
             </label>
           )}
@@ -255,7 +257,7 @@ export default function TransferScreen() {
                 : 'bg-slate-200 text-slate-400'
             }`}
           >
-            Confirm & Transfer {fmt(amount)}
+            {t('transfer.confirm.cta', { amount: fmt(amount) })}
           </button>
         </div>
 
@@ -263,16 +265,16 @@ export default function TransferScreen() {
           <Modal>
             <span className="text-4xl mb-3 block">🥺</span>
             <h3 className="text-lg font-bold text-slate-900 mb-2">
-              This is your last chance to support the community
+              {t('transfer.lastChanceModal.title')}
             </h3>
             <p className="text-sm text-slate-500 mb-5">
-              Your {fmt(confirmSuggested)} helps keep EarnNow free for members like you.
+              {t('transfer.lastChanceModal.body', { amount: fmt(confirmSuggested) })}
             </p>
             <button
               onClick={() => setShowLastChance(false)}
               className="w-full bg-green-500 text-white font-bold py-3.5 rounded-2xl text-sm mb-2"
             >
-              Keep my {fmt(confirmSuggested)} tip 💚
+              {t('transfer.lastChanceModal.keep', { amount: fmt(confirmSuggested) })}
             </button>
             <button
               onClick={() => {
@@ -282,7 +284,7 @@ export default function TransferScreen() {
               }}
               className="text-xs text-slate-400 underline"
             >
-              I'm sure, remove it
+              {t('transfer.lastChanceModal.remove')}
             </button>
           </Modal>
         )}
@@ -290,9 +292,9 @@ export default function TransferScreen() {
         {showFinalModal && (
           <Modal>
             <span className="text-4xl mb-3 block">💸</span>
-            <h3 className="text-lg font-bold text-slate-900 mb-2">Add a tip before we send it?</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">{t('transfer.finalModal.title')}</h3>
             <p className="text-sm text-slate-500 mb-5">
-              Your money is ready to go. Most members add a small thank-you.
+              {t('transfer.finalModal.body')}
             </p>
             <button
               onClick={() => {
@@ -301,7 +303,7 @@ export default function TransferScreen() {
               }}
               className="w-full bg-green-500 text-white font-bold py-3.5 rounded-2xl text-sm mb-2"
             >
-              Add $2 & Send ⚡
+              {t('transfer.finalModal.add')}
             </button>
             <button
               onClick={() => {
@@ -311,7 +313,7 @@ export default function TransferScreen() {
               }}
               className="text-xs text-slate-400 underline"
             >
-              Send without tip
+              {t('transfer.finalModal.skip')}
             </button>
           </Modal>
         )}
@@ -327,15 +329,15 @@ export default function TransferScreen() {
         style={{ scrollbarWidth: 'none' }}
       >
         <TipArt main="🚀" minis={['⭐', '💎', '⚡', '💸']} from="#fef3c7" to="#fde68a" />
-        <h2 className="text-2xl font-extrabold text-slate-900 mb-1">Wait — don't pay that {fmt(3.99)} fee!</h2>
+        <h2 className="text-2xl font-extrabold text-slate-900 mb-1">{t('transfer.plus.title', { fee: fmt(3.99) })}</h2>
         <p className="text-sm text-slate-500 mb-5">
-          EarnNow<span className="text-amber-500 font-bold">+</span> members get{' '}
-          <strong className="text-slate-700">$0 instant fees</strong>, higher limits, and priority transfers.
+          EarnNow<span className="text-amber-500 font-bold">+</span> {t('transfer.plus.bodyMembersGet')}{' '}
+          <strong className="text-slate-700">{t('transfer.plus.bodyZeroFees')}</strong>{t('transfer.plus.bodyRest')}
         </p>
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 w-full mb-5">
-          <p className="text-3xl font-extrabold text-amber-600 mb-1">FREE</p>
-          <p className="text-xs font-bold text-slate-700">for 7 days, then just $9.99/mo</p>
-          <p className="text-[10px] text-slate-400 mt-1.5">That's less than one instant fee a week!</p>
+          <p className="text-3xl font-extrabold text-amber-600 mb-1">{t('transfer.plus.free')}</p>
+          <p className="text-xs font-bold text-slate-700">{t('transfer.plus.priceLine')}</p>
+          <p className="text-[10px] text-slate-400 mt-1.5">{t('transfer.plus.lessThan')}</p>
         </div>
         <button
           onClick={() => {
@@ -344,14 +346,13 @@ export default function TransferScreen() {
           }}
           className="w-full bg-amber-500 text-white font-bold py-4 rounded-2xl text-base shadow-lg shadow-amber-200 active:scale-95 transition-transform mb-4"
         >
-          Start free trial — save {fmt(3.99)} now ⚡
+          {t('transfer.plus.cta', { fee: fmt(3.99) })}
         </button>
         <button onClick={() => setStep('ask')} className="text-[11px] text-slate-300 underline mb-4">
-          No thanks, I'll pay the $3.99 fee
+          {t('transfer.plus.decline')}
         </button>
         <p className="text-[9px] text-slate-300 leading-relaxed">
-          Trial auto-renews at $9.99/mo unless cancelled at least 3 business days before renewal. Cancellation
-          available by contacting support during business hours.
+          {t('transfer.plus.fineprint')}
         </p>
       </div>
     )
@@ -360,10 +361,10 @@ export default function TransferScreen() {
   /* ---------------- TIP ASK ---------------- */
   if (step === 'ask') {
     return (
-      <TipShell title="Add a tip?">
+      <TipShell title={t('transfer.ask.title')}>
         <TipArt main="🐷" minis={['💚', '🪙', '✨', '😊']} from="#fce7f3" to="#dcfce7" />
         <p className="text-sm text-slate-500 text-center mb-6">
-          EarnNow doesn't charge interest. Tips from members like you keep it that way. 💚
+          {t('transfer.ask.body')}
         </p>
         <div className="grid grid-cols-2 gap-3 mb-3">
           {gauntlet.tipMenu.map(v => (
@@ -379,7 +380,7 @@ export default function TransferScreen() {
               ${v}
               {v === gauntlet.popularTip && (
                 <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
-                  MOST POPULAR
+                  {t('transfer.ask.mostPopular')}
                 </span>
               )}
             </button>
@@ -389,7 +390,7 @@ export default function TransferScreen() {
           onClick={() => acceptTip(gauntlet.popularTip)}
           className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base shadow-lg shadow-green-200 active:scale-95 transition-transform mb-4"
         >
-          Add ${gauntlet.popularTip} tip & continue
+          {t('transfer.ask.cta', { tip: gauntlet.popularTip })}
         </button>
         <button
           onClick={() => {
@@ -399,7 +400,7 @@ export default function TransferScreen() {
           }}
           className="text-[11px] text-slate-300 underline mx-auto block"
         >
-          Continue without tipping
+          {t('transfer.ask.decline')}
         </button>
       </TipShell>
     )
@@ -415,7 +416,7 @@ export default function TransferScreen() {
           art={stage.art}
           title={stage.title}
           body={stage.body}
-          acceptLabel={stage.tipValue === 'pct10' ? `Tip 10% (${fmt(tipValueOf('pct10'))})` : stage.acceptLabel}
+          acceptLabel={stage.tipValue === 'pct10' ? t('transfer.guilt.tip10', { amount: fmt(tipValueOf('pct10')) }) : stage.acceptLabel}
           onAccept={() => acceptTip(stage.tipValue)}
           declineLabel={stage.declineLabel}
           onDecline={() => {
@@ -430,26 +431,26 @@ export default function TransferScreen() {
       return (
         <TipModalStage
           art={{ main: '🔥', minis: ['🏅', '⚡', '🏆', '🎖️'], from: '#ffedd5', to: '#fed7aa' }}
-          title="Start a TipStreak™"
-          body="Automatically add a $2 tip to every transfer and earn exclusive badges. You can cancel anytime*."
-          acceptLabel="Enable TipStreak™"
+          title={t('transfer.tipstreak.title')}
+          body={t('transfer.tipstreak.body')}
+          acceptLabel={t('transfer.tipstreak.accept')}
           onAccept={() => acceptTip(2)}
-          declineLabel="Not now"
+          declineLabel={t('transfer.tipstreak.decline')}
           onDecline={() => {
             countDodgeTap()
             advanceQueue()
           }}
-          footnote="*Cancellation requires contacting support during business hours."
+          footnote={t('transfer.tipstreak.footnote')}
         />
       )
     }
 
     if (stage.kind === 'survey') {
       return (
-        <TipShell title="Quick question">
+        <TipShell title={t('transfer.survey.title')}>
           <TipArt main="🤔" minis={['📋', '✏️', '💭', '❓']} from="#f1f5f9" to="#e2e8f0" />
           <p className="text-sm text-slate-500 text-center mb-5">
-            {stage.question} <span className="text-red-400">(required)</span>
+            {stage.question} <span className="text-red-400">{t('transfer.survey.required')}</span>
           </p>
           <div className="space-y-2 mb-6">
             {stage.options.map(o => (

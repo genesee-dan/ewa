@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import VideoPlayer from '../components/VideoPlayer'
+import { useT } from '../i18n'
 
 export default function VideoScreen() {
   const navigate = useNavigate()
   const { setCostPage } = useApp()
+  const t = useT()
 
   return (
     <VideoPlayer
@@ -20,14 +22,14 @@ export default function VideoScreen() {
             className="flex-1 bg-slate-700 text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform"
             style={{ touchAction: 'manipulation' }}
           >
-            ← Back
+            {t('video.back')}
           </button>
           <button
             onClick={() => { setCostPage(5); navigate('/cost') }}
             className="flex-1 bg-amber-500 text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform"
             style={{ touchAction: 'manipulation' }}
           >
-            Next →
+            {t('video.next')}
           </button>
         </div>
       }

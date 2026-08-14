@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
@@ -9,6 +10,7 @@ function fmt(n) {
 
 export default function WaitPathScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { scenario, gameCrises, currentRound, finishRound, gameMode } = useApp()
   const { payday } = scenario
   const crisis = gameCrises[currentRound] ?? scenario.crisis
@@ -16,24 +18,24 @@ export default function WaitPathScreen() {
 
   const STEPS = [
     {
-      day: 'Wednesday night',
+      day: t('wait.step.0.day'),
       emoji: '🥣',
-      text: `Your card declines at the grocery store. You put back the good cereal and get the store brand. It's fine. You've had worse.`,
+      text: t('wait.step.0.text'),
       sub: null,
     },
     {
-      day: 'Thursday',
+      day: t('wait.step.1.day'),
       emoji: '📱',
-      text: 'You get a push notification from EarnNow:',
-      sub: '💰 "$340 is waiting for you! Don\'t miss out — your boosted limit expires in 2:59:14"',
+      text: t('wait.step.1.text'),
+      sub: t('wait.step.1.sub'),
       subStyle: 'bg-green-900/40 border border-green-600/40 rounded-xl p-3 text-green-300 text-xs mt-3',
-      extra: 'You close the notification. You eat more cereal.',
+      extra: t('wait.step.1.extra'),
     },
     {
-      day: `${payday} — 9:14am`,
+      day: t('wait.step.2.day', { payday }),
       emoji: '🎉',
-      text: 'Paycheck hits.',
-      sub: `You pay the ${fmt(crisis.amount)}. You buy the good cereal.`,
+      text: t('wait.step.2.text'),
+      sub: t('wait.step.2.sub', { amount: fmt(crisis.amount) }),
       final: true,
     },
   ]
@@ -54,9 +56,9 @@ export default function WaitPathScreen() {
         {s.extra && <p className="text-slate-400 text-sm mt-4">{s.extra}</p>}
         {s.final && (
           <div className="mt-6 bg-green-900/30 border border-green-500/30 rounded-2xl p-5 text-center">
-            <p className="text-green-300 text-xs mb-1">Total cost of waiting</p>
+            <p className="text-green-300 text-xs mb-1">{t('wait.totalCost')}</p>
             <p className="text-5xl font-extrabold text-green-400">$0.00</p>
-            <p className="text-slate-400 text-xs mt-2">The countdown was invented. The urgency was fake.</p>
+            <p className="text-slate-400 text-xs mt-2">{t('wait.countdownFake')}</p>
           </div>
         )}
       </div>
@@ -66,7 +68,7 @@ export default function WaitPathScreen() {
           onClick={() => setStep(s => s + 1)}
           className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
         >
-          {step === 0 ? 'Thursday...' : 'Friday...'}
+          {step === 0 ? t('wait.thursday') : t('wait.friday')}
         </button>
       ) : (
         <button
@@ -77,7 +79,7 @@ export default function WaitPathScreen() {
           className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
           style={{ touchAction: 'manipulation' }}
         >
-          {gameMode ? 'See how you did →' : '← Back'}
+          {gameMode ? t('wait.seeHowYouDid') : t('wait.back')}
         </button>
       )}
     </div>
