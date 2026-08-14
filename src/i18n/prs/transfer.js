@@ -1,0 +1,123 @@
+export default {
+  // Success
+  'transfer.success.title': 'انتقال ارسال شد!',
+  'transfer.success.onItsWay': '{amount} در راه رسیدن به حساب {bank} شماست',
+  'transfer.success.streak': 'زنجیره تمدید شد — {weeks} هفته پیاپی!',
+  'transfer.success.amount': 'مبلغ',
+  'transfer.success.instantFee': 'کارمزد فوری',
+  'transfer.success.tip': 'انعام',
+  'transfer.success.repaidOnPayday': 'در روز دستمزد بازپرداخت شد ({payday})',
+  'transfer.success.ctaGame': 'ببینید چطور پیش رفت ←',
+  'transfer.success.ctaDemo': 'ببینید این واقعاً چقدر هزینه دارد ←',
+  'transfer.success.backHome': 'بازگشت به خانه',
+
+  // Confirm
+  'transfer.confirm.title': 'تأیید انتقال',
+  'transfer.confirm.youllReceive': 'شما دریافت خواهید کرد',
+  'transfer.confirm.transferTo': 'انتقال به',
+  'transfer.confirm.delivery': 'تحویل',
+  'transfer.confirm.deliveryInstant': '⚡ فوری (۱ تا ۵ دقیقه)',
+  'transfer.confirm.deliveryStandard': '🕐 استاندارد (۱ تا ۳ روز)',
+  'transfer.confirm.instantFee': 'کارمزد فوری',
+  'transfer.confirm.transferFee': 'کارمزد انتقال',
+  'transfer.confirm.free': 'رایگان',
+  'transfer.confirm.yourTip': 'انعام شما 💚',
+  'transfer.confirm.communityTip': 'انعام جامعه',
+  'transfer.confirm.suggested': '(پیشنهادی)',
+  'transfer.confirm.remove': 'حذف',
+  'transfer.confirm.totalRepaid': 'کل بازپرداخت در روز دستمزد',
+  'transfer.confirm.ack': 'می‌دانم که EarnNow برای رایگان ماندن به انعام‌ها متکی است، و انتخاب می‌کنم که امروز مشارکت نکنم.',
+  'transfer.confirm.cta': 'تأیید و انتقال {amount}',
+
+  // Last chance modal (confirm)
+  'transfer.lastChanceModal.title': 'این آخرین فرصت شما برای حمایت از جامعه است',
+  'transfer.lastChanceModal.body': '{amount} شما به رایگان ماندن EarnNow برای اعضایی مانند شما کمک می‌کند.',
+  'transfer.lastChanceModal.keep': 'انعام {amount} من را نگه دار 💚',
+  'transfer.lastChanceModal.remove': 'مطمئنم، حذفش کن',
+
+  // Final modal (confirm)
+  'transfer.finalModal.title': 'پیش از ارسال، یک انعام اضافه کنیم؟',
+  'transfer.finalModal.body': 'پول شما آماده رفتن است. بیشتر اعضا یک تشکر کوچک اضافه می‌کنند.',
+  'transfer.finalModal.add': 'افزودن $2 و ارسال ⚡',
+  'transfer.finalModal.skip': 'ارسال بدون انعام',
+
+  // Plus upsell
+  'transfer.plus.title': 'صبر کنید — آن کارمزد {fee} را پرداخت نکنید!',
+  'transfer.plus.bodyMembersGet': 'اعضا دریافت می‌کنند',
+  'transfer.plus.bodyZeroFees': '$0 کارمزد فوری',
+  'transfer.plus.bodyRest': '، سقف‌های بالاتر و انتقال‌های اولویت‌دار.',
+  'transfer.plus.free': 'رایگان',
+  'transfer.plus.priceLine': 'برای ۷ روز، سپس فقط $9.99/ماه',
+  'transfer.plus.lessThan': 'این کمتر از یک کارمزد فوری در هفته است!',
+  'transfer.plus.cta': 'شروع دوره آزمایشی رایگان — همین حالا {fee} صرفه‌جویی کنید ⚡',
+  'transfer.plus.decline': 'نه ممنون، کارمزد $3.99 را پرداخت می‌کنم',
+  'transfer.plus.fineprint': 'دوره آزمایشی به‌طور خودکار با $9.99/ماه تمدید می‌شود مگر اینکه حداقل ۳ روز کاری پیش از تمدید لغو شود. لغو با تماس با پشتیبانی در ساعات کاری امکان‌پذیر است.',
+
+  // Tip ask
+  'transfer.ask.title': 'یک انعام اضافه کنیم؟',
+  'transfer.ask.body': 'EarnNow بهره دریافت نمی‌کند. انعام‌های اعضایی مانند شما آن را همین‌طور نگه می‌دارند. 💚',
+  'transfer.ask.mostPopular': 'محبوب‌ترین',
+  'transfer.ask.cta': 'افزودن انعام ${tip} و ادامه',
+  'transfer.ask.decline': 'ادامه بدون انعام',
+
+  // TipStreak
+  'transfer.tipstreak.title': 'یک TipStreak™ شروع کنید',
+  'transfer.tipstreak.body': 'به‌طور خودکار یک انعام $2 به هر انتقال اضافه کنید و نشان‌های انحصاری کسب کنید. هر زمان می‌توانید لغو کنید*.',
+  'transfer.tipstreak.accept': 'فعال‌سازی TipStreak™',
+  'transfer.tipstreak.decline': 'الان نه',
+  'transfer.tipstreak.footnote': '*لغو نیازمند تماس با پشتیبانی در ساعات کاری است.',
+
+  // Survey
+  'transfer.survey.title': 'یک پرسش سریع',
+  'transfer.survey.required': '(الزامی)',
+  'transfer.survey.submit': 'ارسال',
+
+  // Roundup
+  'transfer.roundup.title': 'یک ایده آخر!',
+  'transfer.roundup.body': 'انتقال خود را به‌عنوان یک انعام کوچک رند کنید؟ فقط {amount} است. حتی متوجهش نمی‌شوید.',
+  'transfer.roundup.accept': 'رند کردن (+{amount})',
+  'transfer.roundup.decline': 'بدون رند کردن',
+
+  // Guilt tip 10% label
+  'transfer.guilt.tip10': 'انعام ۱۰٪ ({amount})',
+
+  // Resuggest
+  'transfer.resuggest.title': 'تقریباً رسیدیم!',
+  'transfer.resuggest.applied': '💚 ما یک انعام پیشنهادی {amount} برای شما اعمال کردیم — مبلغی که بیشتر اعضا انتخاب می‌کنند.',
+  'transfer.resuggest.transfer': 'انتقال',
+  'transfer.resuggest.instantFee': 'کارمزد فوری',
+  'transfer.resuggest.suggestedTip': 'انعام پیشنهادی',
+  'transfer.resuggest.remove': 'حذف',
+  'transfer.resuggest.continue': 'ادامه',
+  'transfer.resuggest.removeModalTitle': 'انعام پیشنهادی را حذف کنیم؟',
+  'transfer.resuggest.removeModalBody': 'بیشتر اعضا آن را نگه می‌دارند. این‌طور است که پیش‌پرداخت‌ها را بدون بهره نگه می‌داریم.',
+  'transfer.resuggest.keep': 'انعام {amount} را نگه دار 💚',
+  'transfer.resuggest.confirmRemove': 'بله، حذفش کن',
+
+  // Last chance screen
+  'transfer.lastchance.title': 'پیش از رفتن…',
+  'transfer.lastchance.body': 'EarnNow با انعام‌ها می‌چرخد. بدون آن‌ها، ویژگی‌هایی مانند انتقال‌های فوری ممکن است برای همه در دسترس نماند.',
+  'transfer.lastchance.tip4': 'انعام $4 💚',
+  'transfer.lastchance.tip2': 'انعام $2',
+  'transfer.lastchance.tip1': 'انعام $1',
+  'transfer.lastchance.countdown': 'ادامه بدون انعام ({seconds})',
+  'transfer.lastchance.continue': 'ادامه بدون انعام',
+
+  // Amount
+  'transfer.amount.title': 'همین حالا دستمزد بگیرید',
+  'transfer.amount.available': 'قابل انتقال',
+  'transfer.amount.placeholder': '0',
+  'transfer.amount.deliverySpeed': 'سرعت تحویل',
+  'transfer.amount.instantTransfer': 'انتقال فوری',
+  'transfer.amount.instantArrives': 'ظرف ۱ تا ۵ دقیقه می‌رسد',
+  'transfer.amount.standardTransfer': 'انتقال استاندارد',
+  'transfer.amount.standardArrives': 'ظرف ۱ تا ۳ روز کاری می‌رسد',
+  'transfer.amount.free': 'رایگان',
+  'transfer.amount.plusMember': 'عضو EarnNow+ — کارمزدهای فوری بخشیده شد 🎉',
+  'transfer.amount.plusMemberSub': '$9.99/ماه پس از دوره آزمایشی رایگان',
+  'transfer.amount.plusPitchMembersPay': 'اعضا پرداخت می‌کنند',
+  'transfer.amount.plusPitchZeroFees': '$0 کارمزد فوری',
+  'transfer.amount.plusPitchRest': '— دوره آزمایشی رایگان ۷ روزه، سپس $9.99/ماه',
+  'transfer.amount.getNow': 'همین حالا {amount} را بگیرید',
+  'transfer.amount.enterAmount': 'یک مبلغ وارد کنید',
+}
