@@ -1,0 +1,22 @@
+export default {
+  'nav.home': 'Guriga',
+  'nav.history': 'Taariikh',
+  'nav.getpaid': 'Lacag Hel',
+  'nav.account': 'Akoon',
+
+  'push.money.title': 'Lacag ayaa ku sugaysa 💰',
+  'push.money.body': 'Waxaad haysataa {amount} oo diyaar ah oo la qaadan karo. Maxaad halkaas ugu daysaa?',
+  'push.limit.title': 'Xadkaaga la kordhiyay wuu dhacayaa ⏰',
+  'push.limit.body': 'Ha ka baaqan — qaado dhammaan {amount} ka hor inta aanu hoos u dhicin.',
+  'push.streak.title': 'Isdaba-joogaagu khatar ku jiraa 🔥',
+  'push.streak.body': 'Ilaali isdaba-joogaaga {weeks}-toddobaad — xubnaha sameeya waxay helaan wareejinno mudnaan leh.',
+  'push.payday.title': 'Maalinta mushaharku waa {days} maalmood ka fog 😬',
+  'push.payday.body': 'Ma yaraanaysaa? Farqiga ku buuxi wax ka yar 5 daqiiqo.',
+  'push.now': 'hadda',
+
+  'video.close': 'Xir',
+  'video.captions': 'Qoraallada',
+  'video.back': '← Dib',
+  'video.next': 'Xiga →',
+  'video.restart': 'Dib u bilow bandhigga',
+}

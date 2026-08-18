@@ -1,0 +1,14 @@
+export default {
+  'lang.label': 'Idioma',
+
+  'landing.badge': 'Demostración educativa',
+  'landing.hook': 'Descubre cómo las apps de adelanto de sueldo te cuestan dinero',
+  'landing.body':
+    'Apps como DailyPay, Dave y EarnIn prometen "tu sueldo, antes — y gratis". Esta demostración te muestra exactamente cuánto cuestan esas comisiones, "propinas" y membresías a lo largo de un año.',
+  'landing.exploreDemo': 'Explorar la demostración',
+  'landing.startDemo': 'Empezar la demostración →',
+  'landing.playSim': 'Jugar la simulación',
+  'landing.disclaimer1': 'No se mueve dinero real. Solo con fines educativos.',
+  'landing.disclaimer2':
+    '"EarnNow" es una app ficticia creada con fines educativos. Los nombres de empresas se mencionan solo a modo de identificación.',
+}

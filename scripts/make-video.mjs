@@ -18,11 +18,11 @@ mkdirSync(WORK, { recursive: true })
 const SEGMENTS = [
   "Meet the cash advance app. It says: it's your pay — get it now.",
   'No interest! Just a small fee. And a tip. And a monthly membership.',
-  'On a fifty dollar advance, those few dollars work out to triple-digit ay pee ar — often higher than a payday loan.',
+  "The app says it's not a loan. But you borrow money, pay a cost to get it, and repay it on a fixed date. That's a loan.",
+  'On a fifty dollar advance, those few dollars work out to a triple-digit annual percentage rate — often higher than a payday loan.',
   "And it's built to keep you coming back. Streaks. Countdowns. Alerts. Repaying on payday leaves your check short — so you borrow again. That's the loop.",
   'Over a year, frequent users pay hundreds of dollars — just to get their own paycheck a few days early.',
-  "There's a better way. A local credit union is owned by its members, not investors. Real people. Fair, regulated loans capped at twenty-eight percent. And savings that actually build.",
-  'Skip the apps. Keep your pay. Join your local credit union.',
+  'Can you afford to give a tech company that money?',
 ]
 
 const GAP = 0.7 // seconds between segments
@@ -95,38 +95,34 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   <div class="pill" id="p2">⭐ + $9.99/month membership</div>
 </div>
 
-<div class="scene" id="s2" style="background:#0f172a;color:#fff">
+<div class="scene" id="s2" style="background:#1e293b;color:#fff">
+  <div class="em" style="font-size:60px;margin-bottom:16px">🧾</div>
+  <div class="big" style="font-size:28px">"It's not a loan."</div>
+  <div class="sub">You borrow money.<br>You pay a cost to get it.<br>You repay it on a fixed date.<br><br>
+  <span style="color:#f87171;font-weight:700">That's a loan.</span></div>
+</div>
+
+<div class="scene" id="s3" style="background:#0f172a;color:#fff">
   <div class="sub" style="margin-bottom:8px">On a $50 advance, that's</div>
   <div class="redbox"><div class="red">300%+</div>
   <div style="color:#fca5a5;font-size:22px;font-weight:700">effective APR</div></div>
   <div class="sub">A credit card is ~24%.<br>A payday loan is ~400%.</div>
 </div>
 
-<div class="scene" id="s3" style="background:#1e293b;color:#fff">
+<div class="scene" id="s4" style="background:#1e293b;color:#fff">
   <div class="loop">💰 advance today<br>⬇️<br>📉 short paycheck<br>⬇️<br>💰 advance again</div>
   <div class="sub">🔥 streaks · ⏰ countdowns · 🔔 alerts<br>keep the loop spinning</div>
 </div>
 
-<div class="scene" id="s4" style="background:#0f172a;color:#fff">
+<div class="scene" id="s5" style="background:#0f172a;color:#fff">
   <div class="sub" style="margin-bottom:8px">Over a year, frequent users pay</div>
   <div class="redbox"><div class="red">$200–$400</div>
   <div style="color:#fca5a5;font-size:20px;font-weight:700">in fees, tips & memberships</div></div>
   <div class="sub">…to receive their own paycheck<br>a few days early.</div>
 </div>
 
-<div class="scene" id="s5" style="background:linear-gradient(160deg,#eef2ff,#dcfce7);color:#1e1b4b">
-  <img src="file://${ICON}" width="150" height="150" style="margin-bottom:26px">
-  <div class="big" style="font-size:32px">Your local credit union</div>
-  <div class="sub" style="color:#334155">Member-owned, not investor-owned<br>
-  Real people who know you<br>
-  Fair loans — capped at 28% APR<br>
-  Savings that actually build</div>
-</div>
-
-<div class="scene" id="s6" style="background:linear-gradient(160deg,#16a34a,#14532d);color:#fff">
-  <div class="em">🤝</div>
-  <div class="big">It's your money.<br>Keep it.</div>
-  <div class="sub">Skip the apps. Join your local credit union.</div>
+<div class="scene" id="s6" style="background:#1e293b;color:#fff">
+  <div class="big" style="font-size:34px;line-height:1.3">Can you afford to give a tech company<br>that money?</div>
 </div>
 
 <script>

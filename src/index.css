@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Bottom padding that also clears the iOS home-indicator / safe area.
+     Applied on screen roots (which carry the bg) so the button lifts above
+     the gesture bar without painting a strip behind it. */
+  .pb-safe-2 { padding-bottom: calc(0.5rem  + env(safe-area-inset-bottom)); }
+  .pb-safe-4 { padding-bottom: calc(1rem    + env(safe-area-inset-bottom)); }
+  .pb-safe-5 { padding-bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
+  .pb-safe-6 { padding-bottom: calc(1.5rem  + env(safe-area-inset-bottom)); }
+  .pb-safe-7 { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom)); }
+  .pb-safe-8 { padding-bottom: calc(2rem    + env(safe-area-inset-bottom)); }
+  /* Clears the fixed 64px BottomNav plus the safe area, for scrollable
+     screens whose last action would otherwise sit under the nav. */
+  .pb-safe-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 const BANKS = [
   { name: 'Genesee Co-op FCU', logo: `${import.meta.env.BASE_URL}genesee-icon.png` },
@@ -14,6 +15,7 @@ const BANKS = [
 
 export default function OnboardingScreen() {
   const { setProfile } = useApp()
+  const t = useT()
   const [step, setStep] = useState('welcome') // welcome | name | bank | connecting
   const [name, setName] = useState('')
   const [bank, setBank] = useState(null)
@@ -37,21 +39,21 @@ export default function OnboardingScreen() {
         <div className="text-6xl mb-5">⚡</div>
         <h1 className="text-3xl font-extrabold mb-2">EarnNow</h1>
         <p className="text-2xl font-extrabold text-white leading-snug mb-3">
-          It's your pay.
+          {t('onboarding.taglineA')}
           <br />
-          Get it now.<sup className="text-xs font-bold align-super">™</sup>
+          {t('onboarding.taglineB')}<sup className="text-xs font-bold align-super">™</sup>
         </p>
         <p className="text-green-100 text-sm font-semibold mb-1">
-          Up to <span className="text-white font-extrabold">$750</span> of your paycheck — today.
+          {t('onboarding.upToPrefix')}<span className="text-white font-extrabold">{t('onboarding.upToAmount')}</span>{t('onboarding.upToSuffix')}
         </p>
-        <p className="text-green-200 text-sm mb-10">No credit check. No interest. Why wait for payday?</p>
+        <p className="text-green-200 text-sm mb-10">{t('onboarding.noCredit')}</p>
         <button
           onClick={() => setStep('name')}
           className="w-full bg-white text-green-700 font-bold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform"
         >
-          Get My Money
+          {t('onboarding.getMyMoney')}
         </button>
-        <p className="text-green-300 text-xs mt-4">Join 4 million members 🎉</p>
+        <p className="text-green-300 text-xs mt-4">{t('onboarding.joinMembers')}</p>
       </div>
     )
   }
@@ -59,15 +61,20 @@ export default function OnboardingScreen() {
   if (step === 'name') {
     return (
       <div className="flex-1 flex flex-col px-6 pt-10 bg-white">
-        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 1 of 2</p>
-        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">What's your name?</h1>
-        <p className="text-sm text-slate-400 mb-8">So we can say hi properly 👋</p>
+        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">{t('onboarding.step1')}</p>
+        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">{t('onboarding.whatsName')}</h1>
+        <p className="text-sm text-slate-400 mb-4">{t('onboarding.sayHi')}</p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-6">
+          <p className="text-xs text-amber-700 leading-relaxed">
+            <strong>{t('onboarding.nameWarningBold')}</strong>{t('onboarding.nameWarningRest')}
+          </p>
+        </div>
         <input
           autoFocus
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          placeholder="Your name"
+          placeholder={t('onboarding.namePlaceholder')}
           className="border-2 border-green-500 rounded-2xl px-4 py-4 text-lg font-semibold text-slate-900 outline-none mb-6"
         />
         <button
@@ -79,7 +86,7 @@ export default function OnboardingScreen() {
               : 'bg-slate-200 text-slate-400'
           }`}
         >
-          Continue
+          {t('onboarding.continue')}
         </button>
       </div>
     )
@@ -87,12 +94,17 @@ export default function OnboardingScreen() {
 
   if (step === 'bank') {
     return (
-      <div className="flex-1 flex flex-col px-6 pt-10 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Step 2 of 2</p>
-        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Link your bank</h1>
-        <p className="text-sm text-slate-400 mb-6">
-          So we know where to send your money. <span className="text-slate-300">(Demo — nothing is really linked.)</span>
+      <div className="flex-1 min-h-0 flex flex-col px-6 pt-10 pb-safe-2 bg-white overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+        <p className="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">{t('onboarding.step2')}</p>
+        <h1 className="text-2xl font-extrabold text-slate-900 mb-2">{t('onboarding.linkBank')}</h1>
+        <p className="text-sm text-slate-400 mb-3">
+          {t('onboarding.linkBankSub')}<span className="text-slate-300">{t('onboarding.linkBankDemo')}</span>
         </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-5">
+          <p className="text-xs text-amber-700 leading-relaxed">
+            <strong>{t('onboarding.bankWarningBold')}</strong>{t('onboarding.bankWarningRest')}
+          </p>
+        </div>
         <div className="grid grid-cols-2 gap-3 mb-6">
           {BANKS.map(b => (
             <button
@@ -122,7 +134,7 @@ export default function OnboardingScreen() {
               : 'bg-slate-200 text-slate-400'
           }`}
         >
-          Securely Connect
+          {t('onboarding.securelyConnect')}
         </button>
       </div>
     )
@@ -132,8 +144,8 @@ export default function OnboardingScreen() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-8 bg-white text-center">
       <div className="w-14 h-14 border-4 border-green-100 border-t-green-500 rounded-full animate-spin mb-6" />
-      <p className="text-lg font-bold text-slate-800 mb-1">Connecting to {bank}…</p>
-      <p className="text-sm text-slate-400">Verifying your paycheck deposits</p>
+      <p className="text-lg font-bold text-slate-800 mb-1">{t('onboarding.connectingTo', { bank })}</p>
+      <p className="text-sm text-slate-400">{t('onboarding.verifying')}</p>
     </div>
   )
 }

@@ -1,35 +1,48 @@
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
+import LanguageSwitcher from '../components/LanguageSwitcher'
+
+const SHOW_GAME = import.meta.env.VITE_SHOW_GAME === 'true'
 
 export default function LandingScreen() {
-  const { setLanded } = useApp()
+  const { setLanded, setGameMode } = useApp()
+  const t = useT()
 
   return (
     <div
-      className="flex-1 flex flex-col items-center justify-center px-7 text-center text-white"
+      className="flex-1 flex flex-col items-center justify-center px-7 text-center text-white relative"
       style={{ background: 'linear-gradient(160deg, #0f172a 0%, #1e293b 100%)' }}
     >
+      <LanguageSwitcher className="absolute top-4 right-4" />
       <div className="text-6xl mb-6">💸</div>
-      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">Educational Demo</p>
+      <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">{t('landing.badge')}</p>
       <h1 className="text-3xl font-extrabold leading-tight mb-4">
-        See how earned wage access apps cost you money
+        {t('landing.hook')}
       </h1>
       <p className="text-slate-300 text-sm leading-relaxed mb-10">
-        Apps like DailyPay, Dave, and EarnIn promise "your pay, early — for free."
-        This demo shows you exactly how much those fees, tips, and memberships
-        actually cost over a year.
+        {t('landing.body')}
       </p>
       <button
-        onClick={() => setLanded(true)}
-        className="w-full bg-green-500 text-white font-bold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-4"
+        onClick={() => { setGameMode(false); setLanded(true) }}
+        className="w-full bg-amber-500 text-slate-900 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-95 transition-transform mb-3"
+        style={{ touchAction: 'manipulation' }}
       >
-        Start Demo
+        {SHOW_GAME ? t('landing.exploreDemo') : t('landing.startDemo')}
       </button>
+      {SHOW_GAME && (
+        <button
+          onClick={() => { setGameMode(true); setLanded(true) }}
+          className="w-full bg-slate-700 text-white font-extrabold py-4 rounded-2xl text-sm shadow-xl active:scale-95 transition-transform mb-4"
+          style={{ touchAction: 'manipulation' }}
+        >
+          {t('landing.playSim')}
+        </button>
+      )}
       <p className="text-slate-500 text-xs">
-        No real money moves. Educational purposes only.
+        {t('landing.disclaimer1')}
       </p>
       <p className="text-slate-600 text-xs mt-3 leading-relaxed">
-        "EarnNow" is a fictional app created for educational purposes.
-        Company names mentioned are used for identification only.
+        {t('landing.disclaimer2')}
       </p>
     </div>
   )

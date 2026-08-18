@@ -1,0 +1,22 @@
+export default {
+  'nav.home': '主页',
+  'nav.history': '记录',
+  'nav.getpaid': '领取工资',
+  'nav.account': '账户',
+
+  'push.money.title': '有钱在等你 💰',
+  'push.money.body': '你有 {amount} 可以领取。为什么让它闲置在那里？',
+  'push.limit.title': '你的加成额度即将过期 ⏰',
+  'push.limit.body': '别错过——趁额度下降前领取你全部的 {amount}。',
+  'push.streak.title': '你的连续记录有风险了 🔥',
+  'push.streak.body': '保住你连续 {weeks} 周的记录——保持记录的会员可享受优先转账。',
+  'push.payday.title': '距离发薪日还有 {days} 天 😬',
+  'push.payday.body': '手头紧？5 分钟内就能渡过难关。',
+  'push.now': '刚刚',
+
+  'video.close': '关闭',
+  'video.captions': '字幕',
+  'video.back': '← 返回',
+  'video.next': '下一步 →',
+  'video.restart': '重新开始演示',
+}

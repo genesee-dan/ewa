@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
@@ -12,6 +13,7 @@ function fmt(n) {
  */
 export default function PushNudge() {
   const navigate = useNavigate()
+  const t = useT()
   const { earned, scenario } = useApp()
   const [visible, setVisible] = useState(false)
   const [index, setIndex] = useState(0)
@@ -19,20 +21,20 @@ export default function PushNudge() {
 
   const nudges = [
     {
-      title: 'Money is waiting 💰',
-      body: `You have ${fmt(earned.available)} ready to claim. Why leave it sitting there?`,
+      title: t('push.money.title'),
+      body: t('push.money.body', { amount: fmt(earned.available) }),
     },
     {
-      title: 'Your boosted limit is expiring ⏰',
-      body: `Don't miss out — claim your full ${fmt(earned.available)} before it drops.`,
+      title: t('push.limit.title'),
+      body: t('push.limit.body', { amount: fmt(earned.available) }),
     },
     {
-      title: 'Your streak is at risk 🔥',
-      body: `Keep your ${scenario.streak}-week streak — members who do get priority transfers.`,
+      title: t('push.streak.title'),
+      body: t('push.streak.body', { weeks: scenario.streak }),
     },
     {
-      title: `Payday is ${scenario.daysToPayday} days away 😬`,
-      body: 'Running low? Bridge the gap in under 5 minutes.',
+      title: t('push.payday.title', { days: scenario.daysToPayday }),
+      body: t('push.payday.body'),
     },
   ]
 
@@ -78,7 +80,7 @@ export default function PushNudge() {
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-baseline gap-2">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">EarnNow</p>
-            <p className="text-[10px] text-slate-300">now</p>
+            <p className="text-[10px] text-slate-300">{t('push.now')}</p>
           </div>
           <p className="text-xs font-bold text-slate-900">{nudge.title}</p>
           <p className="text-[11px] text-slate-500 truncate">{nudge.body}</p>

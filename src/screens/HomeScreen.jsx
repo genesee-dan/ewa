@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, Zap, Shield, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 import PushNudge from '../components/PushNudge'
 
 function useCountdown(deadlineRef) {
@@ -22,6 +23,7 @@ function fmt(n) {
 
 export default function HomeScreen() {
   const navigate = useNavigate()
+  const t = useT()
   const { earned, transactions, profile, lastTransfer, limitDeadline, scenario } = useApp()
   const firstName = (profile?.name || 'Friend').split(' ')[0]
   const recent = transactions.slice(0, 2)
@@ -35,15 +37,15 @@ export default function HomeScreen() {
   return (
     <div className="flex-1 relative overflow-hidden flex flex-col">
       <PushNudge />
-      <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex-1 min-h-0 overflow-y-auto pb-safe-nav" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pb-5 pt-2">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-xs text-slate-400 font-medium">Good morning,</p>
+            <p className="text-xs text-slate-400 font-medium">{t('home.greeting')}</p>
             <p className="text-lg font-bold text-slate-900">{firstName} 👋</p>
             <span className="inline-flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1">
-              🔥 {streak}-week advance streak{lastTransfer ? ' — extended!' : ''}
+              {t('home.streak', { n: streak })}{lastTransfer ? t('home.streakExtended') : ''}
             </span>
           </div>
           <button className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-green-200">
@@ -59,25 +61,25 @@ export default function HomeScreen() {
           <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-5" />
           <div className="absolute -right-2 -bottom-10 w-40 h-40 rounded-full bg-white opacity-5" />
 
-          <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">Available to transfer</p>
+          <p className="text-green-100 text-xs font-medium uppercase tracking-wider mb-1">{t('home.availableToTransfer')}</p>
           <p className="text-4xl font-bold mb-1">{fmt(earned.available)}</p>
           <p className="text-green-200 text-xs mb-3">
-            of {fmt(earned.total)} earned this period · limit {scenario.accessPct}% of earnings
+            {t('home.earnedThisPeriod', { total: fmt(earned.total), pct: scenario.accessPct })}
           </p>
 
           {/* completely artificial deadline */}
           <div className="inline-flex items-center gap-1.5 bg-green-800/60 rounded-full px-3 py-1.5 mb-4">
             <span className="text-xs">⏰</span>
             <p className="text-[11px] font-bold text-amber-300">
-              Boosted limit expires in <span className="tabular-nums">{countdown}</span>
+              {t('home.boostedExpires')}<span className="tabular-nums">{countdown}</span>
             </p>
           </div>
 
           {/* Pay period progress */}
           <div className="mb-3">
             <div className="flex justify-between text-xs text-green-200 mb-1">
-              <span>Jun 1</span>
-              <span>Pay period {Math.round(scenario.progress * 100)}% complete</span>
+              <span>{t('home.periodStart')}</span>
+              <span>{t('home.payPeriodComplete', { pct: Math.round(scenario.progress * 100) })}</span>
               <span>{scenario.payday}</span>
             </div>
             <div className="h-1.5 bg-green-700 rounded-full overflow-hidden">
@@ -92,10 +94,10 @@ export default function HomeScreen() {
             onClick={() => navigate('/transfer')}
             className="w-full bg-white text-green-700 font-bold py-3 rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
           >
-            Get Paid Now
+            {t('home.getPaidNow')}
           </button>
           <p className="text-center text-green-200 text-[11px] font-medium mt-2.5">
-            It's your pay. Get it now.™ ⚡
+            {t('home.tagline')}
           </p>
         </div>
       </div>
@@ -107,16 +109,15 @@ export default function HomeScreen() {
             <div className="flex items-start gap-3">
               <span className="text-2xl">📉</span>
               <div className="flex-1">
-                <p className="text-sm font-bold text-amber-800 mb-0.5">Heads up — payday {scenario.payday}</p>
+                <p className="text-sm font-bold text-amber-800 mb-0.5">{t('home.headsUp', { payday: scenario.payday })}</p>
                 <p className="text-xs text-amber-700 mb-3">
-                  Your paycheck will be <strong>{fmt(repayTotal)} smaller</strong> after we collect what you
-                  advanced. Most members bridge the gap with another advance.
+                  {t('home.paycheckPrefix')}<strong>{t('home.paycheckAmount', { amount: fmt(repayTotal) })}</strong>{t('home.paycheckSuffix')}
                 </p>
                 <button
                   onClick={() => navigate('/transfer')}
                   className="bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-xl active:scale-95 transition-transform"
                 >
-                  Get another advance →
+                  {t('home.getAnotherAdvance')}
                 </button>
               </div>
             </div>
@@ -127,19 +128,19 @@ export default function HomeScreen() {
       {/* Stats row */}
       <div className="px-5 py-4 flex gap-3">
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Transferred</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.transferred')}</p>
           <p className="text-base font-bold text-slate-800">{fmt(earned.transferred)}</p>
-          <p className="text-xs text-slate-400">this period</p>
+          <p className="text-xs text-slate-400">{t('home.thisPeriod')}</p>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Next payday</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.nextPayday')}</p>
           <p className="text-base font-bold text-slate-800">{scenario.payday}</p>
-          <p className="text-xs text-slate-400">{scenario.daysToPayday} days away</p>
+          <p className="text-xs text-slate-400">{t('home.daysAway', { n: scenario.daysToPayday })}</p>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-3.5">
-          <p className="text-xs text-slate-400 mb-0.5">Employer</p>
+          <p className="text-xs text-slate-400 mb-0.5">{t('home.employer')}</p>
           <p className="text-base font-bold text-slate-800 truncate" style={{ fontSize: '11px', fontWeight: 700 }}>{scenario.job.short}</p>
-          <p className="text-xs text-slate-400">{scenario.job.sub}</p>
+          <p className="text-xs text-slate-400">{t(`data.job.${scenario.job.id}.sub`)}</p>
         </div>
       </div>
 
@@ -154,8 +155,8 @@ export default function HomeScreen() {
               <Zap size={18} className="text-green-600" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">Instant Transfer</p>
-              <p className="text-xs text-slate-400">In your bank in minutes</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.instantTransfer')}</p>
+              <p className="text-xs text-slate-400">{t('home.instantTransferSub')}</p>
             </div>
             <ChevronRight size={16} className="text-slate-300" />
           </button>
@@ -164,8 +165,8 @@ export default function HomeScreen() {
               <Shield size={18} className="text-blue-500" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">No credit check</p>
-              <p className="text-xs text-slate-400">It's your money, access it anytime</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.noCreditCheck')}</p>
+              <p className="text-xs text-slate-400">{t('home.noCreditCheckSub')}</p>
             </div>
           </div>
           <div className="flex items-center px-4 py-3.5">
@@ -173,8 +174,8 @@ export default function HomeScreen() {
               <Clock size={18} className="text-amber-500" />
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-slate-800">Auto repay on payday</p>
-              <p className="text-xs text-slate-400">Repaid automatically from paycheck</p>
+              <p className="text-sm font-semibold text-slate-800">{t('home.autoRepay')}</p>
+              <p className="text-xs text-slate-400">{t('home.autoRepaySub')}</p>
             </div>
           </div>
         </div>
@@ -184,9 +185,9 @@ export default function HomeScreen() {
       {recent.length > 0 && (
         <div className="px-5 mb-6">
           <div className="flex justify-between items-center mb-2">
-            <p className="text-sm font-bold text-slate-700">Recent Activity</p>
+            <p className="text-sm font-bold text-slate-700">{t('home.recentActivity')}</p>
             <button onClick={() => navigate('/history')} className="text-xs text-green-600 font-medium">
-              See all
+              {t('home.seeAll')}
             </button>
           </div>
           <div className="bg-white rounded-2xl divide-y divide-slate-50">
@@ -198,7 +199,7 @@ export default function HomeScreen() {
                   <span className="text-base">{tx.type === 'repay' ? '💰' : '⚡'}</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-800">{tx.description}</p>
+                  <p className="text-sm font-medium text-slate-800">{tx.descKind ? t(`data.tx.${tx.descKind}`, { last4: tx.last4 }) : tx.description}</p>
                   <p className="text-xs text-slate-400">{tx.date}</p>
                 </div>
                 <p className={`text-sm font-bold ${tx.amount < 0 ? 'text-green-600' : 'text-blue-500'}`}>

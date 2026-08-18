@@ -13,8 +13,8 @@ export default function PhoneShell({ children }) {
       <div
         className="relative bg-white overflow-hidden flex flex-col w-full h-[100dvh] sm:w-[390px] sm:h-[844px] sm:max-h-[calc(100dvh-60px)] sm:rounded-[44px] sm:shadow-[0_0_0_10px_#1c1c1e,0_30px_80px_rgba(0,0,0,0.4)]"
       >
-        {/* Status bar */}
-        <div className="flex items-center justify-between px-8 pt-3 pb-1 bg-white z-10">
+        {/* Status bar — desktop only; real phones have their own */}
+        <div className="hidden sm:flex items-center justify-between px-8 pt-3 pb-1 bg-white z-10">
           <span className="text-xs font-semibold text-slate-900">9:41</span>
           <div className="hidden sm:block bg-black" style={{ width: '120px', height: '30px', borderRadius: '20px' }} />
           <div className="flex items-center gap-1">

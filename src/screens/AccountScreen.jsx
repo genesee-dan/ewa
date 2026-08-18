@@ -1,39 +1,41 @@
 import { ChevronRight, Bell, Shield, CreditCard, HelpCircle, LogOut, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
-const menuItems = bankLabel => [
+const menuItems = (t, bankLabel) => [
   {
-    group: 'Payment',
+    group: t('account.group.payment'),
     items: [
-      { icon: CreditCard, label: 'Bank Account', sub: bankLabel, color: 'bg-blue-50 text-blue-500' },
-      { icon: Star, label: 'Tip Settings', sub: 'Currently $2 per transfer', color: 'bg-amber-50 text-amber-500' },
+      { icon: CreditCard, label: t('account.bankAccount'), sub: bankLabel, color: 'bg-blue-50 text-blue-500' },
+      { icon: Star, label: t('account.tipSettings'), sub: t('account.tipSettingsSub'), color: 'bg-amber-50 text-amber-500' },
     ],
   },
   {
-    group: 'App',
+    group: t('account.group.app'),
     items: [
-      { icon: Bell, label: 'Notifications', sub: 'Pay period alerts on', color: 'bg-green-50 text-green-500' },
-      { icon: Shield, label: 'Privacy & Security', sub: 'Face ID enabled', color: 'bg-purple-50 text-purple-500' },
+      { icon: Bell, label: t('account.notifications'), sub: t('account.notificationsSub'), color: 'bg-green-50 text-green-500' },
+      { icon: Shield, label: t('account.privacy'), sub: t('account.privacySub'), color: 'bg-purple-50 text-purple-500' },
     ],
   },
   {
-    group: 'Support',
+    group: t('account.group.support'),
     items: [
-      { icon: HelpCircle, label: 'Help & Support', sub: 'FAQs, contact us', color: 'bg-slate-100 text-slate-500' },
+      { icon: HelpCircle, label: t('account.help'), sub: t('account.helpSub'), color: 'bg-slate-100 text-slate-500' },
     ],
   },
 ]
 
 export default function AccountScreen() {
+  const t = useT()
   const { profile, resetDemo, scenario } = useApp()
   const name = profile?.name || 'Demo User'
   const bank = profile?.bank || 'Bank'
-  const groups = menuItems(`${bank} ••${scenario.last4}`)
+  const groups = menuItems(t, `${bank} ••${scenario.last4}`)
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50 pb-safe-nav" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pt-3 pb-5">
-        <h1 className="text-xl font-bold text-slate-900 mb-4">Account</h1>
+        <h1 className="text-xl font-bold text-slate-900 mb-4">{t('account.title')}</h1>
 
         {/* Profile card */}
         <div className="flex items-center gap-4 bg-green-50 rounded-2xl p-4">
@@ -43,7 +45,7 @@ export default function AccountScreen() {
           <div>
             <p className="text-base font-bold text-slate-900">{name}</p>
             <p className="text-sm text-slate-500">{scenario.job.employer}</p>
-            <p className="text-xs text-green-600 font-medium mt-0.5">Active employee ✓</p>
+            <p className="text-xs text-green-600 font-medium mt-0.5">{t('account.activeEmployee')}</p>
           </div>
         </div>
       </div>
@@ -51,23 +53,23 @@ export default function AccountScreen() {
       {/* Employment details */}
       <div className="px-4 py-4">
         <div className="bg-white rounded-2xl p-4 mb-4">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Employment</p>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">{t('account.employment')}</p>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-sm text-slate-500">Employer</span>
+              <span className="text-sm text-slate-500">{t('account.employer')}</span>
               <span className="text-sm font-semibold text-slate-800">{scenario.job.employer}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-slate-500">Hourly rate</span>
-              <span className="text-sm font-semibold text-slate-800">${scenario.rate}/hr</span>
+              <span className="text-sm text-slate-500">{t('account.hourlyRate')}</span>
+              <span className="text-sm font-semibold text-slate-800">{t('account.hourlyValue', { rate: scenario.rate })}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-slate-500">Hours this period</span>
-              <span className="text-sm font-semibold text-slate-800">{scenario.hours} hrs</span>
+              <span className="text-sm text-slate-500">{t('account.hoursThisPeriod')}</span>
+              <span className="text-sm font-semibold text-slate-800">{t('account.hoursValue', { hours: scenario.hours })}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-slate-500">Pay schedule</span>
-              <span className="text-sm font-semibold text-slate-800">Bi-weekly</span>
+              <span className="text-sm text-slate-500">{t('account.paySchedule')}</span>
+              <span className="text-sm font-semibold text-slate-800">{t('account.biweekly')}</span>
             </div>
           </div>
         </div>
@@ -99,10 +101,10 @@ export default function AccountScreen() {
           className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-500 font-semibold py-3.5 rounded-2xl text-sm active:bg-red-100 mb-4"
         >
           <LogOut size={16} />
-          Sign Out & Restart Demo
+          {t('account.signOut')}
         </button>
 
-        <p className="text-xs text-slate-300 text-center pb-4">EarnNow v1.0.0 · Demo App</p>
+        <p className="text-xs text-slate-300 text-center pb-4">{t('account.version')}</p>
       </div>
     </div>
   )

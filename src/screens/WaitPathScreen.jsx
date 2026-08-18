@@ -1,0 +1,87 @@
+import { useState } from 'react'
+import { flushSync } from 'react-dom'
+import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
+
+function fmt(n) {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+}
+
+export default function WaitPathScreen() {
+  const navigate = useNavigate()
+  const t = useT()
+  const { scenario, gameCrises, currentRound, finishRound, gameMode } = useApp()
+  const { payday } = scenario
+  const crisis = gameCrises[currentRound] ?? scenario.crisis
+  const [step, setStep] = useState(0)
+
+  const STEPS = [
+    {
+      day: t('wait.step.0.day'),
+      emoji: '🥣',
+      text: t('wait.step.0.text'),
+      sub: null,
+    },
+    {
+      day: t('wait.step.1.day'),
+      emoji: '📱',
+      text: t('wait.step.1.text'),
+      sub: t('wait.step.1.sub'),
+      subStyle: 'bg-green-900/40 border border-green-600/40 rounded-xl p-3 text-green-300 text-xs mt-3',
+      extra: t('wait.step.1.extra'),
+    },
+    {
+      day: t('wait.step.2.day', { payday }),
+      emoji: '🎉',
+      text: t('wait.step.2.text'),
+      sub: t('wait.step.2.sub', { amount: fmt(crisis.amount) }),
+      final: true,
+    },
+  ]
+
+  const s = STEPS[step]
+
+  return (
+    <div className="flex-1 flex flex-col justify-between px-6 pt-10 pb-safe-8 bg-slate-900 text-white">
+      <div>
+        <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-4">{s.day}</p>
+        <div className="text-5xl mb-5">{s.emoji}</div>
+        <p className="text-lg font-bold text-white leading-relaxed mb-3">{s.text}</p>
+        {s.sub && (
+          <div className={s.subStyle || 'text-slate-300 text-sm mt-2'}>
+            {s.sub}
+          </div>
+        )}
+        {s.extra && <p className="text-slate-400 text-sm mt-4">{s.extra}</p>}
+        {s.final && (
+          <div className="mt-6 bg-green-900/30 border border-green-500/30 rounded-2xl p-5 text-center">
+            <p className="text-green-300 text-xs mb-1">{t('wait.totalCost')}</p>
+            <p className="text-5xl font-extrabold text-green-400">$0.00</p>
+            <p className="text-slate-400 text-xs mt-2">{t('wait.countdownFake')}</p>
+          </div>
+        )}
+      </div>
+
+      {step < STEPS.length - 1 ? (
+        <button
+          onClick={() => setStep(s => s + 1)}
+          className="w-full bg-slate-700 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+        >
+          {step === 0 ? t('wait.thursday') : t('wait.friday')}
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            if (gameMode) { flushSync(() => { finishRound(0) }); navigate('/round-result') }
+            else navigate('/cost')
+          }}
+          className="w-full bg-green-600 text-white font-bold py-4 rounded-2xl text-base active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+        >
+          {gameMode ? t('wait.seeHowYouDid') : t('wait.back')}
+        </button>
+      )}
+    </div>
+  )
+}

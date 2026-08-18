@@ -1,4 +1,5 @@
 import { useApp } from '../context/AppContext'
+import { useT } from '../i18n'
 
 function fmt(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -15,6 +16,7 @@ function TxIcon({ type }) {
 }
 
 export default function HistoryScreen() {
+  const t = useT()
   const { transactions, earned, scenario } = useApp()
 
   const lifetimeTransferred = transactions
@@ -22,19 +24,19 @@ export default function HistoryScreen() {
     .reduce((s, t) => s + Math.abs(t.amount), 0)
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: 'none' }}>
+    <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50 pb-safe-nav" style={{ scrollbarWidth: 'none' }}>
       {/* Header */}
       <div className="bg-white px-5 pt-3 pb-4">
-        <h1 className="text-xl font-bold text-slate-900 mb-4">Activity</h1>
+        <h1 className="text-xl font-bold text-slate-900 mb-4">{t('history.title')}</h1>
 
         {/* Summary cards */}
         <div className="flex gap-3">
           <div className="flex-1 bg-green-50 rounded-xl p-3">
-            <p className="text-xs text-green-600 font-medium">Total accessed</p>
+            <p className="text-xs text-green-600 font-medium">{t('history.totalAccessed')}</p>
             <p className="text-lg font-bold text-green-700">{fmt(lifetimeTransferred)}</p>
           </div>
           <div className="flex-1 bg-slate-50 rounded-xl p-3 border border-slate-100">
-            <p className="text-xs text-slate-500 font-medium">Transfers</p>
+            <p className="text-xs text-slate-500 font-medium">{t('history.transfers')}</p>
             <p className="text-lg font-bold text-slate-700">
               {transactions.filter(t => t.type === 'transfer').length}
             </p>
@@ -45,30 +47,30 @@ export default function HistoryScreen() {
       {/* Current period banner */}
       <div className="mx-4 mt-4 bg-green-500 rounded-xl p-3.5 flex justify-between items-center">
         <div>
-          <p className="text-xs text-green-100 font-medium">Current period (Jun 1–{scenario.payday.split(' ')[1]})</p>
-          <p className="text-base font-bold text-white">Available: {fmt(earned.available)}</p>
+          <p className="text-xs text-green-100 font-medium">{t('history.currentPeriod', { end: scenario.payday.split(' ')[1] })}</p>
+          <p className="text-base font-bold text-white">{t('history.available', { amount: fmt(earned.available) })}</p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-green-100">Transferred</p>
+          <p className="text-xs text-green-100">{t('history.transferred')}</p>
           <p className="text-base font-bold text-white">{fmt(earned.transferred)}</p>
         </div>
       </div>
 
       {/* Transaction list */}
       <div className="px-4 py-4">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">All transactions</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">{t('history.allTransactions')}</p>
         <div className="bg-white rounded-2xl overflow-hidden divide-y divide-slate-50">
           {transactions.map((tx, i) => (
             <div key={tx.id} className="flex items-center px-4 py-3.5 gap-3">
               <TxIcon type={tx.type} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-800 truncate">{tx.description}</p>
+                <p className="text-sm font-semibold text-slate-800 truncate">{tx.descKind ? t(`data.tx.${tx.descKind}`, { last4: tx.last4 }) : tx.description}</p>
                 <div className="flex items-center gap-1 mt-0.5">
                   <p className="text-xs text-slate-400">{tx.date}</p>
                   {tx.fee > 0 && (
                     <>
                       <span className="text-slate-200">·</span>
-                      <p className="text-xs text-slate-400">Fee: {fmt(tx.fee)}</p>
+                      <p className="text-xs text-slate-400">{t('history.fee', { amount: fmt(tx.fee) })}</p>
                     </>
                   )}
                   <span className="text-slate-200">·</span>
@@ -93,7 +95,7 @@ export default function HistoryScreen() {
 
       {/* Footnote */}
       <p className="text-xs text-slate-400 text-center px-6 pb-6">
-        Advances are repaid automatically from your paycheck. No interest charged.
+        {t('history.footnote')}
       </p>
     </div>
   )
